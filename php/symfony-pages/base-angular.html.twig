@@ -1,0 +1,21 @@
+{% extends "::index.html.twig" %}
+            {% block main %}
+                <div class="well">
+                    {% verbatim %}
+                        <div ng-app='tk'>
+                              <div ng-controller='mainCtrl'>
+                                test: {{test}}
+                              </div>
+                        </div>
+                    {% endverbatim %}
+                    <script type="text/javascript"
+                            src="{{ asset('bundles/tykaynportfolio/js/angular/lib/angular/angular.js') }}"></script>
+                    <script type="text/javascript">
+                        angular.module("tk", ['tk.controllers']);
+                        angular.module("tk.controllers", []).controller('mainCtrl', ['$scope', function ($scope) {
+                            $scope.test = 20;
+                        }]);
+                    </script>
+                </div>
+            {% endblock %}
+
