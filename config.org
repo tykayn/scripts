@@ -1,0 +1,1141 @@
+#+TITLE: My Emacs Configuration
+#+AUTHOR: TyKayn
+#+EMAIL: contact@cipherbliss.com
+#+OPTIONS: num:nil
+
+* Ma config emacs
+
+  Voici la documentation au format Orgmode de ma configuration d'Emacs. Pour que cela fonctionne, il faut demander au fichier de config dans le dossier utilisateur, le fichier ".emacs" débutant par un point, de charger ce fichier config.org.
+
+
+J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souvent des mentions à ce dossier dans la config.
+
+#+begin_quote
+
+    ;; straight el bootstrap https://github.com/raxod502/straight.el#getting-started
+     (defvar bootstrap-version)
+     (let ((bootstrap-file
+            (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+           (bootstrap-version 5))
+       (unless (file-exists-p bootstrap-file)
+         (with-current-buffer
+             (url-retrieve-synchronously
+              "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+              'silent 'inhibit-cookies)
+           (goto-char (point-max))
+           (eval-print-last-sexp)))
+       (load bootstrap-file nil 'nomessage))
+
+     (straight-use-package 'use-package)
+     (setq straight-use-package-by-default t)
+     (use-package org)
+
+
+     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
+(org-babel-load-file "~/Nextcloud/textes/orgmode/config.org")
+#+end_quote
+
+* Introduction
+  Ma configuration d'Emacs. Voir la doc personnelle des concepts généraux d'[[id:3adc0f02-729a-42fc-ae1f-7c29a1e5b11c][emacs]] ici.
+
+** Initialisation de cette configuration
+   Pour que cela fonctionne, il faut demander au fichier de config dans le dossier utilisateur, le fichier ".emacs" débutant par un point, de charger ce fichier **config.org**.
+   J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souvent des mentions à ce dossier dans la config.
+
+** Inspirations
+
+ - https://blog.sumtypeofway.com/posts/emacs-config.html
+ - http://doc.norang.ca/org-mode.html
+ - https://sachachua.com/dotemacs/index.html#org3dfd9e3
+
+ Plus sur mon blog:
+ https://www.cipherbliss.com
+* Orgmode
+** Grobal
+ #+begin_src emacs-lisp
+		;; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		;; Org-Mode
+
+
+
+																						; Things we can't set as defaults above, we can set here
+		(defun org-setup ()
+			(setq line-spacing 3)
+			(setq global-hl-line-mode nil)
+			(set-fringe-mode 0)
+																						; Enable habit tracking (and a bunch of other modules)
+																						; position the habit graph on the agenda to the right of the default
+			(setq org-habit-graph-column 50)
+			(setq header-line-format " ")
+			(setq org-ellipsis "⤵")
+			(setq org-catch-invisible-edits 'show-and-error)
+			(setq org-hide-emphasis-markers t)
+			(setq org-fontify-whole-heading-line t)
+			(setq org-tags-column 0)
+			(setq org-adapt-indentation t)
+			(setq org-deadline-warning-days 0)
+			(setq line-move-visual t)
+			;; Keep tasks with dates on the global todo lists
+			(setq org-agenda-todo-ignore-with-date nil)
+			;; Keep tasks with deadlines on the global todo lists
+			(setq org-agenda-todo-ignore-deadlines nil)
+			;; Keep tasks with scheduled dates on the global todo lists
+			(setq org-agenda-todo-ignore-scheduled nil)
+			;; Keep tasks with timestamps on the global todo lists
+			(setq org-agenda-todo-ignore-timestamp nil)
+			;; Remove completed deadline tasks from the agenda view
+			(setq org-agenda-skip-deadline-if-done t)
+			;; Remove completed scheduled tasks from the agenda view
+			(setq org-agenda-skip-scheduled-if-done t)
+			;; Remove completed items from search results
+			;; (setq org-agenda-skip-timestamp-if-done t)
+			;; Use sticky agenda's so they persist
+			(setq org-agenda-sticky t)
+			;; block tasks if child tasks are not done
+			(setq org-enforce-todo-dependencies t)
+			(setq org-cycle-separator-lines 0)
+
+			;; Enable display of the time grid so we can see the marker for the current time
+
+
+			(setq org-agenda-span 2)
+			(setq org-agenda-tags-column -100) ; take advantage of the screen width
+			(setq org-agenda-inhibit-startup t)
+			(setq org-agenda-use-tag-inheritance t)
+			(setq org-agenda-show-log t)
+			(setq org-agenda-skip-scheduled-if-done t)
+			(setq org-agenda-skip-deadline-if-done t)
+			(setq org-agenda-skip-deadline-prewarning-if-scheduled 'pre-scheduled)
+			(setq org-agenda-time-grid
+						'((daily today require-timed)
+							(800 1000 1200 1400 1600 1800 2000)
+							"......" "----------------"))
+			(setq org-columns-default-format "%14SCHEDULED %Effort{:} %1PRIORITY %TODO %50ITEM %TAGS")
+			;; Set default column view headings: Task Effort Clock_Summary
+			(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+																						; global Effort estimate values
+																						; global STYLE property values for completion
+
+			(setq
+			 org-log-created 'time
+			 org-log-done 'time
+			 org-log-reschedule 'time
+			 org-log-redeadline 'time
+			 org-log-into-drawer t)
+
+			)
+		(add-hook 'org-mode-hook #'org-setup)
+
+
+ #+end_src
+** Contextes d'agenda
+	 #+begin_src emacs-lisp
+											(defvar my-org-agenda-contexts
+										'((tags-todo "phone")
+											(tags-todo "work")
+											(tags-todo "drawing")
+											(tags-todo "coding")
+											(tags-todo "writing")
+											(tags-todo "computer")
+											(tags-todo "home")
+											(tags-todo "errands"))
+										"Usual list of contexts.")
+
+							 (setq org-agenda-sorting-strategy
+										 '((agenda time-up priority-down tag-up category-keep)
+											 ;; (todo user-defined-up todo-state-up priority-down effort-up)
+											 (todo todo-state-up priority-down effort-up)
+											 (tags user-defined-up)
+											 (search category-keep)))
+							 (setq org-agenda-cmp-user-defined 'my-org-sort-agenda-items-user-defined)
+
+
+							 (defun my-org-agenda-list-unscheduled (&rest ignore)
+						"Create agenda view for tasks that are unscheduled and not done."
+						(let* ((org-agenda-todo-ignore-with-date t)
+									 (org-agenda-overriding-header "List of unscheduled tasks: "))
+							(org-agenda-get-todos)))
+					(setq org-stuck-projects
+								'("+PROJECT-MAYBE-DONE"
+									("TODO")
+									nil
+									"\\<IGNORE\\>"))
+
+#+end_src
+** Séquences de choses à faire
+	 #+begin_src emacs-lisp
+
+			(setq org-todo-keywords
+				 '((sequence
+						"STARTED(s)"
+						"TODO(t)"  ; next action
+						"TOBLOG(b)"  ; next action
+						"WAITING(w@/!)"
+						"SOMEDAY(.)" "BLOCKED(k@/!)" "|" "DONE(x!)" "CANCELLED(c)")
+					 (sequence "PROJECT" "|" "DONE(x)")
+					 (sequence "LEARN" "TRY" "TEACH" "|" "COMPLETE(x)")
+					 (sequence "TOSKETCH" "SKETCHED" "|" "POSTED")
+					 (sequence "TOBUY" "TOSHRINK" "TOCUT"  "TOSEW" "|" "DONE(x)")
+					 (sequence "TODELEGATE(-)" "DELEGATED(d)" "|" "COMPLETE(x)")))
+
+#+end_src
+** Vue d'agenda Orgmode
+ #+begin_src emacs-lisp
+
+
+			;; Custom agenda command definitions --------------------------
+				;; https://orgmode.org/worg/org-tutorials/org-custom-agenda-commands.html
+
+				(use-package org-super-agenda)
+		(use-package org-ql)
+
+
+			(bind-key "<apps> a" 'org-agenda)
+
+
+
+	 (setq org-return-follows-link t)
+	 (setq org-cycle-include-plain-lists 'integrate)
+
+
+		(defun my-org-agenda-skip-scheduled ()
+			(org-agenda-skip-entry-if 'scheduled 'deadline 'regexp "\n]+>"))
+
+				(setq org-agenda-custom-commands
+							(quote (
+											("a" "Agenda"
+						 ((agenda "" ((org-agenda-span 2)))))
+							("c" "Classique Agenda et Todos"
+							 ((agenda "" ((org-agenda-span 2)))
+								(alltodo
+								 ""
+								 ((org-agenda-overriding-header "")
+									(org-super-agenda-groups
+									 '((:name "Important, unscheduled"
+														:and (:priority "A"
+																						:scheduled nil)
+														:order 2)
+										 (:name "Inbox"
+														:file-path "Inbox.org"
+														:order 1)
+										 (:name "Project-related, unscheduled"
+														:and (:tag "project" :date nil :todo ("STARTED" "WAITING" "TODO"))
+														:order 3)
+										 (:name "Waiting"
+														:and (:todo "WAITING"
+																				:scheduled nil)
+														:order 4)
+										 (:discard (:todo "SOMEDAY"
+																			:category "cooking"
+																			:date t))
+										 (:name "Unscheduled"
+														:scheduled nil
+														:order 5)
+										 (:discard (:anything t))
+										 )
+									 )))
+								))
+											("x" "Unscheduled, untagged tasks" tags-todo "-someday-TODO=\"SOMEDAY\"-TODO=\"DELEGATED\"-TODO=\"WAITING\"-project-cooking-routine-evilplans-computer-writing-phone-sewing-home-errands-shopping"
+					 ((org-agenda-skip-function 'my-org-agenda-skip-scheduled)
+						(org-agenda-view-columns-initially nil)
+						(org-tags-exclude-from-inheritance '("project"))
+						(org-agenda-overriding-header "Unscheduled TODO entries: ")
+						(org-columns-default-format "%50ITEM %TODO %3PRIORITY %Effort{:} %TAGS")
+						(org-agenda-sorting-strategy '(todo-state-up priority-down effort-up tag-up category-keep))))
+
+											("b" "Boulot" tags-todo "+boulot")
+											("c" "Cancelled" tags-todo "CANCELLED")
+											("D" "Done tasks" tags-todo "DONE")
+										("g". "GTD Searches") ;; category searches
+											("gw" "Weekly review"
+											 agenda ""
+											 (
+												(org-agenda-overriding-header "\nRevue hebdomadaire\n------------------\n")
+												(org-agenda-start-day "-7d")
+												(org-agenda-span 7)
+												(org-agenda-start-on-weekday 1)
+												(org-agenda-start-with-log-mode '(closed))
+												(org-agenda-archives-mode t)
+												(org-agenda-skip-function
+												 '(org-agenda-skip-entry-if 'notregexp "^\\*\\* DONE ")
+												 )
+												)
+											 )
+										 ("gW" "Weekly review" agenda ""
+											((org-agenda-span 7)
+											 (org-agenda-log-mode 1)) "~/Nextcloud/textes/orgmode/this-week.html")
+										 ("g2" "Bi-weekly review" agenda "" ((org-agenda-span 14) (org-agenda-log-mode 1)))
+
+										 ("0" "Unestimated tasks" tags-todo "EFFORT=\"\"")
+										 ("5" "Quick tasks" tags-todo "EFFORT>=\"5\"&EFFORT<=\"15\"")
+										 ("8" "Medium tasks" tags-todo "EFFORT>=\"15\"&EFFORT<=\"60\"")
+										 ("9" "Unscheduled top 3 by context" my-org-agenda-contexts
+						 ((org-agenda-skip-function 'my-org-agenda-skip-scheduled)
+							(org-agenda-sorting-strategy '(priority-down effort-down))
+							(org-agenda-max-entries 3)))
+
+										 ("p" "By priority"
+						 ((tags-todo "+PRIORITY=\"A\"")
+							(tags-todo "+PRIORITY=\"B\"")
+							(tags-todo "+PRIORITY=\"\"")
+							(tags-todo "+PRIORITY=\"C\""))
+						 ((org-agenda-prefix-format "%-10c %-10T %e ")
+							(org-agenda-sorting-strategy '(priority-down tag-up category-keep effort-down))))
+										 ("P" "Printed paper agenda"
+											 ((agenda "" ((org-agenda-span 7)                      ;; overview of appointments
+																		(org-agenda-start-on-weekday nil)         ;; calendar begins today
+																		(org-agenda-repeating-timestamp-show-all t)
+																		(org-agenda-entry-types '(:timestamp :sexp))))
+												(agenda "" ((org-agenda-span 1)                      ; daily agenda
+																		(org-deadline-warning-days 7)            ; 7 day advanced warning for deadlines
+																		(org-agenda-todo-keyword-format "[ ]")
+																		(org-agenda-scheduled-leaders '("" ""))
+																		(org-agenda-prefix-format "%t%s")))
+												(todo "TODO"                                          ;; todos sorted by context
+															((org-agenda-prefix-format "[ ] %T: ")
+															 (org-agenda-sorting-strategy '(tag-up priority-down))
+															 (org-agenda-todo-keyword-format "")
+															 (org-agenda-overriding-header "\nTasks by Context\n------------------\n")))
+												)
+											 ((org-agenda-with-colors nil)
+												(org-agenda-compact-blocks t)
+												(org-agenda-remove-tags t)
+												(ps-number-of-columns 2)
+												(ps-landscape-mode t))
+											 ("~/agenda.ps"))
+
+											("f". "Filter Searches") ;; category searches
+											("fc" tags "+claire")
+											("fh" tags "+helia")
+											("fv" tags "+vovo")
+											("fs" tags "+social")
+
+											("n" "Non boulot" tags-todo "-boulot+TODO=TODO"
+											 (todo "TODO"
+														 ((org-agenda-prefix-format "[ ] %T: ")
+															(org-agenda-overriding-header "Tâches pour le fun")
+															(org-agenda-sorting-strategy
+															 '(todo-state-down effort-up category-keep)
+															 ))
+														 )
+											 )
+											("h" "Habits" tags-todo "STYLE=\"habit\""
+											 ((org-agenda-overriding-header "Habits")
+												(org-agenda-todo-keyword-format "[ ]")
+												(org-agenda-sorting-strategy
+												 '(todo-state-down effort-up category-keep)))
+											 )
+											)
+										 ))
+
+ #+end_src
+
+** Revue mensuelle
+
+	 #+begin_src emacs-lisp
+		 (defun my-org-review-month (start-date)
+			 "Review the month's clocked tasks and time."
+			 (interactive (list (org-read-date)))
+			 ;; Set to the beginning of the month
+			 (setq start-date (concat (substring start-date 0 8) "01"))
+			 (let ((org-agenda-show-log t)
+						 (org-agenda-start-with-log-mode t)
+						 (org-agenda-start-with-clockreport-mode t)
+						 (org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3)))
+				 (org-agenda-list nil start-date 'month)))
+
+		 (defun my-org-summarize-previous-week ()
+			 "Summarize previously-completed tasks as a list."
+			 (interactive)
+			 (save-window-excursion
+				 (org-agenda nil "w")
+				 (org-agenda-later -1)
+				 (org-agenda-log-mode 16)
+				 (let ((string (buffer-string))
+							 business relationships life)
+					 (with-temp-buffer
+						 (insert string)
+						 (goto-char (point-min))
+						 (while (re-search-forward my-weekly-review-line-regexp nil t)
+							 (cond
+								((string= (match-string 1) "routines") nil) ; skip routine tasks
+								((string= (match-string 1) "business")
+								 (add-to-list 'business (concat "  - " (match-string 2))))
+								((string= (match-string 1) "people")
+								 (add-to-list 'relationships (concat "  - " (match-string 2))))
+								(t (add-to-list 'life (concat "  - " (match-string 2)))))))
+					 (setq string
+								 (concat
+									"*Accomplished this week*\n\n"
+									"- Business\n"
+									(mapconcat 'identity business "\n")
+									"\n- Relationships\n"
+									(mapconcat 'identity relationships "\n")
+									"\n- Life\n"
+									(mapconcat 'identity life "\n")))
+					 (if (called-interactively-p 'any)
+							 (kill-new string)
+						 string))))
+
+	 #+end_src
+
+** Pimper les couleurs
+
+	 #+begin_src emacs-lisp
+							 ;; pimp my agenda colors
+					(setq org-todo-keyword-faces
+								'(
+									("TODO" . org-warning)
+									("STARTED" . "yellow")
+									("DONE" . (:foreground "#B4EB89") )
+									("WAITING" . (:foreground "red" :weight bold))
+									("SOMEDAY" . (:foreground "gray" :weight bold))
+									("CANCELED" . (:foreground "#234" :weight bold))
+									))
+
+
+	 #+end_src
+
+** Définir l'effort sur une tâche
+
+	 #+begin_src emacs-lisp
+							 ;; org-set-effort
+  (global-set-key (kbd "<f6>") 'org-set-effort)
+	 #+end_src
+
+** Deadlines et Schedules
+ Cacher les avertissements de deadline les jours précédents pour ne pas encombrer l'agenda.
+
+ #+begin_src emacs-lisp
+
+   ;; Hide the deadline prewarning prior to scheduled date.
+   ;;(setq org-agenda-skip-deadline-prewarning-if-scheduled 'pre-scheduled)
+
+   (defun my-org-summarize-task-status ()
+     "Count number of tasks by status.
+         Probably should make this a dblock someday."
+     (interactive)
+     (let (result)
+       (org-map-entries
+				(lambda ()
+					(let ((todo (elt (org-heading-components) 2)))
+						(if todo
+								(if (assoc todo result)
+										(setcdr (assoc todo result)
+														(1+ (cdr (assoc todo result))))
+									(setq result (cons (cons todo 1) result)))))))
+       (message "%s" (mapconcat (lambda (x) (format "%s: %d" (car x) (cdr x)))
+																result "\n"))))
+
+   ;; backup in an other dir
+   (setq backup-directory-alist '(("." . "~/.config/emacs/backups")))
+ #+end_src
+
+** Listes de tags
+
+	 tags prédéfinis au choix lors de la qualification avec C-c C-q sur une tâche
+ #+begin_src emacs-lisp
+	(setq org-tag-alist '(("boulot" . ?b) ("family" . ?f) ("tel" . ?t) ("osm" . ?o) ("cil-gometz" . ?g) ("administratif" . ?a) ("adminsys" . ?d)  ("dev" . ?v) ("inbox" . ?i)  ("privacy" . ?p)  ("habitudes" . ?h)  ("backup" . ?u) ("email" .?e)))
+
+   (setq org-todo-state-tags-triggers '(("CANCELLED" ("ARCHIVE" . t))))
+ #+end_src
+
+
+
+** Template de capture
+
+
+ #+begin_src emacs-lisp
+	 ;;; templates de capture pour les nouvelles tâches
+		(setq org-capture-templates
+					'(
+						("t" "Todo" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
+						 "* TODO %?\n  %i\n  %a")
+							("l" "ToLearn" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Recherches et éducation")
+						 "* TODO %?\n  %i\n  %a")
+						 ("b" "Boulot" entry (file+headline "~/Nextcloud/textes/orgmode/boulot.org" "Inbox")
+						"* TODO %?\n :boulot:work:  %i\n  %a")
+						("m" "Meeting" entry  (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Meetings")
+						 "* MEETING with %? :meeting:\n%t" :clock-in t :clock-resume t)
+						("e" "E-mail" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
+						 "* TODO %? :mail:écriture:\n  %i\n  %a")
+						("n" "Next Task" entry (file+headline org-default-notes-file "Next")
+						 "** NEXT %? \nDEADLINE: %t")
+						("p" "Phone call" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Tel")
+						 "* PHONE %? :tel:\n%U" :clock-in t :clock-resume t)
+						("j" "Journal" entry (file+datetree "~/Nextcloud/textes/orgmode/journal.org")
+						 "* %?\nEntered on %U\n  %i\n  %a")))
+ #+end_src
+
+** Org Roam, wiki personnel
+ #+begin_src emacs-lisp
+	 (use-package org-roam
+
+
+	 :bind (
+					("C-c n l" . org-roam-buffer-toggle)
+					("C-c n f" . org-roam-node-find)
+					("C-c n i" . org-roam-node-insert)
+					("C-c n g" . org-roam-graph)
+					("C-c n t" . org-roam-tag-add)
+					("C-c n a" . org-roam-alias-add)
+					)
+	 )
+	 (setq org-roam-directory "~/Nextcloud/textes/orgmode/org-roam")
+	 (setq org-roam-completion-everywhere t)
+	 (setq org-roam-db-autosync-mode t)
+
+ #+end_src
+
+** Roam graph
+	 Graph naviguable des liens entre les notes Org Roam.
+	 #+begin_src emacs-lisp
+					(use-package org-roam-ui
+			 :straight
+				 (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+				 :after org-roam
+		 ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+		 ;;         a hookable mode anymore, you're advised to pick something yourself
+		 ;;         if you don't care about startup time, use
+		 ;;  :hook (after-init . org-roam-ui-mode)
+				 :config
+				 (setq org-roam-ui-sync-theme t
+							 org-roam-ui-follow t
+							 org-roam-ui-update-on-save t
+							 org-roam-ui-open-on-start t))
+
+	 #+end_src
+* Calendar framework
+#+begin_src emacs-lisp
+	; calendar display
+	(use-package calfw)
+	(use-package calfw-org)
+
+	;; First day of the week
+	(setq calendar-week-start-day 0
+				calendar-day-name-array ["Dimanche" "Lundi" "Mardi" "Mercredi" "Jeudi" "Vendredi" "Samedi"]
+				calendar-month-name-array ["Janvier" "Février" "Mars" "Avril" "Mai"
+																	 "Juin" "Juillet" "Août" "Septembre"
+																	 "Octobre" "Novembre" "Décembre"]
+				calendar-date-style 'european
+				org-icalendar-timezone "Europe/Paris"
+
+				cfw:fchar-junction ?╋
+				cfw:fchar-vertical-line ?┃
+				cfw:fchar-horizontal-line ?━
+				cfw:fchar-left-junction ?┣
+				cfw:fchar-right-junction ?┫
+				cfw:fchar-top-junction ?┯
+				cfw:fchar-top-left-corner ?┏
+				cfw:fchar-top-right-corner ?┓
+				)
+	;; agenda vue calendrier avec Ctrl Shift F12
+	(global-set-key (kbd "C-s-<f12>") 'cfw:open-org-calendar)
+
+
+#+end_src
+* Préconfiguration
+#+begin_src emacs-lisp
+  ;; -*- coding: utf-8; lexical-binding: t -*-
+  ;;  - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - toujours s'assurer que les packages sont installés  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+;; fait par tykayn le 7-04-2022
+;; version GNU Emacs 27.1
+
+
+#+end_src
+** Gestion de paquets Straight.el
+  #+begin_src emacs-lisp
+
+
+     ;; on utilise straight.el pour déclarer les packages à utiliser
+ #+end_src
+** Charset UTF-8
+   #+begin_src emacs-lisp
+
+   #+end_src
+* Plein écran au démarrage
+#+begin_src emacs-lisp
+	(add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+end_src
+* Fichiers récents
+
+#+begin_src emacs-lisp
+
+  ;; see recent files
+  (use-package recentf
+    :config
+    (add-to-list 'recentf-exclude "\\elpa")
+    (add-to-list 'recentf-exclude "private/tmp")
+    (recentf-mode))
+	 ;; recent files
+  (setq recentf-max-menu-items 25)
+  (setq recentf-max-saved-items 25)
+
+#+end_src
+* Raccourcis
+
+#+begin_src emacs-lisp
+
+	;; commenter une ligne de code, Ctrl Shift C.
+
+	 (defun comment-eclipse ()
+		 (interactive)
+		 (let ((start (line-beginning-position))
+					 (end (line-end-position)))
+			 (when (or (not transient-mark-mode) (region-active-p))
+				 (setq start (save-excursion
+											 (goto-char (region-beginning))
+											 (beginning-of-line)
+											 (point))
+							 end (save-excursion
+										 (goto-char (region-end))
+										 (end-of-line)
+										 (point))))
+			 (comment-or-uncomment-region start end)))
+
+	 (global-set-key (kbd "C-<S-C>") 'comment-eclipse)
+
+
+#+end_src
+** Retirer les mauvais raccourcis
+ #+begin_src emacs-lisp
+
+	 ;; remove bad shortcuts
+	 (-map (lambda (x) (unbind-key x)) '(
+																			 "C-x C-d" ;; list-directory
+																			 "C-z" ;; suspend-frame
+																			 "C-x C-z" ;; again
+																			 "M-o" ;; facemenu-mode
+																			 "<mouse-2>" ;; pasting with mouse-wheel click
+																			 "<C-wheel-down>" ;; text scale adjust
+																			 "<C-wheel-up>" ;; ditto
+																			 "s-n" ;; make-frame
+																			 "C-x C-q" ;; read-only-mode
+																			 ))
+
+
+ #+end_src
+* Common usage CUA
+
+* Recherche globale
+Deft
+	#+begin_src emacs-lisp
+		(use-package deft)
+		(setq deft-directory "~/Nextcloud/textes/orgmode/")
+		(setq deft-recursive t)
+		(setq deft-use-filename-as-title t)
+		(setq deft-file-naming-rules
+      '((noslash . "-")
+        (nospace . "-")
+        (case-fn . downcase)))
+ #+end_src
+
+* Lecture
+
+#+begin_src emacs-lisp
+ ;; raccourcis communs pour copier coller de texte
+(cua-mode t)
+
+       ;; - - - - - - - - - - - - - - - - - - - - - - - - - custom keys  - - - - - - - - - - - - - - - - - - - - - - - - -
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c c") 'org-capture)
+;;---- open tasks list at startup
+  (setq initial-buffer-choice "~/Nextcloud/textes/orgmode/config.org")
+
+
+;; barres de GUI
+(setq tool-bar-mode t)
+(setq scroll-bar-mode t)
+(setq menu-bar-mode t)
+
+
+(setq left-margin-width 5)
+(setq right-margin-width 5)
+
+
+;; highlight of lines
+  (require 'hl-line)
+  (add-hook 'prog-mode-hook #'hl-line-mode)
+  (add-hook 'text-mode-hook #'hl-line-mode)
+
+
+ ;; fonts
+ ;; font for errors
+ (ignore-errors (set-frame-font "JuliaMono-12"))
+
+
+(use-package doom-themes
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; thème principal https://github.com/doomemacs/themes
+  (load-theme 'doom-nord t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+(use-package doom-modeline
+  :config (doom-modeline-mode))
+
+
+
+
+ (setq org-agenda-files (list "~/Nextcloud/textes/orgmode"))
+
+
+
+  ;; alias
+  (defalias 'yes-or-no-p 'y-or-n-p)
+
+
+
+  ;; - - - - - - - - - - - - - -  matching parentheses - - - - - - - - - - - - - - - - - - - - - - - - - -
+  (use-package paren
+    :config
+    (show-paren-mode +1))
+
+  (show-paren-mode)
+
+  (use-package rainbow-delimiters
+    :hook ((prog-mode . rainbow-delimiters-mode)))
+  ;; dir tree
+
+  ;; - - - - - - - - - - - - - -  icons - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  (use-package all-the-icons)
+
+  (use-package all-the-icons-dired
+    :after all-the-icons
+    :hook (dired-mode . all-the-icons-dired-mode))
+
+
+
+;; - - - - - - - - - - - - - - - - - - - - - - - - - custom keys  - - - - - - - - - - - - - - - - - - - - - - - - -
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c c") 'org-capture)
+
+    (defun kill-all-buffers ()
+      "Close all buffers."
+      (interactive)
+      (let ((lsp-restart 'ignore))
+        ;; (maybe-unset-buffer-modified)
+        (delete-other-windows)
+        (save-some-buffers)
+        (let
+            ((kill-buffer-query-functions '()))
+          (mapc 'kill-buffer (buffer-list)))))
+
+    (bind-key "C-c K" #'kill-all-buffers)
+    (bind-key "C-x !" #'delete-other-windows) ;; Access to the old keybinding.
+
+
+
+  (defun switch-to-scratch-buffer ()
+    "Switch to the current session's scratch buffer."
+    (interactive)
+    (switch-to-buffer "*scratch*"))
+  (bind-key "C-c s" #'switch-to-scratch-buffer)
+
+
+  ;; voir la liste des tâches à l'état DONE
+  (fset 'done-tasks-list
+        (kmacro-lambda-form [?\C-c ?a ?t kp-2 ?r] 0 "%d"))
+
+  ;; archiver les tâches à l'état DONE
+  (fset 'archive-done-tasks-list
+        (kmacro-lambda-form [?\C-c ?a ?t kp-2 ?r] 0 "%d"))
+
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (global-set-key (kbd "C-c C-d") 'done-tasks-list)
+  (global-set-key (kbd "C-M-d") 'archive-done-tasks-list)
+
+;; raccourcis issus d'habitudes de netbeans
+  ;; save all by default Was: isearch-forward
+  (defun save-all () (interactive) (save-some-buffers t))
+  (global-set-key (kbd "C-x C-s") 'save-all)
+  (global-set-key (kbd "C-S-c") 'comment-line)
+  ;; recherche dans tous les fichiers du dossier orgmode
+  (global-set-key (kbd "C-S-f") 'deft)
+  ;; recherche dans le fichier courant avec ctrl + f
+  ;;(global-set-key (kbd "C-f") 'isearch)
+
+
+  (global-set-key (kbd "C-c C-f") 'org-roam-node-find)
+  (global-set-key (kbd "C-c C-i") 'org-roam-node-insert)
+  (global-set-key (kbd "C-c i") 'org-roam-node-insert)
+
+
+  (global-set-key (kbd "<f5>") 'org-capture)
+  (global-set-key (kbd "<f8>") 'org-cycle-agenda-files)
+  (global-set-key (kbd "<f12>") 'org-agenda)
+
+  (global-set-key (kbd "C-c <f9>") 'org-agenda-clock-goto)
+  (global-set-key (kbd "<f9>") 'org-clock-in)
+  (global-set-key (kbd "<f10>") 'org-clock-out)
+
+  (global-set-key (kbd "<f2>") 'dir-treeview)
+  (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+
+ (setq org-agenda-sticky t)
+
+
+  ;; use org-bullets-mode for utf8 symbols as org bullets
+  (use-package org-bullets)
+  (require 'org-bullets)
+  ;; make available "org-bullet-face" such that I can control the font size individually
+  (setq org-bullets-face-name (quote org-bullet-face))
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (setq org-bullets-bullet-list '("◉"
+                                  "○"
+                                  "✸"
+                                  "✿"
+                                  "◇"
+                                  "✚"
+                                  ))
+
+  ;; org ellipsis options, other than the default Go to Node...
+  ;; not supported in common font, but supported in Symbola (my fall-back font) ⬎, ⤷, ⤵
+  (setq org-ellipsis "⤵");;  ≫
+
+  ;; make available "org-bullet-face" such that I can control the font size individually
+  (setq org-bullets-face-name (quote org-bullet-face))
+
+
+
+
+  ;; détail de combinaison de touches
+  (use-package which-key
+    :diminish
+    :custom
+    (which-key-enable-extended-define-key t)
+    :config
+    (which-key-mode)
+    (which-key-setup-minibuffer))
+
+  (defun display-startup-echo-area-message ()
+    "Override the normally tedious startup message."
+    (message "Welcome back."))
+
+#+end_src
+
+** Font Custom et mode de ligne
+ #+begin_src emacs-lisp
+			(add-hook 'org-mode-hook 'variable-pitch-mode)
+			(add-hook 'org-mode-hook 'visual-line-mode)
+
+			(add-hook 'org-mode-hook 'prettify-symbols-mode)
+
+			(defun my-org-config/setup-buffer-face ()
+				(setq buffer-face-mode-face '(:family "Calibri"))
+				(buffer-face-mode)
+				)
+
+			(custom-set-faces
+		 '(org-level-1 ((t (:inherit outline-1 :height 2.0))))
+		 '(org-level-2 ((t (:inherit outline-2 :height 1.750))))
+		 '(org-level-3 ((t (:inherit outline-3 :height 1.5))))
+		 '(org-level-4 ((t (:inherit outline-4 :height 1.25))))
+		 '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
+	 )
+
+
+
+ #+end_src
+
+* Images incluses dans les fichiers org
+#+begin_src emacs-lisp
+
+  (setq org-startup-with-inline-images t)
+  (global-set-key (kbd "M-<f12>") 'org-toggle-inline-images)
+  (global-set-key (kbd "C-<f12>") 'visible-mode) ;; edit links
+#+end_src
+* Heure dans la modeline
+#+begin_src emacs-lisp
+	(display-time-mode 1)
+#+end_src
+* Locale des dates en Fr
+
+#+begin_src emacs-lisp
+;; localise dates
+;; https://www.emacswiki.org/emacs/CalendarLocalization#h5o-11
+(setq org-agenda-span 7
+      org-agenda-start-on-weekday 1
+      european-calendar-style t
+      display-time-24hr-format t
+      display-time-day-and-date t
+      calendar-day-abbrev-array ["dim" "lun" "mar" "mer" "jeu" "ven" "sam"]
+      calendar-day-name-array ["Dimanche" "Lundi" "Mardi" "Mercredi"
+                               "Jeudi" "Vendredi" "Samedi"]
+      calendar-month-abbrev-array
+      ["jan" "fév" "mar" "avr" "mai" "jun" "jul" "aou" "sep" "oct" "nov" "déc"]
+      calendar-month-name-array ["Janvier" "Février" "Mars" "Avril" "Mai"
+                                 "Juin" "Juillet" "Août" "Septembre"
+                                 "Octobre" "Novembre" "Décembre"]
+      org-agenda-start-day "-0d"
+      org-hierarchical-todo-statistics nil ;; count all TODO as checkboxes
+      org-scheduled-delay-days 1
+      org-cycle-separator-lines 0
+      )
+
+#+end_src
+* Sauvegarde et historique
+** Sauvegarde à la perte de focus
+ #+begin_src emacs-lisp
+ ;; sauvegarder les frames quand on change de focus
+ (defun save-all ()
+   (interactive)
+   (save-some-buffers t))
+
+ (add-hook 'focus-out-hook 'save-all)
+
+
+ #+end_src
+** Auto format à la sauvegarde
+ #+begin_src emacs-lisp
+ #+end_src
+* Centrer la fenêtre
+#+begin_src emacs-lisp
+	(use-package centered-window
+  :custom
+  (cwm-centered-window-width 180))
+#+end_src
+* Export Ox-Hugo
+#+begin_src emacs-lisp
+	;; ----- hugo export to publish website
+(use-package ox-hugo
+  :after ox)
+(setq org-hugo-base-dir "~/Nextcloud/textes/hugo")
+(with-eval-after-load 'ox
+  (require 'ox-hugo))
+#+end_src
+
+* Fichier par défaut à l'ouverture
+#+begin_src emacs-lisp
+	(setq initial-buffer-choice "~/Nextcloud/textes/orgmode/tasks.org")
+
+
+#+end_src
+* Développement
+#+begin_src emacs-lisp
+#+end_src
+** Gestion de version
+	 #+begin_src emacs-lisp
+		 (use-package git-gutter)
+#+end_src
+
+** Auto format
+
+ #+begin_src emacs-lisp
+
+	(setq org-adapt-indentation t)
+
+ #+end_src
+
+** Tab avec largeur de 2 espaces
+ #+begin_src emacs-lisp
+ (setq-default tab-width 2)
+ #+end_src
+** Dupliquer la ligne
+#+begin_src emacs-lisp
+	;; --- dupliquer la sélection
+(use-package duplicate-thing
+  :init
+  (defun pt/duplicate-thing ()
+    "Duplicate thing at point without changing the mark."
+    (interactive)
+    (save-mark-and-excursion (duplicate-thing 1))
+    (call-interactively #'next-line))
+  :bind ("C-d" . pt/duplicate-thing)
+  )
+#+end_src
+
+** Supprimer les espaces de fin
+ #+begin_src emacs-lisp
+	 (add-hook 'before-save-hook #'delete-trailing-whitespace)
+ (setq require-final-newline t)
+
+ (defalias 'view-emacs-news 'ignore)
+ (defalias 'describe-gnu-project 'ignore)
+ (setq mouse-wheel-tilt-scroll t
+       mouse-wheel-flip-direction t)
+ (setq-default truncate-lines t)
+ #+end_src
+
+
+** Auto indentation et autres trucs
+#+begin_src emacs-lisp
+
+	(use-package aggressive-indent)
+		(global-aggressive-indent-mode 1)
+			(delete-selection-mode t)
+;;		(global-display-line-numbers-mode t)
+		(column-number-mode)
+		(add-hook 'before-save-hook #'delete-trailing-whitespace)
+		(setq require-final-newline t)
+		(defun do-nothing (interactive))
+		(defalias 'view-emacs-news 'do-nothing)
+		(defalias 'describe-gnu-project 'do-nothing)
+
+
+	(setq user-full-name "TyKayn"
+			user-mail-address "contact@cipherbliss.com")
+
+#+end_src
+** Markdown
+ #+begin_src emacs-lisp
+
+
+ (use-package markdown-mode
+   :mode ("\\.\\(njk\\|md\\)\\'" . markdown-mode))
+
+
+ #+end_src
+** Sauvegardes des fichiers
+ #+begin_src emacs-lisp
+	 (setq backup-directory-alist '(("." . "~/.config/emacs/backups")))
+ #+end_src
+
+
+* Écriture
+
+** Références bibliographiques
+
+	 #+begin_src emacs-lisp
+
+				;; BibLaTeX settings
+		 ;; bibtex-mode
+		 (setq bibtex-dialect 'biblatex)
+
+					(setq bib-files-directory (directory-files
+																(concat (getenv "HOME") "/Nextcloud/textes/bibliography") t
+																"^[A-Z|a-z].+.bib$")
+					 pdf-files-directory (concat (getenv "HOME") "/Nextcloud/textes/bibliography"))
+
+				(use-package helm-bibtex
+					:config
+					(setq bibtex-completion-bibliography bib-files-directory
+								bibtex-completion-library-path pdf-files-directory
+								bibtex-completion-pdf-field "File"
+								bibtex-completion-notes-path org-directory
+								bibtex-completion-additional-search-fields '(keywords))
+					:bind
+					(("C-c n B" . helm-bibtex)))
+
+					 (use-package org-roam-bibtex
+							:after (org-roam helm-bibtex)
+							:bind (:map org-mode-map ("C-c n b" . orb-note-actions))
+							:config
+							(require 'org-ref))
+							(org-roam-bibtex-mode)
+ #+end_src
+
+** Centrer le texte - Olivetti
+ #+begin_src emacs-lisp
+							;; olivetti
+					 ;; Distraction-free screen
+				 (use-package olivetti
+					 :init
+					 (setq olivetti-body-width .67)
+					 :config
+					)
+
+
+
+	 (use-package writeroom-mode)
+
+ #+end_src
+** Auto complétion
+ #+begin_src emacs-lisp
+
+
+   ;; Auto completion
+   (use-package company
+     :config
+     (setq company-idle-delay 0
+           company-minimum-prefix-length 4
+           company-selection-wrap-around t))
+   (global-company-mode)
+
+
+   ;; Helm configuration
+   (use-package helm
+     :config
+     (require 'helm-config)
+     :init
+     (helm-mode 1)
+     :bind
+     (("M-x"     . helm-M-x) ;; Evaluate functions
+			("C-x C-f" . helm-find-files) ;; Open or create files
+			("C-x b"   . helm-mini) ;; Select buffers
+			("C-x C-r" . helm-recentf) ;; Select recently saved files
+			("C-c i"   . helm-imenu) ;; Select document heading
+			("M-y"     . helm-show-kill-ring) ;; Show the kill ring
+			:map helm-map
+			("C-z" . helm-select-action)
+			("<tab>" . helm-execute-persistent-action)))
+
+ #+end_src
+
+** Exporter vers HTML avec un style commun
+ #+begin_src emacs-lisp
+			;; export with default modern css
+			(defun my-org-inline-css-hook (exporter)
+				"Insert custom inline css"
+				(when (eq exporter 'html)
+					(let* ((dir (ignore-errors (file-name-directory (buffer-file-name))))
+								 (path (concat dir "style.css"))
+								 (homestyle (or (null dir) (null (file-exists-p path))))
+								 (final (if homestyle "~/Nextcloud/textes/orgmode/style.css" path))) ;; <- set your own style file path
+						(setq org-html-head-include-default-style nil)
+						(setq org-html-head (concat
+																 "<style type=\"text/css\">\n"
+																 "<!--/*--><![CDATA[/*><!--*/\n"
+																 (with-temp-buffer
+																	 (insert-file-contents final)
+																	 (buffer-string))
+																 "/*]]>*/-->\n"
+																 "</style>\n")))))
+
+	(add-hook 'org-export-before-processing-hook 'my-org-inline-css-hook)
+
+ #+end_src
+
+* Mystères
+	trucs à trouver comment faire
+	faire de la recherche avec Ctrl + F
+	faire du remplacement avec Ctrl + H
+** Tout sélectionner
+	  #+begin_src emacs-lisp
+	 (global-set-key (kbd "C-a") 'mark-whole-buffer)
+		#+end_src
+#+begin_src emacs-lisp
+#+end_src
+* Autre
+La suite est à inventer.
+Pour installer cette configuration d'emacs, lancez le script
+#+begin_quote bash
+# bash install_emacs_config.sh
+#!/bin/bash
+
+snap install emacs --channel=beta --classic
+
+mkdir -p ~/Nextcloud/textes/orgmode
+mkdir -p ~/Nextcloud/textes/orgmode/org-roam
+
+touch ~/.emacs
+touch ~/Nextcloud/textes/orgmode/config.org
+touch ~/Nextcloud/textes/orgmode/tasks.org
+
+#+end_quote
