@@ -22,6 +22,10 @@ cp "$HOME_OF_USERNAME_CURRENT/Nextcloud/textes/orgmode/style.css" "$HOME_OF_SCRI
 cp "$HOME_OF_USERNAME_CURRENT/Nextcloud/textes/orgmode/upcalendar.sh" "$HOME_OF_SCRIPTS/assets/org" -r
 
 # sauvegardes
+cp "$HOME_OF_USERNAME_CURRENT/sync_spaceship.sh" "$HOME_OF_SCRIPTS/bash/backups"
+cp "$HOME_OF_USERNAME_CURRENT/test-func.sh" "$HOME_OF_SCRIPTS/bash/backups"
+cp "$HOME_OF_USERNAME_CURRENT/functions_sync.sh" "$HOME_OF_SCRIPTS/bash/backups"
+
 
 echo "HOME_OF_SCRIPTS : $HOME_OF_SCRIPTS"
 ls -l "$HOME_OF_SCRIPTS/assets/org"

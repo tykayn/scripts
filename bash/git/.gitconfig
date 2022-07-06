@@ -1,0 +1,16 @@
+[credential]
+	helper = store
+[user]
+	email = contact@cipherbliss.com
+	name = tykayn
+[filesystem "Ubuntu|11.0.7|/dev/mapper/kubuntu--vg-root"]
+	timestampResolution = 5000 nanoseconds
+	minRacyThreshold = 7537 microseconds
+[rerere]
+	enabled = true
+[diff]
+	submodule = log
+[core]
+	editor = gedit
+[init]
+	defaultBranch = main
