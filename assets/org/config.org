@@ -5,13 +5,17 @@
 
 * Ma config emacs
 
+
   Voici la documentation au format Orgmode de ma configuration d'Emacs. Pour que cela fonctionne, il faut demander au fichier de config dans le dossier utilisateur, le fichier ".emacs" débutant par un point, de charger ce fichier config.org.
 
 
-J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souvent des mentions à ce dossier dans la config.
-
+J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souvent des mentions à ce dossier dans la config. Ma liste des tâches [[file:tasks.org]] pour la gestion de projets se compose d'un fichier principal et de quelques autres.
+Les réunions ont leur propre fichier, le journal aussi.
+[[file:reunions.org]].
+[[file:journal.org]].
+[[id:d8636e1d-0137-4502-9384-767b41c892b0][boulot]] [[id:c1c19fdf-ccab-4d78-b191-dbe0f8c66609][lemonway]]
+Contenu du fichier de config [[file:~/.emacs]]
 #+begin_quote
-
     ;; straight el bootstrap https://github.com/raxod502/straight.el#getting-started
      (defvar bootstrap-version)
      (let ((bootstrap-file
@@ -166,18 +170,18 @@ J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souve
 ** Séquences de choses à faire
 	 #+begin_src emacs-lisp
 
-			(setq org-todo-keywords
-				 '((sequence
-						"STARTED(s)"
-						"TODO(t)"  ; next action
-						"TOBLOG(b)"  ; next action
-						"WAITING(w@/!)"
-						"SOMEDAY(.)" "BLOCKED(k@/!)" "|" "DONE(x!)" "CANCELLED(c)")
-					 (sequence "PROJECT" "|" "DONE(x)")
-					 (sequence "LEARN" "TRY" "TEACH" "|" "COMPLETE(x)")
-					 (sequence "TOSKETCH" "SKETCHED" "|" "POSTED")
-					 (sequence "TOBUY" "TOSHRINK" "TOCUT"  "TOSEW" "|" "DONE(x)")
-					 (sequence "TODELEGATE(-)" "DELEGATED(d)" "|" "COMPLETE(x)")))
+		 (setq org-todo-keywords
+				'((sequence
+					 "TODO(t)"  ; next action
+					 "STARTED(s)"
+					 ;; "TOBLOG(b)"  ; next action
+					 "WAITING(w@/!)"
+					 "SOMEDAY(.)" "BLOCKED(k@/!)" "|" "DONE(x!)" "CANCELLED(c)")
+					(sequence "PROJECT" "|" "DONE(x)")
+					(sequence "LEARN" "TRY" "TEACH" "|" "DONE(x)")
+					;; (sequence "TOSKETCH" "SKETCHED" "|" "POSTED")
+					(sequence "TOBUY" "TOSHRINK" "TOCUT"  "TOSEW" "|" "DONE(x)")
+					(sequence "TODELEGATE(-)" "DELEGATED(d)" "|" "DONE(x)")))
 
 #+end_src
 ** Vue d'agenda Orgmode
@@ -447,65 +451,109 @@ J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souve
 
 
  #+begin_src emacs-lisp
-	 ;;; templates de capture pour les nouvelles tâches
-		(setq org-capture-templates
-					'(
-						("t" "Todo" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
-						 "* TODO %?\n  %i\n  %a")
-							("l" "ToLearn" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Recherches et éducation")
-						 "* TODO %?\n  %i\n  %a")
-						 ("b" "Boulot" entry (file+headline "~/Nextcloud/textes/orgmode/boulot.org" "Inbox")
-						"* TODO %?\n :boulot:work:  %i\n  %a")
-						("m" "Meeting" entry  (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Meetings")
-						 "* MEETING with %? :meeting:\n%t" :clock-in t :clock-resume t)
-						("e" "E-mail" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
-						 "* TODO %? :mail:écriture:\n  %i\n  %a")
-						("n" "Next Task" entry (file+headline org-default-notes-file "Next")
-						 "** NEXT %? \nDEADLINE: %t")
-						("p" "Phone call" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Tel")
-						 "* PHONE %? :tel:\n%U" :clock-in t :clock-resume t)
-						("j" "Journal" entry (file+datetree "~/Nextcloud/textes/orgmode/journal.org")
-						 "* %?\nEntered on %U\n  %i\n  %a")))
+			;;; templates de capture pour les nouvelles tâches
+			 (setq org-capture-templates
+						 '(
+							 ("t" "Todo" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
+								"* TODO %?\n  %i\n ")
+								 ("l" "ToLearn" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Recherches et éducation")
+								"* LEARN %?\n  %i\n  %a")
+								("b" "Boulot" entry (file+headline "~/Nextcloud/textes/orgmode/boulot.org" "Inbox")
+							 "* TODO %?\n :boulot:work:  %i\n  %a")
+	 ;; (file "~/Nextclod/textes/orgmode/org-roam/20220620110632-meeting_template.org")
+							 ("m" "Meeting" entry (file+datetree "~/Nextcloud/textes/orgmode/reunions.org" "Réunions")
+								"* Réunion %T \n	:[[id:d8636e1d-0137-4502-9384-767b41c892b0][boulot:meeting:]] \n**** Gens présents\n**** Notes\n - %?\n**** Choses à investiguer\n -\n**** Prochaines actions\n - Fin de la réunion: \n"
+								)
+							 ("e" "E-mail" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
+								"* TODO %? :mail:écriture:\n  %i\n  %a")
+							 ("n" "Next Task" entry (file+headline org-default-notes-file "Next")
+								"** NEXT %? \nDEADLINE: %t")
+							 ("p" "Phone call" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Tel")
+								"* PHONE %? :tel:\n%U" :clock-in t :clock-resume t)
+							 ("j" "Journal" entry (file+datetree "~/Nextcloud/textes/orgmode/journal.org")
+								"* %?\nEntered on %U\n  %i\n  %a"))
+						 )
+
+
+			;; raccourci custom pour clavier sans pavé numérique
+			 (global-set-key (kbd "C-T") 'org-todo)
+
  #+end_src
 
 ** Org Roam, wiki personnel
- #+begin_src emacs-lisp
-	 (use-package org-roam
+	 https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/
+
+	 Raccourcis Org Roam généraux
+	 #+begin_src emacs-lisp
+											 (use-package org-roam
+
+												 :init
+												 (setq org-roam-v2-ack t)
+												 :custom
+												 (org-roam-capture-templates
+													'(("d" "default" plain
+														 "%?"
+														 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+														 :unnarrowed t)
+														("m" "meeting" plain (file "~/Nextclod/textes/orgmode/org-roam/20220620110632-meeting_template.org")
+														 :if-new (file+head "%<%Y%m%d%H%M%S>-meeting-${slug}.org" "#+title: ${title}\n")
+					:unnarrowed t
+														)
+													("b" "book notes" plain
+							"\n* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
+							:if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+							:unnarrowed t))
+													)
 
 
-	 :bind (
-					("C-c n l" . org-roam-buffer-toggle)
-					("C-c n f" . org-roam-node-find)
-					("C-c n i" . org-roam-node-insert)
-					("C-c n g" . org-roam-graph)
-					("C-c n t" . org-roam-tag-add)
-					("C-c n a" . org-roam-alias-add)
-					)
-	 )
-	 (setq org-roam-directory "~/Nextcloud/textes/orgmode/org-roam")
-	 (setq org-roam-completion-everywhere t)
-	 (setq org-roam-db-autosync-mode t)
+												 :bind (
+																("C-c n l" . org-roam-buffer-toggle)
+																("C-c n f" . org-roam-node-find)
+																("C-c n i" . org-roam-node-insert)
+																("C-c n g" . org-roam-graph)
+																("C-c n t" . org-roam-tag-add)
+																("C-c n a" . org-roam-alias-add)
+																:map org-roam-dailies-map
+																("Y" . org-roam-dailies-capture-yesterday)
+																("T" . org-roam-dailies-capture-tomorrow)
+																)
+													:bind-keymap
+													("C-c n d" . org-roam-dailies-map)
+													:config
+													(require 'org-roam-dailies)
+													(org-roam-db-autosync-mode)
+												 )
+											 (setq org-roam-directory "~/Nextcloud/textes/orgmode/org-roam")
+											 (setq org-roam-completion-everywhere t)
+
 
  #+end_src
 
-** Roam graph
-	 Graph naviguable des liens entre les notes Org Roam.
-	 #+begin_src emacs-lisp
-					(use-package org-roam-ui
-			 :straight
-				 (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
-				 :after org-roam
-		 ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
-		 ;;         a hookable mode anymore, you're advised to pick something yourself
-		 ;;         if you don't care about startup time, use
-		 ;;  :hook (after-init . org-roam-ui-mode)
-				 :config
-				 (setq org-roam-ui-sync-theme t
-							 org-roam-ui-follow t
-							 org-roam-ui-update-on-save t
-							 org-roam-ui-open-on-start t))
+*** Roam graph
+		Graph naviguable des liens entre les notes Org Roam.
+		#+begin_src emacs-lisp
+					 (use-package org-roam-ui
+				:straight
+					(:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+					:after org-roam
+			;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+			;;         a hookable mode anymore, you're advised to pick something yourself
+			;;         if you don't care about startup time, use
+			;;  :hook (after-init . org-roam-ui-mode)
+					:config
+					(setq org-roam-ui-sync-theme t
+								org-roam-ui-follow t
+								org-roam-ui-update-on-save t
+								org-roam-ui-open-on-start t))
 
-	 #+end_src
+		#+end_src
+** Images incluses dans les fichiers org
+ #+begin_src emacs-lisp
+
+   (setq org-startup-with-inline-images t)
+   (global-set-key (kbd "M-<f12>") 'org-toggle-inline-images)
+   (global-set-key (kbd "C-<f12>") 'visible-mode) ;; edit links
+ #+end_src
 * Calendar framework
 #+begin_src emacs-lisp
 	; calendar display
@@ -535,6 +583,28 @@ J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souve
 
 
 #+end_src
+* Insérer la date et l'heure
+
+	raccourci: *Ctrl c, !*
+*Ctrl U Ctrl C .*
+exemple : <2022-06-27 lun. 18:51>
+  #+begin_src emacs-lisp
+				(defvar bjk-timestamp-format "<%Y-%m-%d %H:%M>"
+					"Format of date to insert with `bjk-timestamp' function
+				%Y-%m-%d %H:%M will produce something of the form YYYY-MM-DD HH:MM
+				Do C-h f on `format-time-string' for more info")
+
+				(defun bjk-timestamp ()
+					"Insert a timestamp at the current point.
+				Note no attempt to go to beginning of line and no added carriage return.
+				Uses `bjk-timestamp-format' for formatting the date/time."
+							 (interactive)
+							 (insert (org-format-time-string bjk-timestamp-format (current-time)))
+							 )
+		;; insérer timestamp date et heure
+		(global-set-key "\C-c !" 'insert-current-date-time)
+ #+end_src
+
 * Préconfiguration
 #+begin_src emacs-lisp
   ;; -*- coding: utf-8; lexical-binding: t -*-
@@ -554,10 +624,24 @@ J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souve
    #+begin_src emacs-lisp
 
    #+end_src
-* Plein écran au démarrage
-#+begin_src emacs-lisp
-	(add-to-list 'default-frame-alist '(fullscreen . maximized))
-#+end_src
+* Démarrage
+** Plein écran au démarrage
+ #+begin_src emacs-lisp
+	 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+ #+end_src
+** Fichier par défaut à l'ouverture
+	 Montrer la liste des tâches par défaut
+ #+begin_src emacs-lisp
+	 (setq initial-buffer-choice "~/Nextcloud/textes/orgmode/tasks.org")
+
+
+ #+end_src
+** Centrer la fenêtre
+ #+begin_src emacs-lisp
+	 (use-package centered-window
+   :custom
+   (cwm-centered-window-width 180))
+ #+end_src
 * Fichiers récents
 
 #+begin_src emacs-lisp
@@ -574,30 +658,36 @@ J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souve
 
 #+end_src
 * Raccourcis
+** Commenter une ligne
+	 Avec Ctrl+Shift+C
 
-#+begin_src emacs-lisp
+ #+begin_src emacs-lisp
 
-	;; commenter une ligne de code, Ctrl Shift C.
+	 ;; commenter une ligne de code, Ctrl Shift C.
 
-	 (defun comment-eclipse ()
-		 (interactive)
-		 (let ((start (line-beginning-position))
-					 (end (line-end-position)))
-			 (when (or (not transient-mark-mode) (region-active-p))
-				 (setq start (save-excursion
-											 (goto-char (region-beginning))
-											 (beginning-of-line)
-											 (point))
-							 end (save-excursion
-										 (goto-char (region-end))
-										 (end-of-line)
-										 (point))))
-			 (comment-or-uncomment-region start end)))
+		(defun comment-eclipse ()
+			(interactive)
+			(let ((start (line-beginning-position))
+						(end (line-end-position)))
+				(when (or (not transient-mark-mode) (region-active-p))
+					(setq start (save-excursion
+												(goto-char (region-beginning))
+												(beginning-of-line)
+												(point))
+								end (save-excursion
+											(goto-char (region-end))
+											(end-of-line)
+											(point))))
+				(comment-or-uncomment-region start end)))
 
-	 (global-set-key (kbd "C-<S-C>") 'comment-eclipse)
+		(global-set-key (kbd "C-<S-C>") 'comment-eclipse)
 
 
-#+end_src
+ #+end_src
+** Tout sélectionner
+	  #+begin_src emacs-lisp
+	 (global-set-key (kbd "C-a") 'mark-whole-buffer)
+		#+end_src
 ** Retirer les mauvais raccourcis
  #+begin_src emacs-lisp
 
@@ -634,199 +724,203 @@ Deft
 * Lecture
 
 #+begin_src emacs-lisp
- ;; raccourcis communs pour copier coller de texte
-(cua-mode t)
+	 ;; raccourcis communs pour copier coller de texte
+	(cua-mode t)
 
-       ;; - - - - - - - - - - - - - - - - - - - - - - - - - custom keys  - - - - - - - - - - - - - - - - - - - - - - - - -
-  (global-set-key (kbd "C-c l") 'org-store-link)
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (global-set-key (kbd "C-c c") 'org-capture)
-;;---- open tasks list at startup
-  (setq initial-buffer-choice "~/Nextcloud/textes/orgmode/config.org")
-
-
-;; barres de GUI
-(setq tool-bar-mode t)
-(setq scroll-bar-mode t)
-(setq menu-bar-mode t)
+				 ;; - - - - - - - - - - - - - - - - - - - - - - - - - custom keys  - - - - - - - - - - - - - - - - - - - - - - - - -
+		(global-set-key (kbd "C-c l") 'org-store-link)
+		(global-set-key (kbd "C-c a") 'org-agenda)
+		(global-set-key (kbd "C-c c") 'org-capture)
+	;;---- open tasks list at startup
+		(setq initial-buffer-choice "~/Nextcloud/textes/orgmode/config.org")
 
 
-(setq left-margin-width 5)
-(setq right-margin-width 5)
+	;; barres de GUI
+	(setq tool-bar-mode t)
+	(setq scroll-bar-mode t)
+	(setq menu-bar-mode t)
 
 
-;; highlight of lines
-  (require 'hl-line)
-  (add-hook 'prog-mode-hook #'hl-line-mode)
-  (add-hook 'text-mode-hook #'hl-line-mode)
+	(setq left-margin-width 5)
+	(setq right-margin-width 5)
 
 
- ;; fonts
- ;; font for errors
- (ignore-errors (set-frame-font "JuliaMono-12"))
+	;; highlight of lines
+		(require 'hl-line)
+		(add-hook 'prog-mode-hook #'hl-line-mode)
+		(add-hook 'text-mode-hook #'hl-line-mode)
 
 
-(use-package doom-themes
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;; thème principal https://github.com/doomemacs/themes
-  (load-theme 'doom-nord t)
-
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
-  (doom-themes-neotree-config)
-  ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  (doom-themes-treemacs-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
-
-(use-package doom-modeline
-  :config (doom-modeline-mode))
+	 ;; fonts
+	 ;; font for errors
+	 (ignore-errors (set-frame-font "JuliaMono-12"))
 
 
+	(use-package doom-themes
+		:config
+		;; Global settings (defaults)
+		(setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+					doom-themes-enable-italic t) ; if nil, italics is universally disabled
+		;; thème principal https://github.com/doomemacs/themes
+		(load-theme 'doom-nord t)
 
+		;; Enable flashing mode-line on errors
+		(doom-themes-visual-bell-config)
+		;; Enable custom neotree theme (all-the-icons must be installed!)
+		(doom-themes-neotree-config)
+		;; or for treemacs users
+		(setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+		(doom-themes-treemacs-config)
+		;; Corrects (and improves) org-mode's native fontification.
+		(doom-themes-org-config))
 
- (setq org-agenda-files (list "~/Nextcloud/textes/orgmode"))
-
-
-
-  ;; alias
-  (defalias 'yes-or-no-p 'y-or-n-p)
-
-
-
-  ;; - - - - - - - - - - - - - -  matching parentheses - - - - - - - - - - - - - - - - - - - - - - - - - -
-  (use-package paren
-    :config
-    (show-paren-mode +1))
-
-  (show-paren-mode)
-
-  (use-package rainbow-delimiters
-    :hook ((prog-mode . rainbow-delimiters-mode)))
-  ;; dir tree
-
-  ;; - - - - - - - - - - - - - -  icons - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  (use-package all-the-icons)
-
-  (use-package all-the-icons-dired
-    :after all-the-icons
-    :hook (dired-mode . all-the-icons-dired-mode))
-
-
-
-;; - - - - - - - - - - - - - - - - - - - - - - - - - custom keys  - - - - - - - - - - - - - - - - - - - - - - - - -
-  (global-set-key (kbd "C-c l") 'org-store-link)
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (global-set-key (kbd "C-c c") 'org-capture)
-
-    (defun kill-all-buffers ()
-      "Close all buffers."
-      (interactive)
-      (let ((lsp-restart 'ignore))
-        ;; (maybe-unset-buffer-modified)
-        (delete-other-windows)
-        (save-some-buffers)
-        (let
-            ((kill-buffer-query-functions '()))
-          (mapc 'kill-buffer (buffer-list)))))
-
-    (bind-key "C-c K" #'kill-all-buffers)
-    (bind-key "C-x !" #'delete-other-windows) ;; Access to the old keybinding.
-
-
-
-  (defun switch-to-scratch-buffer ()
-    "Switch to the current session's scratch buffer."
-    (interactive)
-    (switch-to-buffer "*scratch*"))
-  (bind-key "C-c s" #'switch-to-scratch-buffer)
-
-
-  ;; voir la liste des tâches à l'état DONE
-  (fset 'done-tasks-list
-        (kmacro-lambda-form [?\C-c ?a ?t kp-2 ?r] 0 "%d"))
-
-  ;; archiver les tâches à l'état DONE
-  (fset 'archive-done-tasks-list
-        (kmacro-lambda-form [?\C-c ?a ?t kp-2 ?r] 0 "%d"))
-
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
-  (global-set-key (kbd "C-c C-d") 'done-tasks-list)
-  (global-set-key (kbd "C-M-d") 'archive-done-tasks-list)
-
-;; raccourcis issus d'habitudes de netbeans
-  ;; save all by default Was: isearch-forward
-  (defun save-all () (interactive) (save-some-buffers t))
-  (global-set-key (kbd "C-x C-s") 'save-all)
-  (global-set-key (kbd "C-S-c") 'comment-line)
-  ;; recherche dans tous les fichiers du dossier orgmode
-  (global-set-key (kbd "C-S-f") 'deft)
-  ;; recherche dans le fichier courant avec ctrl + f
-  ;;(global-set-key (kbd "C-f") 'isearch)
-
-
-  (global-set-key (kbd "C-c C-f") 'org-roam-node-find)
-  (global-set-key (kbd "C-c C-i") 'org-roam-node-insert)
-  (global-set-key (kbd "C-c i") 'org-roam-node-insert)
-
-
-  (global-set-key (kbd "<f5>") 'org-capture)
-  (global-set-key (kbd "<f8>") 'org-cycle-agenda-files)
-  (global-set-key (kbd "<f12>") 'org-agenda)
-
-  (global-set-key (kbd "C-c <f9>") 'org-agenda-clock-goto)
-  (global-set-key (kbd "<f9>") 'org-clock-in)
-  (global-set-key (kbd "<f10>") 'org-clock-out)
-
-  (global-set-key (kbd "<f2>") 'dir-treeview)
-  (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-
-
- (setq org-agenda-sticky t)
-
-
-  ;; use org-bullets-mode for utf8 symbols as org bullets
-  (use-package org-bullets)
-  (require 'org-bullets)
-  ;; make available "org-bullet-face" such that I can control the font size individually
-  (setq org-bullets-face-name (quote org-bullet-face))
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-bullets-bullet-list '("◉"
-                                  "○"
-                                  "✸"
-                                  "✿"
-                                  "◇"
-                                  "✚"
-                                  ))
-
-  ;; org ellipsis options, other than the default Go to Node...
-  ;; not supported in common font, but supported in Symbola (my fall-back font) ⬎, ⤷, ⤵
-  (setq org-ellipsis "⤵");;  ≫
-
-  ;; make available "org-bullet-face" such that I can control the font size individually
-  (setq org-bullets-face-name (quote org-bullet-face))
+	(use-package doom-modeline
+		:config (doom-modeline-mode))
 
 
 
 
-  ;; détail de combinaison de touches
-  (use-package which-key
-    :diminish
-    :custom
-    (which-key-enable-extended-define-key t)
-    :config
-    (which-key-mode)
-    (which-key-setup-minibuffer))
+	 (setq org-agenda-files (list "~/Nextcloud/textes/orgmode"))
 
-  (defun display-startup-echo-area-message ()
-    "Override the normally tedious startup message."
-    (message "Welcome back."))
+
+
+		;; alias
+		(defalias 'yes-or-no-p 'y-or-n-p)
+
+
+
+		;; - - - - - - - - - - - - - -  matching parentheses - - - - - - - - - - - - - - - - - - - - - - - - - -
+		(use-package paren
+	:ensure nil
+	:init
+	(setq show-paren-delay 0)
+	:config
+	(show-paren-mode +1))
+
+		(show-paren-mode)
+
+		(use-package rainbow-delimiters
+			:hook ((prog-mode . rainbow-delimiters-mode)))
+		;; dir tree
+
+		;; - - - - - - - - - - - - - -  icons - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+		(use-package all-the-icons)
+
+		(use-package all-the-icons-dired
+			:after all-the-icons
+			:hook (dired-mode . all-the-icons-dired-mode))
+
+
+
+	;; - - - - - - - - - - - - - - - - - - - - - - - - - custom keys  - - - - - - - - - - - - - - - - - - - - - - - - -
+		(global-set-key (kbd "C-c l") 'org-store-link)
+		(global-set-key (kbd "C-c a") 'org-agenda)
+		(global-set-key (kbd "C-c c") 'org-capture)
+
+			(defun kill-all-buffers ()
+				"Close all buffers."
+				(interactive)
+				(let ((lsp-restart 'ignore))
+					;; (maybe-unset-buffer-modified)
+					(delete-other-windows)
+					(save-some-buffers)
+					(let
+							((kill-buffer-query-functions '()))
+						(mapc 'kill-buffer (buffer-list)))))
+
+			(bind-key "C-c K" #'kill-all-buffers)
+			(bind-key "C-x !" #'delete-other-windows) ;; Access to the old keybinding.
+
+
+
+		(defun switch-to-scratch-buffer ()
+			"Switch to the current session's scratch buffer."
+			(interactive)
+			(switch-to-buffer "*scratch*"))
+		(bind-key "C-c s" #'switch-to-scratch-buffer)
+
+
+		;; voir la liste des tâches à l'état DONE
+		(fset 'done-tasks-list
+					(kmacro-lambda-form [?\C-c ?a ?t kp-2 ?r] 0 "%d"))
+
+		;; archiver les tâches à l'état DONE
+		(fset 'archive-done-tasks-list
+					(kmacro-lambda-form [?\C-c ?a ?t kp-2 ?r] 0 "%d"))
+
+		(global-set-key (kbd "C-x C-b") 'ibuffer)
+		(global-set-key (kbd "C-c C-d") 'done-tasks-list)
+		(global-set-key (kbd "C-M-d") 'archive-done-tasks-list)
+
+	;; raccourcis issus d'habitudes de netbeans
+		;; save all by default Was: isearch-forward
+		(defun save-all () (interactive) (save-some-buffers t))
+		(global-set-key (kbd "C-x C-s") 'save-all)
+		(global-set-key (kbd "C-S-c") 'comment-line)
+		;; recherche dans tous les fichiers du dossier orgmode
+		(global-set-key (kbd "C-S-f") 'deft)
+		(global-set-key (kbd "<f1>") 'deft)
+		;; recherche dans le fichier courant avec ctrl + f
+		(global-set-key (kbd "C-f") 'isearch-forward)
+
+
+		(global-set-key (kbd "C-c C-f") 'org-roam-node-find)
+		(global-set-key (kbd "C-c C-i") 'org-roam-node-insert)
+		(global-set-key (kbd "C-c i") 'org-roam-node-insert)
+
+
+		(global-set-key (kbd "<f5>") 'org-capture)
+		(global-set-key (kbd "<f8>") 'org-cycle-agenda-files)
+		(global-set-key (kbd "<f12>") 'org-agenda)
+
+		(global-set-key (kbd "C-c <f9>") 'org-agenda-clock-goto)
+		(global-set-key (kbd "<f9>") 'org-clock-in)
+		(global-set-key (kbd "<f10>") 'org-clock-out)
+
+		(global-set-key (kbd "<f2>") 'dir-treeview)
+		(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+
+	 (setq org-agenda-sticky t)
+
+
+		;; use org-bullets-mode for utf8 symbols as org bullets
+		(use-package org-bullets)
+		(require 'org-bullets)
+		;; make available "org-bullet-face" such that I can control the font size individually
+		(setq org-bullets-face-name (quote org-bullet-face))
+		(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+		(setq org-bullets-bullet-list '("◉"
+																		"○"
+																		"✸"
+																		"✿"
+																		"◇"
+																		"✚"
+																		))
+
+		;; org ellipsis options, other than the default Go to Node...
+		;; not supported in common font, but supported in Symbola (my fall-back font) ⬎, ⤷, ⤵
+		(setq org-ellipsis "⤵");;  ≫
+
+		;; make available "org-bullet-face" such that I can control the font size individually
+		(setq org-bullets-face-name (quote org-bullet-face))
+
+
+
+
+		;; détail de combinaison de touches
+		(use-package which-key
+			:diminish
+			:custom
+			(which-key-enable-extended-define-key t)
+			:config
+			(which-key-mode)
+			(which-key-setup-minibuffer))
+
+		(defun display-startup-echo-area-message ()
+			"Override the normally tedious startup message."
+			(message "Welcome back."))
 
 #+end_src
 
@@ -854,13 +948,6 @@ Deft
 
  #+end_src
 
-* Images incluses dans les fichiers org
-#+begin_src emacs-lisp
-
-  (setq org-startup-with-inline-images t)
-  (global-set-key (kbd "M-<f12>") 'org-toggle-inline-images)
-  (global-set-key (kbd "C-<f12>") 'visible-mode) ;; edit links
-#+end_src
 * Heure dans la modeline
 #+begin_src emacs-lisp
 	(display-time-mode 1)
@@ -905,28 +992,6 @@ Deft
 ** Auto format à la sauvegarde
  #+begin_src emacs-lisp
  #+end_src
-* Centrer la fenêtre
-#+begin_src emacs-lisp
-	(use-package centered-window
-  :custom
-  (cwm-centered-window-width 180))
-#+end_src
-* Export Ox-Hugo
-#+begin_src emacs-lisp
-	;; ----- hugo export to publish website
-(use-package ox-hugo
-  :after ox)
-(setq org-hugo-base-dir "~/Nextcloud/textes/hugo")
-(with-eval-after-load 'ox
-  (require 'ox-hugo))
-#+end_src
-
-* Fichier par défaut à l'ouverture
-#+begin_src emacs-lisp
-	(setq initial-buffer-choice "~/Nextcloud/textes/orgmode/tasks.org")
-
-
-#+end_src
 * Développement
 #+begin_src emacs-lisp
 #+end_src
@@ -1002,6 +1067,11 @@ Deft
 
 
  #+end_src
+** Json
+ #+begin_src emacs-lisp
+	 (use-package json-mode)
+
+ #+end_src
 ** Sauvegardes des fichiers
  #+begin_src emacs-lisp
 	 (setq backup-directory-alist '(("." . "~/.config/emacs/backups")))
@@ -1043,17 +1113,31 @@ Deft
 
 ** Centrer le texte - Olivetti
  #+begin_src emacs-lisp
-							;; olivetti
-					 ;; Distraction-free screen
-				 (use-package olivetti
-					 :init
-					 (setq olivetti-body-width .67)
-					 :config
-					)
+								 ;; olivetti
+							;; Distraction-free screen
+						(use-package olivetti
+							:straight t
+							:init
+							(setq olivetti-body-width .67)
+							:config
+						 )
+			(setq olivetti-body-width .67
+				 text-scale-increase 1.5
+				 olivetti-mode t
+				 )
+
+
+	 (add-hook 'text-mode-hook (lambda ()
+															 (interactive)
+															 (message "Olivetti text-mode-hook")
+															 (text-scale-increase 1.5)
+															 (olivetti-set-width .81)
+															 ;; (hidden-mode-line-mode)
+															 (olivetti-mode 1)))
 
 
 
-	 (use-package writeroom-mode)
+			(use-package writeroom-mode)
 
  #+end_src
 ** Auto complétion
@@ -1116,12 +1200,31 @@ Deft
 	trucs à trouver comment faire
 	faire de la recherche avec Ctrl + F
 	faire du remplacement avec Ctrl + H
-** Tout sélectionner
-	  #+begin_src emacs-lisp
-	 (global-set-key (kbd "C-a") 'mark-whole-buffer)
-		#+end_src
+
 #+begin_src emacs-lisp
 #+end_src
+
+** Exports
+
+*** fichier JSON
+		Pour la création d'une page de rapport d'activités en HTML.
+
+#+begin_src emacs-lisp
+		(use-package ox-json
+			:straight t)
+		(require 'ox-json)
+#+end_src
+*** publication de site web du wiki
+		Ox-Hugo
+	#+begin_src emacs-lisp
+		;; ----- hugo export to publish website
+	(use-package ox-hugo
+		:after ox)
+	(setq org-hugo-base-dir "~/Nextcloud/textes/hugo")
+	(with-eval-after-load 'ox
+		(require 'ox-hugo))
+	#+end_src
+
 * Autre
 La suite est à inventer.
 Pour installer cette configuration d'emacs, lancez le script
