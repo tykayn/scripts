@@ -13,19 +13,20 @@ emacs --version
 mkdir -p ~/Nextcloud/textes/orgmode/org-roam
 mkdir -p ~/Nextcloud/textes/library
 
-rm -rf ~/.emacs.d
+rm -rf /home/$username/.emacs.d
+cp /home/$username/.emacs .emacs_backup
 
-wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/.emacs "/home/$username/"
-wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/config.org "/home/$username/Nextcloud/textes/orgmode/"
-wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/tasks.org "/home/$username/Nextcloud/textes/orgmode/"
-wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/bulma.min.css "/home/$username/Nextcloud/textes/orgmode/"
-wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/style.css "/home/$username/Nextcloud/textes/orgmode/"
-wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/upcalendar.sh "/home/$username/Nextcloud/textes/orgmode/"
+wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/.emacs --directory-prefix="/home/$username/"
+#wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/config.org --directory-prefix="/home/$username/Nextcloud/textes/orgmode/"
+#wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/tasks.org --directory-prefix="/home/$username/Nextcloud/textes/orgmode/"
+wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/bulma.min.css --directory-prefix="/home/$username/Nextcloud/textes/orgmode/"
+wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/style.css --directory-prefix="/home/$username/Nextcloud/textes/orgmode/"
+wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/upcalendar.sh --directory-prefix="/home/$username/Nextcloud/textes/orgmode/"
 
 echo "export PATH=$PATH:/snap/bin/" >> .bash_aliases
 
 
-cp ~/.emacs .emacs_backup
+
 
 
 echo "### voilà, ça c'est fait"

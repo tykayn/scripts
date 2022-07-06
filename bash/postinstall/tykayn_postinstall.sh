@@ -82,24 +82,29 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 
 ### Internet/Web
-apt install firefox chromium-browser -y
-#telegram
-add-apt-repository ppa:atareao/telegram
-apt update
-apt install telegram -y
+apt install firefox-esr chromium-browser -y
 
 ### Multimédia
 apt install gnome-mpv vlc blender kdenlive -y
 
 ### Graphisme
 apt install mypaint krita krita-l10n -y
-apt purge gimp -y ; add-apt-repository -y ppa:otto-kesselgulasch/gimp ; apt update ; apt upgrade -y ; apt install gimp -y #gimp dernière version
+#apt purge gimp -y ; add-apt-repository -y ppa:otto-kesselgulasch/gimp ; apt update ; apt upgrade -y ; apt install gimp -y #gimp dernière version avec snap
+
+# livestream obs studio
+add-apt-repository ppa:obsproject/obs-studio
+apt update
+apt install obs-studio
 
 ### Outils
 #Support système de fichier BTRFS
 #Support système de fichier ExFat
 #Support d'autres systèmes de fichier (f2fs, jfs, nilfs, reiserfs, udf, xfs, zfs)
-apt install baobab grsync screen subdownloader handbrake audacity easytag screenfetch ncdu btrfs-tools exfat-utils exfat-fuse f2fs-tools jfsutils nilfs-tools reiser4progs reiserfsprogs udftools xfsprogs xfsdump zfsutils-linux zfs-initramfs -y
+apt install baobab grsync screen subdownloader audacity easytag screenfetch ncdu btrfs-tools exfat-utils exfat-fuse f2fs-tools jfsutils nilfs-tools reiser4progs reiserfsprogs udftools xfsprogs xfsdump zfsutils-linux zfs-initramfs -y
+
+#### démarrage de la distribution
+apt install plymouth-theme-breeze kde-config-plymouth
+
 ######## config clavier
 
 
@@ -123,15 +128,42 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
  #plugin correction grammalecte
 wget https://www.dicollecte.org/grammalecte/oxt/Grammalecte-fr-v0.6.2.oxt && chown $SUDO_USER Grammalecte* && chmod +x Grammalecte* ; unopkg add --shared Grammalecte*.oxt && rm Grammalecte*.oxt ; chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.config/libreoffice #grammalecte
 
+# jeux
 apt install steam -y
+
+# administration système et dev
+apt install guix ansible borgbackup emacs python3 python3-pip npm -y
+
+pip3 -v install vosk
+
+
+
+
 #snaps
-snap install nextcloud-client
+snap install tor-mkg20001 postman rambox freemind emacs blender gimp postman ufw vlc
+snap install phpstorm --classic
 
 #config mysql
-mysql_secure_installation
+#mysql_secure_installation
 
 #config git
 git config --global credential.helper store
+git config --global rerere.enabled true
+git config --global user.email contact@cipherbliss.com
+git config --global user.name TyKayn
+
+# dev
+	# développement en ruby, RVM
+		curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -\ncurl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -\ncurl -sSL https://get.rvm.io | sudo bash -s stable
+		source /etc/profile.d/rvm.sh
+		rvm install 2.7.4
+	# composer
+		curl -s https://getcomposer.org/installer | php
+		cp composer.phar /usr/local/bin/composer.phar
+	# Erlang elixir
+	wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb && sudo dpkg -i erlang-solutions_2.0_all.deb
+	apt-get update -y
+	apt-get install esl-erlang elixir
 
 # Nettoyage fichiers/dossiers inutiles qui étaient utilisés par le script
 rm *.zip ; rm *.tar.gz ; rm *.tar.xz ; rm *.deb ; cd .. && rm -rf /home/$SUDO_USER/script_postinstall
@@ -150,3 +182,4 @@ if [ "$rep_reboot" = "o" ] || [ "$rep_reboot" = "O" ]
 then
     reboot
 fi
+
