@@ -59,21 +59,23 @@ mv /home/$USER/aliases.sh /home/$USER/.bash_aliases
 echo "update and upgrade packages"
 apt update && apt upgrade
 ### main programs
-apt install git nano zsh nodejs npm docker docker-compose virtualbox pidgin openvpn
+apt install git nano zsh nodejs npm docker docker-compose virtualbox pidgin openvpn curl -y
+
 npm i -g yarn @angular/cli
 
 ### install oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
+echo "source ~/.bash_aliases" >> /home/$USER/.zshrc
 
 # LAMP server
 # https://doc.ubuntu-fr.org/lamp#installation
-apt install libapache2-mod-php mysql-server php-mysql php-curl php-gd php-intl php-json php-mbstring php-xml php-zip
+apt install mysql-server php-mysql php-curl php-gd php-intl php-json php-mbstring php-xml php-zip php-fpm nginx postgresql -y
 # PHP related
 # php extensions
 
 #apache server
-a2enmod rewrite
+#a2enmod rewrite
 
 echo "installing composer"
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -82,7 +84,7 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 
 ### Internet/Web
-apt install firefox-esr chromium-browser -y
+apt install firefox chromium-browser -y
 
 ### Multimédia
 apt install gnome-mpv vlc blender kdenlive -y
@@ -100,7 +102,7 @@ apt install obs-studio
 #Support système de fichier BTRFS
 #Support système de fichier ExFat
 #Support d'autres systèmes de fichier (f2fs, jfs, nilfs, reiserfs, udf, xfs, zfs)
-apt install baobab grsync screen subdownloader audacity easytag screenfetch ncdu btrfs-tools exfat-utils exfat-fuse f2fs-tools jfsutils nilfs-tools reiser4progs reiserfsprogs udftools xfsprogs xfsdump zfsutils-linux zfs-initramfs -y
+apt install baobab grsync screen subdownloader audacity easytag screenfetch ncdu exfat-utils exfat-fuse f2fs-tools jfsutils nilfs-tools reiser4progs reiserfsprogs udftools xfsprogs xfsdump zfsutils-linux zfs-initramfs -y
 
 #### démarrage de la distribution
 apt install plymouth-theme-breeze kde-config-plymouth
@@ -132,16 +134,18 @@ wget https://www.dicollecte.org/grammalecte/oxt/Grammalecte-fr-v0.6.2.oxt && cho
 apt install steam -y
 
 # administration système et dev
-apt install guix ansible borgbackup emacs python3 python3-pip npm -y
+apt install ansible borgbackup python3 python3-pip npm -y
 
 pip3 -v install vosk
 
 
-
+# node version manager
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
 #snaps
-snap install tor-mkg20001 postman rambox freemind emacs blender gimp postman ufw vlc
+snap install tor-mkg20001 postman rambox freemind emacs gimp postman ufw vlc thunderbird
 snap install phpstorm --classic
+snap install blender --classic
 
 #config mysql
 #mysql_secure_installation
