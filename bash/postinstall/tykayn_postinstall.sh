@@ -59,17 +59,19 @@ mv /home/$USER/aliases.sh /home/$USER/.bash_aliases
 echo "update and upgrade packages"
 apt update && apt upgrade
 ### main programs
-apt install git nano zsh nodejs npm docker docker-compose virtualbox pidgin openvpn
+apt install git nano zsh nodejs npm docker docker-compose virtualbox pidgin openvpn curl -y
+
 npm i -g yarn @angular/cli
 
 ### install oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
+echo "source ~/.bash_aliases" >> /home/$USER/.zshrc
 
 # LAMP server
 # https://doc.ubuntu-fr.org/lamp#installation
-# apt install libapache2-mod-php mysql-server php-mysql php-curl php-gd php-intl php-json php-mbstring php-xml php-zip
 # PHP related
+apt install mysql-server php-mysql php-curl php-gd php-intl php-json php-mbstring php-xml php-zip php-fpm nginx postgresql -y
 # php extensions
 # apache server
 # a2enmod rewrite
@@ -94,7 +96,11 @@ apt purge gimp -y ; add-apt-repository -y ppa:otto-kesselgulasch/gimp ; apt upda
 #Support système de fichier BTRFS
 #Support système de fichier ExFat
 #Support d'autres systèmes de fichier (f2fs, jfs, nilfs, reiserfs, udf, xfs, zfs)
-apt install baobab grsync screen subdownloader handbrake audacity easytag screenfetch ncdu btrfs-tools exfat-utils exfat-fuse f2fs-tools jfsutils nilfs-tools reiser4progs reiserfsprogs udftools xfsprogs xfsdump zfsutils-linux zfs-initramfs -y
+apt install baobab grsync screen subdownloader audacity easytag screenfetch ncdu exfat-utils exfat-fuse f2fs-tools jfsutils nilfs-tools reiser4progs reiserfsprogs udftools xfsprogs xfsdump zfsutils-linux zfs-initramfs -y
+
+#### démarrage de la distribution
+apt install plymouth-theme-breeze kde-config-plymouth
+
 ######## config clavier
 
 
@@ -123,16 +129,37 @@ wget https://www.dicollecte.org/grammalecte/oxt/Grammalecte-fr-v0.6.2.oxt && cho
 snap install nextcloud-client postman tor-mkg200001 keepassxc  obs-studio josm
 #snap install codium --classic
 snap refresh
+snap install tor-mkg20001 postman rambox freemind emacs gimp postman ufw vlc thunderbird
+snap install phpstorm --classic
+snap install blender --classic
+
+# administration système et dev
+apt install ansible borgbackup python3 python3-pip npm -y
+# node version manager
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
 
 #config mysql
-# mysql_secure_installation
-
-
-# add path to bash aliases
-echo "export PATH=$PATH:/snap/bin/" >> .bash_aliases
+#mysql_secure_installation
 
 #config git
 git config --global credential.helper store
+git config --global rerere.enabled true
+git config --global user.email contact@cipherbliss.com
+git config --global user.name TyKayn
+
+# dev
+	# développement en ruby, RVM
+		curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -\ncurl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -\ncurl -sSL https://get.rvm.io | sudo bash -s stable
+		source /etc/profile.d/rvm.sh
+		rvm install 2.7.4
+	# composer
+		curl -s https://getcomposer.org/installer | php
+		cp composer.phar /usr/local/bin/composer.phar
+	# Erlang elixir
+	wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb && sudo dpkg -i erlang-solutions_2.0_all.deb
+	apt-get update -y
+	apt-get install esl-erlang elixir
 
 # Nettoyage fichiers/dossiers inutiles qui étaient utilisés par le script
 rm *.zip ; rm *.tar.gz ; rm *.tar.xz ; rm *.deb ; cd .. && rm -rf /home/$SUDO_USER/script_postinstall
@@ -151,3 +178,4 @@ if [ "$rep_reboot" = "o" ] || [ "$rep_reboot" = "O" ]
 then
     reboot
 fi
+

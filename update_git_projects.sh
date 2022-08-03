@@ -5,10 +5,14 @@
 declare -a StringArray=("caisse-bliss" "duniter" "joinfediverse" "date-poll-api" "mastodon" "peertube" "events-liberator" "gitall" "dotclear-importer" "mobilizon" "fanzine-log" "crossed-words" "generator-tk" "circles" "card-deck" "sf-probe" "mastermind" "portfolio" "time-tracker" "cipherbliss" "caisse-bliss-frontend" "compta" "trafficjam" "ical-generator" "blueprint-cipherbliss" "dotclear2wordpress" "api" "diaspora" )
 
 prefix_framagit='https://framagit.org/tykayn/'
+username="${SUDO_USER:-${USER}}"
+cloning_place="/home/$username/www/"
 
-cloning_place="/home/$USER/www/"
-
+echo $cloning_place
+#mkdir $cloning_place
 cd $cloning_place
+git config --global credential.helper store
+
 echo "Number of items in original list: ${#list[*]}"
 for folder_name in ${StringArray[@]}
 do
@@ -30,12 +34,14 @@ do
 		 # update dependencies if there is an update script
     if [ -f "update.sh" ]
 	    then
-	      bash update.sh
+	    echo "update.sh exists"
+#	      bash update.sh
 	  fi
 
 	  if [ -f "yarn.lock" ]
 	    then
-	      yarn install --pure-lockfile
+	    echo "installing yarn packages"
+#	      yarn install --pure-lockfile
 #	  elif [ -f "package.lock" ]
 #	    npm i
 	  fi
