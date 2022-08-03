@@ -7,6 +7,12 @@ file:///home/tykayn/Nextcloud/boulot/osm/bdd_vitesses/overpass_results
 ## Requête source Overpass turbo
 https://overpass-turbo.eu/s/1kGY
 
+
+fetch http pour la zone géographique 75013
+``` bash
+wget https://overpass-api.de/api/interpreter?data=%2F*%0AThis+has+been+generated+by+the+overpass-turbo+wizard.%0AThe+original+search+was%3A%0A%E2%80%9Chighway+in+%22my-zone%C3%A9%22%E2%80%9D%0A*%2F%0A%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0A%2F%2F+fetch+area+%E2%80%9Cmy-zone%C3%A9%E2%80%9D+to+search+in%0Aarea(id%3A3610777016)-%3E.searchArea%3B%0A%2F%2F+gather+results%0A(%0A++%2F%2F+query+part+for%3A+%E2%80%9Chighway%E2%80%9D%0A++way%5B%22highway%22%5D(area.searchArea)%3B%0A)%3B%0A%2F%2F+print+results%0Aout+body%3B%0A%3E%3B%0Aout+skel+qt%3B
+```
+
 ## CSV output
 national_ref;way_id;osm_link;name;highway_tag;speed_limit;
 

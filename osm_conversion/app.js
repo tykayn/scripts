@@ -1,13 +1,15 @@
 /**
  * converter of overpass results to CSV
  */
+const zone_name="paris-13e-arr";
+const code_postal = "75013";
 
-const exportFileName = "bdd-vitesses-fr-osm_ways_zone-saint-mande_date-made-2022-08-03_full.csv"
+const exportFileName = `bdd-vitesses-fr-osm_ways_zone-${zone_name}_date-made-2022-08-03_full.csv`
 let header_csv = ["national_ref", "way_id", "osm_link", "name", "highway_tag","speed_limit"]
 let lines_csv = []
-const sourceFilePath = "./overpass_results/export_saint_mande.json"
+const sourceFilePath = `./overpass_results/${code_postal}.json`
 const overpassDataJson = require(sourceFilePath)
-const reference_prefix = "V94160_";
+const reference_prefix = `V${code_postal}_`;
 
 let counter_no_speedlimit = 0;
 let counter_highways = overpassDataJson['elements'].length;
@@ -83,9 +85,9 @@ function writeCSVOutput() {
         if (err) {
             return console.log(err);
         }
-        console.log("counter_no_speedlimit", counter_no_speedlimit)
+        console.log("highways without speedlimit", counter_no_speedlimit)
         console.log("on", counter_highways)
-        console.log("missing data : ", Math.floor(  counter_no_speedlimit * 100 /counter_highways ) + "%" )
+        console.log("missing speedlimit data : ", Math.floor(  counter_no_speedlimit * 100 /counter_highways ) + "%" )
         console.log(" ")
         console.log('wrote output file', exportFileName);
     });
