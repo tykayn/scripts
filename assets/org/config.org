@@ -8,15 +8,18 @@
 
   Voici la documentation au format Orgmode de ma configuration d'Emacs. Pour que cela fonctionne, il faut demander au fichier de config dans le dossier utilisateur, le fichier ".emacs" débutant par un point, de charger ce fichier config.org.
 
-
-J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souvent des mentions à ce dossier dans la config. Ma liste des tâches [[file:tasks.org]] pour la gestion de projets se compose d'un fichier principal et de quelques autres.
+J'utilise un dossier Nextcloud pour stocker mes textes, on retrouvera donc souvent des mentions à ce dossier dans la config. Ma liste d0s tâches [[file:tasks.org]] pour la gestion de projets se compose d'un fichier principal et de quelques autres.
 Les réunions ont leur propre fichier, le journal aussi.
-[[file:reunions.org]].
-[[file:journal.org]].
-[[id:d8636e1d-0137-4502-9384-767b41c892b0][boulot]] [[id:c1c19fdf-ccab-4d78-b191-dbe0f8c66609][lemonway]]
+Fichiers souvent utiles:
+ - file:/home/tykayn/Nextcloud/textes/orgmode/tasks.org
+ - [[file:reunions.org]].
+ - [[file:journal.org]].
+ - [[id:d8636e1d-0137-4502-9384-767b41c892b0][boulot]]
+ -  [[id:c1c19fdf-ccab-4d78-b191-dbe0f8c66609][lemonway]]
+
 Contenu du fichier de config [[file:~/.emacs]]
 #+begin_quote
-    ;; straight el bootstrap https://github.com/raxod502/straight.el#getting-started
+;; straight el bootstrap https://github.com/raxod502/straight.el#getting-started
      (defvar bootstrap-version)
      (let ((bootstrap-file
             (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -30,14 +33,18 @@ Contenu du fichier de config [[file:~/.emacs]]
            (eval-print-last-sexp)))
        (load bootstrap-file nil 'nomessage))
 
-     (straight-use-package 'use-package)
-     (setq straight-use-package-by-default t)
-     (use-package org)
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+;; Disable package.el in favor of straight.el
+(setq package-enable-at-startup nil)
+
+(use-package org)
 
 
      (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 (org-babel-load-file "~/Nextcloud/textes/orgmode/config.org")
+
 #+end_quote
 
 * Introduction
@@ -55,82 +62,105 @@ Contenu du fichier de config [[file:~/.emacs]]
 
  Plus sur mon blog:
  https://www.cipherbliss.com
+
+* List packages
+	Adding Melpa
+#+begin_src emacs-lisp
+
+	;; add melpa packages
+	(require 'package)
+	(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+	;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+	;; and `package-pinned-packages`. Most users will not need or want to do this.
+	;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+	(package-initialize)
+#+end_src
+
 * Orgmode
 ** Grobal
  #+begin_src emacs-lisp
-		;; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-		;; Org-Mode
+		 ;; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		 ;; Org-Mode
+
+																						 ; Things we can't set as defaults above, we can set here
+		 (defun org-setup ()
+			 (setq line-spacing 3)
+			 (setq global-hl-line-mode nil)
+			 (set-fringe-mode 0)
+																						 ; Enable habit tracking (and a bunch of other modules)
+																						 ; position the habit graph on the agenda to the right of the default
+			 (setq org-habit-graph-column 50)
+			 (setq header-line-format " ")
+			 (setq org-ellipsis "⤵")
+			 (setq org-catch-invisible-edits 'show-and-error)
+			 (setq org-hide-emphasis-markers t)
+			 (setq org-fontify-whole-heading-line t)
+			 (setq org-tags-column 0)
+			 (setq org-adapt-indentation t)
+			 (setq org-deadline-warning-days 0)
+			 (setq line-move-visual t)
+			 ;; Keep tasks with dates on the global todo lists
+			 (setq org-agenda-todo-ignore-with-date nil)
+			 ;; Keep tasks with deadlines on the global todo lists
+			 (setq org-agenda-todo-ignore-deadlines nil)
+			 ;; Keep tasks with scheduled dates on the global todo lists
+			 (setq org-agenda-todo-ignore-scheduled nil)
+			 ;; Keep tasks with timestamps on the global todo lists
+			 (setq org-agenda-todo-ignore-timestamp nil)
+			 ;; Remove completed deadline tasks from the agenda view
+			 (setq org-agenda-skip-deadline-if-done t)
+			 ;; Remove completed scheduled tasks from the agenda view
+			 (setq org-agenda-skip-scheduled-if-done t)
+			 ;; Remove completed items from search results
+			 ;; (setq org-agenda-skip-timestamp-if-done t)
+			 ;; Use sticky agenda's so they persist
+			 (setq org-agenda-sticky t)
+			 ;; block tasks if child tasks are not done
+			 (setq org-enforce-todo-dependencies t)
+			 (setq org-cycle-separator-lines 0)
+
+			 ;; Enable display of the time grid so we can see the marker for the current time
 
 
+			 (setq org-agenda-span 2)
+			 (setq org-agenda-tags-column -100) ; take advantage of the screen width
+			 (setq org-agenda-inhibit-startup t)
+			 (setq org-agenda-use-tag-inheritance t)
+			 (setq org-agenda-show-log t)
+			 (setq org-agenda-skip-scheduled-if-done t)
+			 (setq org-agenda-skip-deadline-if-done t)
+			 (setq org-agenda-skip-deadline-prewarning-if-scheduled 'pre-scheduled)
+			 (setq org-agenda-time-grid
+						 '((daily today require-timed)
+							 (800 1000 1200 1400 1600 1800 2000)
+							 "......" "----------------"))
+			 (setq org-columns-default-format "%14SCHEDULED %Effort{:} %1PRIORITY %TODO %50ITEM %TAGS")
+			 ;; Set default column view headings: Task Effort Clock_Summary
+			 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+																						 ; global Effort estimate values
+																						 ; global STYLE property values for completion
 
-																						; Things we can't set as defaults above, we can set here
-		(defun org-setup ()
-			(setq line-spacing 3)
-			(setq global-hl-line-mode nil)
-			(set-fringe-mode 0)
-																						; Enable habit tracking (and a bunch of other modules)
-																						; position the habit graph on the agenda to the right of the default
-			(setq org-habit-graph-column 50)
-			(setq header-line-format " ")
-			(setq org-ellipsis "⤵")
-			(setq org-catch-invisible-edits 'show-and-error)
-			(setq org-hide-emphasis-markers t)
-			(setq org-fontify-whole-heading-line t)
-			(setq org-tags-column 0)
-			(setq org-adapt-indentation t)
-			(setq org-deadline-warning-days 0)
-			(setq line-move-visual t)
-			;; Keep tasks with dates on the global todo lists
-			(setq org-agenda-todo-ignore-with-date nil)
-			;; Keep tasks with deadlines on the global todo lists
-			(setq org-agenda-todo-ignore-deadlines nil)
-			;; Keep tasks with scheduled dates on the global todo lists
-			(setq org-agenda-todo-ignore-scheduled nil)
-			;; Keep tasks with timestamps on the global todo lists
-			(setq org-agenda-todo-ignore-timestamp nil)
-			;; Remove completed deadline tasks from the agenda view
-			(setq org-agenda-skip-deadline-if-done t)
-			;; Remove completed scheduled tasks from the agenda view
-			(setq org-agenda-skip-scheduled-if-done t)
-			;; Remove completed items from search results
-			;; (setq org-agenda-skip-timestamp-if-done t)
-			;; Use sticky agenda's so they persist
-			(setq org-agenda-sticky t)
-			;; block tasks if child tasks are not done
-			(setq org-enforce-todo-dependencies t)
-			(setq org-cycle-separator-lines 0)
+			 (setq
+				org-log-created 'time
+				org-log-done 'time
+				org-log-reschedule 'time
+				org-log-redeadline 'time
+				org-log-into-drawer t)
 
-			;; Enable display of the time grid so we can see the marker for the current time
+			 )
+		 (add-hook 'org-mode-hook #'org-setup)
 
+			;; click a link in the same frame when opening a file
+		 (custom-set-variables
+		 '(org-link-frame-setup
+			 '((vm . vm-visit-folder-other-frame)
+				 (vm-imap . vm-visit-imap-folder-other-frame)
+				 (gnus . org-gnus-no-new-news)
+				 (file . find-file)
+				 (wl . wl-other-frame)))
 
-			(setq org-agenda-span 2)
-			(setq org-agenda-tags-column -100) ; take advantage of the screen width
-			(setq org-agenda-inhibit-startup t)
-			(setq org-agenda-use-tag-inheritance t)
-			(setq org-agenda-show-log t)
-			(setq org-agenda-skip-scheduled-if-done t)
-			(setq org-agenda-skip-deadline-if-done t)
-			(setq org-agenda-skip-deadline-prewarning-if-scheduled 'pre-scheduled)
-			(setq org-agenda-time-grid
-						'((daily today require-timed)
-							(800 1000 1200 1400 1600 1800 2000)
-							"......" "----------------"))
-			(setq org-columns-default-format "%14SCHEDULED %Effort{:} %1PRIORITY %TODO %50ITEM %TAGS")
-			;; Set default column view headings: Task Effort Clock_Summary
-			(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
-																						; global Effort estimate values
-																						; global STYLE property values for completion
-
-			(setq
-			 org-log-created 'time
-			 org-log-done 'time
-			 org-log-reschedule 'time
-			 org-log-redeadline 'time
-			 org-log-into-drawer t)
-
-			)
-		(add-hook 'org-mode-hook #'org-setup)
-
+	 '(git-gutter:visual-line t)
+		 )
 
  #+end_src
 ** Contextes d'agenda
@@ -172,7 +202,7 @@ Contenu du fichier de config [[file:~/.emacs]]
 
 		 (setq org-todo-keywords
 				'((sequence
-					 "TODO(t)"  ; next action
+					 "TODO(t!)"  ; next action
 					 "STARTED(s)"
 					 ;; "TOBLOG(b)"  ; next action
 					 "WAITING(w@/!)"
@@ -449,83 +479,103 @@ Contenu du fichier de config [[file:~/.emacs]]
 
 ** Template de capture
 
-
+https://orgmode.org/manual/Template-expansion.html
  #+begin_src emacs-lisp
-			;;; templates de capture pour les nouvelles tâches
-			 (setq org-capture-templates
-						 '(
-							 ("t" "Todo" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
-								"* TODO %?\n  %i\n ")
-								 ("l" "ToLearn" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Recherches et éducation")
-								"* LEARN %?\n  %i\n  %a")
-								("b" "Boulot" entry (file+headline "~/Nextcloud/textes/orgmode/boulot.org" "Inbox")
-							 "* TODO %?\n :boulot:work:  %i\n  %a")
-	 ;; (file "~/Nextclod/textes/orgmode/org-roam/20220620110632-meeting_template.org")
-							 ("m" "Meeting" entry (file+datetree "~/Nextcloud/textes/orgmode/reunions.org" "Réunions")
-								"* Réunion %T \n	:[[id:d8636e1d-0137-4502-9384-767b41c892b0][boulot:meeting:]] \n**** Gens présents\n**** Notes\n - %?\n**** Choses à investiguer\n -\n**** Prochaines actions\n - Fin de la réunion: \n"
-								)
-							 ("e" "E-mail" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
-								"* TODO %? :mail:écriture:\n  %i\n  %a")
-							 ("n" "Next Task" entry (file+headline org-default-notes-file "Next")
-								"** NEXT %? \nDEADLINE: %t")
-							 ("p" "Phone call" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Tel")
-								"* PHONE %? :tel:\n%U" :clock-in t :clock-resume t)
-							 ("j" "Journal" entry (file+datetree "~/Nextcloud/textes/orgmode/journal.org")
-								"* %?\nEntered on %U\n  %i\n  %a"))
-						 )
+		     ;;; templates de capture pour les nouvelles tâches
+		      (setq org-capture-templates
+					      '(
+						      ("t" "Todo" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
+							     "* TODO %?\n")
+							      ("l" "ToLearn" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Recherches et éducation")
+							     "* LEARN %?\n  %i\n  %a")
+							     ("b" "Boulot" entry (file+headline "~/Nextcloud/textes/orgmode/boulot.org" "Inbox")
+						      "* TODO %?\n :boulot:work:  \n  %a")
+      ;; (file "~/Nextclod/textes/orgmode/org-roam/20220620110632-meeting_template.org")
+						      ("m" "Meeting" entry (file+datetree "~/Nextcloud/textes/orgmode/reunions.org" "Réunions")
+							     "* Réunion %T \n	:[[id:d8636e1d-0137-4502-9384-767b41c892b0][boulot:meeting:]] \n**** Gens présents\n**** Notes\n - %?\n**** Choses à investiguer\n -\n**** Prochaines actions\n - Fin de la réunion: \n"
+							     )
+						      ("e" "E-mail" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
+							     "* TODO %? :mail:écriture:\n ")
+						      ("n" "Next Task" entry (file+headline org-default-notes-file "Next")
+							     "** NEXT %? \nDEADLINE: %t")
+						      ("p" "Phone call" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Tel")
+							     "* PHONE %? :tel:\n%U" :clock-in t :clock-resume t)
+						      ("j" "Journal" entry (file+datetree "~/Nextcloud/textes/orgmode/journal.org")
+							     "* %?\nEntered on %U\n "))
+					      )
 
 
-			;; raccourci custom pour clavier sans pavé numérique
-			 (global-set-key (kbd "C-T") 'org-todo)
+		     ;; raccourci custom pour clavier sans pavé numérique
+		      (global-set-key (kbd "C-T") 'org-todo)
+
+   (defun insert-created-date(&rest ignore)
+     (insert (format-time-string
+	  (concat "\nCREATED: "
+	      (cdr org-time-stamp-formats))
+	  ))
+     (org-back-to-heading) ; in org-capture, this folds the entry; when inserting a heading, this moves point back to the heading line
+     (move-end-of-line()) ; when inserting a heading, this moves point to the end of the line
+     )
+
+
+		       ; add to the org-capture hook
+   (add-hook 'org-capture-before-finalize-hook
+	    #'insert-created-date
+   )
+
+		       ; hook it to adding headings with M-S-RET
+		       ; do not add this to org-insert-heading-hook, otherwise this also works in non-TODO items
+		       ; and Org-mode has no org-insert-todo-heading-hook
+   (advice-add 'org-insert-todo-heading :after #'insert-created-date)
 
  #+end_src
+
 
 ** Org Roam, wiki personnel
 	 https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/
 
 	 Raccourcis Org Roam généraux
 	 #+begin_src emacs-lisp
-											 (use-package org-roam
+														(use-package org-roam
 
-												 :init
-												 (setq org-roam-v2-ack t)
-												 :custom
-												 (org-roam-capture-templates
-													'(("d" "default" plain
-														 "%?"
-														 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-														 :unnarrowed t)
-														("m" "meeting" plain (file "~/Nextclod/textes/orgmode/org-roam/20220620110632-meeting_template.org")
-														 :if-new (file+head "%<%Y%m%d%H%M%S>-meeting-${slug}.org" "#+title: ${title}\n")
-					:unnarrowed t
-														)
-													("b" "book notes" plain
-							"\n* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
-							:if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-							:unnarrowed t))
-													)
+															:init
+															(setq org-roam-v2-ack t)
+															:custom
+															(org-roam-capture-templates
+															 '(("d" "default" plain
+																	"%?"
+																	:if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+																	:unnarrowed t)
+																 ("m" "meeting" plain (file "~/Nextclod/textes/orgmode/org-roam/20220620110632-meeting_template.org")
+																	:if-new (file+head "%<%Y%m%d%H%M%S>-meeting-${slug}.org" "#+title: ${title}\n")
+							 :unnarrowed t
+																 )
+															 ("b" "book notes" plain
+									 "\n* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
+									 :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+									 :unnarrowed t))
+															 )
 
 
-												 :bind (
-																("C-c n l" . org-roam-buffer-toggle)
-																("C-c n f" . org-roam-node-find)
-																("C-c n i" . org-roam-node-insert)
-																("C-c n g" . org-roam-graph)
-																("C-c n t" . org-roam-tag-add)
-																("C-c n a" . org-roam-alias-add)
-																:map org-roam-dailies-map
-																("Y" . org-roam-dailies-capture-yesterday)
-																("T" . org-roam-dailies-capture-tomorrow)
-																)
-													:bind-keymap
-													("C-c n d" . org-roam-dailies-map)
-													:config
-													(require 'org-roam-dailies)
-													(org-roam-db-autosync-mode)
-												 )
-											 (setq org-roam-directory "~/Nextcloud/textes/orgmode/org-roam")
-											 (setq org-roam-completion-everywhere t)
-
+															:bind (
+																		 ("C-c n l" . org-roam-buffer-toggle)
+																		 ("C-c n f" . org-roam-node-find)
+																		 ("C-c n i" . org-roam-node-insert)
+																		 ("C-c n g" . org-roam-graph)
+																		 ("C-c n t" . org-roam-tag-add)
+																		 ("C-c n a" . org-roam-alias-add)
+																		 :map org-roam-dailies-map
+																		 ("Y" . org-roam-dailies-capture-yesterday)
+																		 ("T" . org-roam-dailies-capture-tomorrow)
+																		 )
+															 :bind-keymap
+															 ("C-c n d" . org-roam-dailies-map)
+															 :config
+															 (require 'org-roam-dailies)
+															 (org-roam-db-autosync-mode)
+															)
+														(setq org-roam-directory "~/Nextcloud/textes/orgmode/org-roam")
+														(setq org-roam-completion-everywhere t)
 
  #+end_src
 
@@ -642,6 +692,16 @@ exemple : <2022-06-27 lun. 18:51>
    :custom
    (cwm-centered-window-width 180))
  #+end_src
+* Dossiers
+#+begin_src emacs-lisp
+;;	(use-package dirvish
+;;		:init
+		;; Let Dirvish take over Dired globally
+		;;(dirvish-override-dired-mode)
+;;		)
+;;	(require 'dirvish)
+#+end_src
+
 * Fichiers récents
 
 #+begin_src emacs-lisp
@@ -997,7 +1057,10 @@ Deft
 #+end_src
 ** Gestion de version
 	 #+begin_src emacs-lisp
-		 (use-package git-gutter)
+		 ;; https://github.com/emacsorphanage/git-gutter
+										(use-package git-gutter)
+					(global-git-gutter-mode +1)
+		 (global-set-key (kbd "C-x C-g") 'git-gutter)
 #+end_src
 
 ** Auto format
@@ -1131,7 +1194,7 @@ Deft
 															 (interactive)
 															 (message "Olivetti text-mode-hook")
 															 (text-scale-increase 1.5)
-															 (olivetti-set-width .81)
+															 (olivetti-set-width .67)
 															 ;; (hidden-mode-line-mode)
 															 (olivetti-mode 1)))
 
@@ -1196,6 +1259,60 @@ Deft
 
  #+end_src
 
+*** Beamer
+
+	#+begin_src emacs-lisp
+		(require 'ox-latex)
+		(add-to-list 'org-latex-classes
+								 '("beamer"
+									 "\\documentclass\[presentation\]\{beamer\}"
+									 ("\\section\{%s\}" . "\\section*\{%s\}")
+									 ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
+									 ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
+
+	#+end_src
+
+*** présentation reveal js
+
+	#+begin_src emacs-lisp
+		(straight-use-package '(ox-reveal :host github
+																		 :repo "yjwen/org-reveal"
+																		 :branch "master"))
+
+		(setq org-reveal-root "file:///home/tykayn/Nextcloud/textes/orgmode/reveal.js")
+
+		(require 'ox-reveal)
+	#+end_src
+*** publication de site web du wiki
+		Ox-Hugo https://ox-hugo.scripter.co/doc/installation/
+	#+begin_src emacs-lisp
+					;; ----- hugo export to publish website
+				(use-package ox-hugo
+		:straight t   ;Auto-install the package from Melpa
+		:pin melpa  ;`package-archives' should already have ("melpa" . "https://melpa.org/packages/")
+		:after ox)
+
+				(setq org-hugo-base-dir "~/Nextcloud/textes/hugo")
+				(with-eval-after-load 'ox
+					(require 'ox-hugo))
+
+		(require 'ox-hugo)
+	#+end_src
+
+** Exports
+
+*** export en JSON
+
+		Pour la création d'une page de rapport d'activités en HTML.
+
+#+begin_src emacs-lisp
+
+	(use-package ox-json
+		:straight t)
+	(require 'ox-json)
+
+#+end_src
+
 * Mystères
 	trucs à trouver comment faire
 	faire de la recherche avec Ctrl + F
@@ -1203,27 +1320,6 @@ Deft
 
 #+begin_src emacs-lisp
 #+end_src
-
-** Exports
-
-*** fichier JSON
-		Pour la création d'une page de rapport d'activités en HTML.
-
-#+begin_src emacs-lisp
-		(use-package ox-json
-			:straight t)
-		(require 'ox-json)
-#+end_src
-*** publication de site web du wiki
-		Ox-Hugo
-	#+begin_src emacs-lisp
-		;; ----- hugo export to publish website
-	(use-package ox-hugo
-		:after ox)
-	(setq org-hugo-base-dir "~/Nextcloud/textes/hugo")
-	(with-eval-after-load 'ox
-		(require 'ox-hugo))
-	#+end_src
 
 * Autre
 La suite est à inventer.
