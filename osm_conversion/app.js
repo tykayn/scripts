@@ -7,7 +7,7 @@ let header_csv = ["ref", "way_id", "speedlimit", "highway"]
 let lines_csv = []
 const sourceFilePath = "./overpass_results/export_saint_mande.json"
 const overpassDataJson = require(sourceFilePath)
-const reference_prefix = "75_";
+let reference_prefix = "94160_";
 
 let turn_ii = 0;
 let turn_ii_limit = 3;
@@ -16,57 +16,68 @@ console.log("overpassDataJson elements", overpassDataJson['elements'].length)
 
 overpassDataJson['elements'].forEach((elem) => {
 
-        // limit turns for dev time
-        turn_ii++
-        if (turn_ii >= turn_ii_limit) {
-            return
+    // limit turns for dev time
+    turn_ii++
+    if (turn_ii >= turn_ii_limit) {
+        return
+    }
+
+    let line_properties = {
+        "ref": reference_prefix + turn_ii,
+        "way_id": elem.id,
+        "osm_link": "https://www.openstreetmap.org/way/" + elem.id,
+        "speedlimit": null,
+        "highway": null,
+        "name": null,
+    }
+    console.log("elem.id", elem.id)
+    if (elem.tags) {
+
+
+        console.log("elem.tags.highway", elem.tags.highway)
+        if (elem.tags.highway) {
+            line_properties.highway = elem.tags.highway
         }
-        let line_properties = {
-            "ref": reference_prefix,
-            "way_id": elem.id,
-            "speedlimit": null,
-            "highway": null
+
+        if (elem.tags.ref) {
+
+            line_properties.ref += '_' + elem.tags.ref.replace(' ', '-')
         }
-        console.log("elem.id", elem.id)
-        if (elem.tags) {
-
-
-            console.log("elem.tags.highway", elem.tags.highway)
-            if (elem.tags.highway) {
-                line_properties.highway = elem.tags.highway
-            }
-
-            if (elem.tags.ref) {
-
-                // line_properties.ref += elem.tags.ref.replace(' ','-')
-                line_properties.ref += elem.tags.ref
-            }
-            if (elem.tags.maxspeed) {
-                console.log("elem.tags.maxspeed", elem.tags.maxspeed)
-                line_properties['speedlimit'] = elem.tags.maxspeed
-            }
+        if (elem.tags.name) {
+            line_properties['name'] = elem.tags.name
         }
-        lines_csv.push(line_properties)
-    })
+        if (elem.tags.maxspeed) {
+            line_properties['speedlimit'] = elem.tags.maxspeed
+        }
+    }
+    lines_csv.push(line_properties)
+})
 
-let lines_out = lines_csv.map(elem => {
+let lines_out = lines_csv.map(elem  => {
+
     let keys = Object.keys(elem)
     let csv_line = '';
-    keys.forEach(keyName=>{
-        csv_line += elem[keyName]+', '
+    let ii = 0;
+    keys.forEach(keyName => {
+        csv_line += elem[keyName]
+        if(ii < 1? '': ', '){
+            csv_line += ','
+        }
+        ii++
+        console.log("ii, elem[keyName]", ii, elem[keyName])
+
     })
     return csv_line + "\n"
 });
-console.log("lines_out", lines_out)
-// writeCSVOutput();
-
+writeCSVOutput();
 
 
 function writeCSVOutput() {
 
 
-
-    fs.writeFile('output/' + exportFileName, header_csv.join(',') + '\n' + lines_out, function (err, data) {
+    let content = header_csv.join(',') + '\n' + lines_out;
+    console.log("content", content)
+    fs.writeFile('output/' + exportFileName, content, function (err, data) {
         if (err) {
             return console.log(err);
         }
