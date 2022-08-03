@@ -3,14 +3,17 @@
  */
 
 const exportFileName = "bdd-vitesses-fr-osm_ways_zone-saint-mande_date-made-2022-08-03_full.csv"
-let header_csv = ["ref", "way_id", "speedlimit", "highway"]
+let header_csv = ["national_ref", "way_id", "osm_link", "name", "highway_tag","speed_limit"]
 let lines_csv = []
 const sourceFilePath = "./overpass_results/export_saint_mande.json"
 const overpassDataJson = require(sourceFilePath)
-let reference_prefix = "94160_";
+const reference_prefix = "V94160_";
+
+let counter_no_speedlimit = 0;
+let counter_highways = overpassDataJson['elements'].length;
 
 let turn_ii = 0;
-let turn_ii_limit = 3;
+let turn_ii_limit = 2000;
 const fs = require('fs')
 console.log("overpassDataJson elements", overpassDataJson['elements'].length)
 
@@ -23,14 +26,13 @@ overpassDataJson['elements'].forEach((elem) => {
     }
 
     let line_properties = {
-        "ref": reference_prefix + turn_ii,
+        "ref": ""+reference_prefix + turn_ii,
         "way_id": elem.id,
-        "osm_link": "https://www.openstreetmap.org/way/" + elem.id,
-        "speedlimit": null,
-        "highway": null,
+        "osm_link": `"https://www.openstreetmap.org/way/${elem.id}"`,
         "name": null,
+        "highway": null,
+        "speedlimit": null,
     }
-    console.log("elem.id", elem.id)
     if (elem.tags) {
 
 
@@ -48,6 +50,8 @@ overpassDataJson['elements'].forEach((elem) => {
         }
         if (elem.tags.maxspeed) {
             line_properties['speedlimit'] = elem.tags.maxspeed
+        }else{
+            counter_no_speedlimit++
         }
     }
     lines_csv.push(line_properties)
@@ -57,14 +61,15 @@ let lines_out = lines_csv.map(elem => {
 
     let keys = Object.keys(elem)
     let csv_line = '';
-    keys.forEach(keyName => {
+    keys.forEach(keyName => { 
         csv_line += elem[keyName]
         csv_line += ';'
-        console.log("ii, elem[keyName]", ii, elem[keyName])
 
     })
     return csv_line + "\n"
 });
+
+
 writeCSVOutput();
 
 
@@ -73,11 +78,15 @@ function writeCSVOutput() {
 
     let content = header_csv.join(';') + ';\n' + lines_out;
     console.log(" ")
-    console.log("content", content)
+    // console.log("content", content.replace(','+reference_prefix, reference_prefix))
     fs.writeFile('output/' + exportFileName, content, function (err, data) {
         if (err) {
             return console.log(err);
         }
+        console.log("counter_no_speedlimit", counter_no_speedlimit)
+        console.log("on", counter_highways)
+        console.log("missing data : ", Math.floor(  counter_no_speedlimit * 100 /counter_highways ) + "%" )
+        console.log(" ")
         console.log('wrote output file', exportFileName);
     });
 }
