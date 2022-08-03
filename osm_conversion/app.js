@@ -53,17 +53,13 @@ overpassDataJson['elements'].forEach((elem) => {
     lines_csv.push(line_properties)
 })
 
-let lines_out = lines_csv.map(elem  => {
+let lines_out = lines_csv.map(elem => {
 
     let keys = Object.keys(elem)
     let csv_line = '';
-    let ii = 0;
     keys.forEach(keyName => {
         csv_line += elem[keyName]
-        if(ii < 1? '': ', '){
-            csv_line += ','
-        }
-        ii++
+        csv_line += ';'
         console.log("ii, elem[keyName]", ii, elem[keyName])
 
     })
@@ -75,7 +71,8 @@ writeCSVOutput();
 function writeCSVOutput() {
 
 
-    let content = header_csv.join(',') + '\n' + lines_out;
+    let content = header_csv.join(';') + ';\n' + lines_out;
+    console.log(" ")
     console.log("content", content)
     fs.writeFile('output/' + exportFileName, content, function (err, data) {
         if (err) {
