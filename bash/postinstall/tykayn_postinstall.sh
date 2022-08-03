@@ -68,12 +68,11 @@ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/i
 
 # LAMP server
 # https://doc.ubuntu-fr.org/lamp#installation
-apt install libapache2-mod-php mysql-server php-mysql php-curl php-gd php-intl php-json php-mbstring php-xml php-zip
+# apt install libapache2-mod-php mysql-server php-mysql php-curl php-gd php-intl php-json php-mbstring php-xml php-zip
 # PHP related
 # php extensions
-
-#apache server
-a2enmod rewrite
+# apache server
+# a2enmod rewrite
 
 echo "installing composer"
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -83,10 +82,6 @@ php -r "unlink('composer-setup.php');"
 
 ### Internet/Web
 apt install firefox chromium-browser -y
-#telegram
-add-apt-repository ppa:atareao/telegram
-apt update
-apt install telegram -y
 
 ### Multimédia
 apt install gnome-mpv vlc blender kdenlive -y
@@ -123,12 +118,18 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
  #plugin correction grammalecte
 wget https://www.dicollecte.org/grammalecte/oxt/Grammalecte-fr-v0.6.2.oxt && chown $SUDO_USER Grammalecte* && chmod +x Grammalecte* ; unopkg add --shared Grammalecte*.oxt && rm Grammalecte*.oxt ; chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.config/libreoffice #grammalecte
 
-apt install steam -y
+# apt install steam -y
 #snaps
-snap install nextcloud-client
+snap install nextcloud-client postman tor-mkg200001 keepassxc  obs-studio josm
+#snap install codium --classic
+snap refresh
 
 #config mysql
-mysql_secure_installation
+# mysql_secure_installation
+
+
+# add path to bash aliases
+echo "export PATH=$PATH:/snap/bin/" >> .bash_aliases
 
 #config git
 git config --global credential.helper store

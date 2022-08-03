@@ -1,4 +1,4 @@
-national_ref;way_id;speed_limit;highway_tag;
+national_ref;way_id;osm_link;name;highway_tag;speed_limit;
 V94160_1;22736543;"https://www.openstreetmap.org/way/22736543";Avenue Pasteur;residential;30;
 V94160_2;22736545;"https://www.openstreetmap.org/way/22736545";Allée des Platanes;footway;null;
 V94160_3;22736548;"https://www.openstreetmap.org/way/22736548";Allée des Acacias;footway;null;

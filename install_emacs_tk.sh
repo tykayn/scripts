@@ -15,6 +15,8 @@ mkdir -p ~/Nextcloud/textes/library
 
 rm -rf ~/.emacs.d
 
+cp ~/.emacs .emacs_backup
+
 wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/.emacs "/home/$username/"
 wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/config.org "/home/$username/Nextcloud/textes/orgmode/"
 wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/tasks.org "/home/$username/Nextcloud/textes/orgmode/"
@@ -22,10 +24,11 @@ wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/bulma
 wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/style.css "/home/$username/Nextcloud/textes/orgmode/"
 wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/assets/org/upcalendar.sh "/home/$username/Nextcloud/textes/orgmode/"
 
-echo "export PATH=$PATH:/snap/bin/" >> .bash_aliases
+# 
 
-
-cp ~/.emacs .emacs_backup
+# run emacs
 
 
 echo "### voilà, ça c'est fait"
+
+snap run emacs
