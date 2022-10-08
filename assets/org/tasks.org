@@ -11,31 +11,23 @@ utiliser la méthode GTD
 - Vider son fichier de notes TODO du téléphone
 Remplir l'inbox avec les notes de nextcloud https://cloud.tykayn.fr/index.php/apps/notes/note/405928
 - Voir l'agenda de la semaine: https://cloud.tykayn.fr/index.php/apps/calendar/timeGridWeek/now
-* Activités quantifiées globales
+* Inbox [0/0] :inbox:
+* Activités globales
 ** Lecture
 ** Paperasses
 ** RDV boulot
 ** Pauses
 ** Fun
-* Inbox [0/0] :inbox:
-* Not inbox [/]
-* Wiki personnel
-* Next [/]
-* Relances régulières [/]
-* Meetings [/]
-* Tel [/]
-* Blog [/]
-* Boulot [/]
-* Habitudes [/]
-* Emmerdes administratif [/]
+* Administratif [/]
+* Social [/] :social:
+* Relances régulières [/] :relances:
+* Boulot [/] :boulot:
 * Travaux et bricolage [/] :travaux:
 * Associations [/] :assos:
-* Social [/] :social:
-* Vidéos [/] :videos:
 * Achats [/] :achats:
 * Dev [/] :dev:
-* Administration Système [/] :adminsys:
-* Sauvegarde et archives [/] :backup:
+** Administration Système [/] :adminsys:
+** Sauvegarde et archives [/] :backup:
 * Recherche et éducation [/] :edu:
 * Lecture [/] :lecture:
 * Vacances [/]
