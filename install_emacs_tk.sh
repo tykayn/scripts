@@ -7,7 +7,7 @@ echo "### ce script suppose que vous ayez Apt et Bash"
 username=$USER
 
 # installation des dépendances
-sudo apt install snapd
+sudo apt install snapd git arp-scan wget
 snap install emacs --channel-beta --classic
 emacs --version
 
