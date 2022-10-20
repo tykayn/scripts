@@ -1,0 +1,7 @@
+#
+# For more information see the manual pages of crontab(5) and cron(8)
+#
+# m h  dom mon dow   command
+*/5 * * * *     cd ~/Nextcloud/textes/orgmode && git add . --all && git commit -m "update orgmode files from Spaceship" && cd -
+0 * * * *     cd ~/Nextcloud/textes/orgmode && bash update_calendar.sh
+0 */4 * * *     bash /home/tykayn/sync_spaceship.sh
