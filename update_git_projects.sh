@@ -16,7 +16,7 @@
 ######################################################
 # liste de tous les projets pour chaque forge logicielle
 #####################################################
-declare -a list_repos_framagit=("caisse-bliss" "joinfediverse" "date-poll-api" "mastodon" "peertube" "events-liberator" "gitall" "dotclear-importer" "mobilizon" "fanzine-log" "crossed-words" "generator-tk" "circles" "card-deck" "sf-probe" "mastermind" "portfolio" "time-tracker" "cipherbliss" "caisse-bliss-frontend" "compta" "trafficjam" "ical-generator" "blueprint-cipherbliss" "dotclear2wordpress" "api" "diaspora" )
+declare -a list_repos_framagit=("caisse-bliss" "joinfediverse" "date-poll-api" "mastodon" "peertube" "events-liberator" "gitall" "dotclear-importer" "mobilizon" "fanzine-log" "crossed-words" "generator-tk" "circles" "card-deck" "sfprobe" "mastermind" "portfolio" "time-tracker" "cipherbliss.com" "caisse-bliss-frontend" "compta" "trafficjam" "ical-generator" "blueprint-cipherbliss" "dotclear2wordpress" "api" "diaspora" )
 declare -a list_repos_forge_chapril=("transcription" "org-report-stats" "multi-account-post-schedule-mastodon" "framalibre-scraping" "scripts" "melting-pot" "funky-framadate-front" "rss-feeder-mobilizon" "mastodon-archive-stats" "gtg2json" "libreavous-audio-reader" "osm_my_commerce" "fromage-js" "ueberauth_openstreetmap" "events-liberator")
 
 prefix_framagit='https://framagit.org/tykayn/'
