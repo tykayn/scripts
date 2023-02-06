@@ -12,7 +12,7 @@
 #   crontab -e
 #
 # 	m h  dom mon dow   command
-# 	*/30 * * * *    bash ~/sync_spaceship.sh
+# 	*/30 * * * *    bash ~/Nextcloud/ressources/workflow_nextcloud/sync_spaceship.sh
 #
 # ----------------- configs ----------------- 
 # functions_sync.sh définit les constantes utiles
