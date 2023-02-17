@@ -19,31 +19,44 @@
 
 	Contenu du fichier de config [[file:~/.emacs]]
 	#+begin_quote
-	;; straight el bootstrap https://github.com/raxod502/straight.el#getting-started
+;; -*- lexical-binding: t; -*-
+
+;; The default is 800 kilobytes.  Measured in bytes.
+(setq gc-cons-threshold (* 50 1000 1000))
+
+;; Profile emacs startup
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "*** Emacs loaded in %s seconds with %d garbage collections."
+                     (emacs-init-time "%.2f")
+                     gcs-done)))
+
+    ;; straight el bootstrap https://github.com/raxod502/straight.el#getting-started
+     (defvar bootstrap-version)
+     (let ((bootstrap-file
+            (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+           (bootstrap-version 5))
+       (unless (file-exists-p bootstrap-file)
+         (with-current-buffer
+             (url-retrieve-synchronously
+              "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+              'silent 'inhibit-cookies)
+           (goto-char (point-max))
+           (eval-print-last-sexp)))
+       (load bootstrap-file nil 'nomessage))
+
+     (straight-use-package 'use-package)
+     (setq straight-use-package-by-default t)
+     (use-package org)
 
 
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-  (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-  (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-  (with-current-buffer
-  (url-retrieve-synchronously
-  "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-  'silent 'inhibit-cookies)
-  (goto-char (point-max))
-  (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(set-default-coding-systems 'utf-8)
 
-	(straight-use-package 'use-package)
-	(setq straight-use-package-by-default t)
-	;; Disable package.el in favor of straight.el
-	(setq package-enable-at-startup nil)
+(org-babel-load-file "~/Nextcloud/textes/orgmode/config.org")
+(server-start)
 
-	(use-package org)
-	(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-
-	(org-babel-load-file "~/Nextcloud/textes/orgmode/config.org")
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 	#+end_quote
 
@@ -64,6 +77,23 @@
 	 Plus sur mon blog:
 	 https://www.cipherbliss.com
 
+* Préconfiguration
+#+begin_src emacs-lisp
+  ;; -*- coding: utf-8; lexical-binding: t -*-
+  ;;  - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - toujours s'assurer que les packages sont installés  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+;; fait par tykayn le 7-04-2022
+;; version GNU Emacs 28.2
+
+#+end_src
+** Gestion de paquets Straight.el
+  #+begin_src emacs-lisp
+
+     ;; on utilise straight.el pour déclarer les packages à utiliser
+ #+end_src
+** Charset UTF-8
+   #+begin_src emacs-lisp
+
+   #+end_src
 * List packages
 	Adding Melpa
 	#+begin_src emacs-lisp
@@ -243,9 +273,9 @@
 
 		 (setq org-agenda-custom-commands
 					 (quote (
-									("s" "Super Agenda" agenda "FIXXME: does work but w/o super-agenda"
-								 ;; (org-super-agenda-mode)
-								 (org-agenda nil "a"))
+									 ;;  ("s" "Super Agenda" agenda "FIXXME: does work but w/o super-agenda"
+									 ;; (org-super-agenda-mode)
+									 ;; (org-agenda nil "a"))
 
 									 ("c" "Classique Agenda et Todos"
 										((agenda "" ((org-agenda-span 2)))
@@ -293,7 +323,7 @@
 									 ("gd" "Daily"
 										agenda "" (
 															 (org-agenda-overriding-header "\n-------------- Agenda du jour ------------------\n")
-															 (org-agenda-todo-keyword-format "[ ]")
+															 ;;	 (org-agenda-todo-keyword-format "[ ]")
 															 (org-agenda-span 1)
 															 (tags-todo "+PRIORITY=\"A\"")
 															 )
@@ -504,36 +534,45 @@
 	 #+begin_src emacs-lisp
 
 
-					;; full screen captures
-					;; (add-hook 'org-capture-mode-hook 'delete-other-windows)
+		 ;; full screen captures
+		 ;; (add-hook 'org-capture-mode-hook 'delete-other-windows)
 
-										 ;;; templates de capture pour les nouvelles tâches
-					(setq org-capture-templates
-								'(
-									("t" "Todo someday"
-		 entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
-									 "* SOMEDAY %? \n:PROPERTIES:\n:CREATED:  %T \n:END:\n")
-									("d" "Todo this Day" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
-									 "* TODO %?\nDEADLINE:%T \n:PROPERTIES:\n:CREATED:  %T \n:END:\n")
-									("b" "Boulot" entry (file+headline "~/Nextcloud/textes/orgmode/boulot.org" "Inbox")
-									 "* TODO %?\n :boulot:work:  \n:PROPERTIES:\n:CREATED:  %T \n:END:\n")
-									;; (file "~/Nextclod/textes/orgmode/org-roam/20220620110632-meeting_template.org")
-									("m" "Meeting" entry (file+datetree "~/Nextcloud/textes/orgmode/reunions.org" "Réunions")
-									 "* Réunion %T - %U \n	:[[id:d8636e1d-0137-4502-9384-767b41c892b0][boulot:meeting:]]  \n:PROPERTIES:\n:CREATED:  %T \n:END:\n**** Gens présents\n**** Notes\n - %?\n**** Choses à investiguer\n -\n**** Prochaines actions\n - Fin de la réunion: \n"
-									 )
-									("e" "E-mail" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
-									 "* TODO %? :mail:écriture: \n:PROPERTIES:\n:CREATED:  %T \n:END:\n")
-									("n" "Next Task" entry (file+headline  "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
-									 "** NEXT %? \nDEADLINE: %t \n:PROPERTIES:\n:CREATED:  %T \n:END:\n")
-									("p" "Phone call" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Tel")
-									 "* PHONE %? :tel:\n%U  \n:PROPERTIES:\n:CREATED:  %T \n:END:\n" :clock-in t :clock-resume t)
-									("j" "Journal" entry (file+datetree "~/Nextcloud/textes/orgmode/journal.org")
-									 "* %?\nÉcrit le %U\n "))
-								)
+																		;;; templates de capture pour les nouvelles tâches
+		 (setq org-capture-templates
+					 '(
+						 ("t" "Todo someday"
+							entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
+							"* SOMEDAY %? \n")
+						 ("d" "Todo this Day" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
+							"* TODO %?\nDEADLINE:%T \n")
+						 ("b" "Boulot" entry (file+headline "~/Nextcloud/textes/orgmode/boulot.org" "Inbox")
+							"* TODO %?\n :boulot:work:  \n\n")
+						 ;; (file "~/Nextclod/textes/orgmode/org-roam/20220620110632-meeting_template.org")
+						 ("m" "Meeting" entry (file+datetree "~/Nextcloud/textes/orgmode/reunions.org" "Réunions")
+							"* Réunion %T - %U \n	:[[id:d8636e1d-0137-4502-9384-767b41c892b0][boulot:meeting:]]  \n\n**** Gens présents\n**** Notes\n - %?\n**** Choses à investiguer\n -\n**** Prochaines actions\n - Fin de la réunion: \n"
+							)
+						 ("e" "E-mail" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
+							"* TODO %? :mail:écriture: \n\n")
+						 ("n" "Next Task" entry (file+headline  "~/Nextcloud/textes/orgmode/tasks.org" "Inbox")
+							"** NEXT %? \nDEADLINE: %t \n\n")
+						 ("p" "Phone call" entry (file+headline "~/Nextcloud/textes/orgmode/tasks.org" "Tel")
+							"* PHONE %? :tel:\n%U  \n\n" :clock-in t :clock-resume t)
+						 ("j" "Journal" entry (file+datetree "~/Nextcloud/textes/orgmode/journal.org")
+							"* %?\nÉcrit le %U\n ")
+		 ;; ajouter une ligne dans un tableau
+						 ("v" "Table" table-line
+							(file+headline "~/Nextcloud/textes/orgmode/tasks.org"  "Table")
+							"| %U | %? | auto-capture |")
+						 )
+					 )
 
 
-					;; raccourci custom pour clavier sans pavé numérique
-					(global-set-key (kbd "C-T") 'org-capture)
+		 ;; raccourci custom pour clavier sans pavé numérique
+		 (global-set-key (kbd "C-T") 'org-capture)
+
+
+		 ;; raccourci custom pour clavier sans pavé numérique
+		 (global-set-key (kbd "C-T") 'org-capture)
 
 
  #+end_src
@@ -635,141 +674,52 @@
 					 ( "~/Nextcloud/textes/orgmode/tasks.org" :maxlevel . 3)))
 
  #+end_src
-* Calendar framework
-#+begin_src emacs-lisp
-	; calendar display
-	(use-package calfw)
-	(use-package calfw-org)
+** Macros pour lister et archiver les tâches finies
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:16]
+	 :END:
+ #+begin_src emacs-lisp
 
-	;; First day of the week
-	(setq calendar-week-start-day 0
-				calendar-day-name-array ["Dimanche" "Lundi" "Mardi" "Mercredi" "Jeudi" "Vendredi" "Samedi"]
-				calendar-month-name-array ["Janvier" "Février" "Mars" "Avril" "Mai"
-																	 "Juin" "Juillet" "Août" "Septembre"
-																	 "Octobre" "Novembre" "Décembre"]
-				calendar-date-style 'european
-				org-icalendar-timezone "Europe/Paris"
+	 ;; voir la liste des tâches à l'état DONE
+	 (fset 'done-tasks-list
+				 (kmacro-lambda-form [?\C-c ?a ?t kp-4 ?r] 0 "%d"))
 
-				cfw:fchar-junction ?╋
-				cfw:fchar-vertical-line ?┃
-				cfw:fchar-horizontal-line ?━
-				cfw:fchar-left-junction ?┣
-				cfw:fchar-right-junction ?┫
-				cfw:fchar-top-junction ?┯
-				cfw:fchar-top-left-corner ?┏
-				cfw:fchar-top-right-corner ?┓
-				)
-	;; jour de début de semaine, 1 = Lundi.
-	(setq calendar-week-start-day 1)
-	;; agenda vue calendrier avec Ctrl super F12
-	(global-set-key (kbd "C-s-<f12>") 'cfw:open-org-calendar)
+	 ;; archiver les tâches à l'état DONE
+	 (fset 'archive-done-tasks-list
+				 (kmacro-lambda-form [?\C-c ?a ?t kp-4 ?r] 0 "%d"))
 
-#+end_src
-* Insérer la date et l'heure
-
-	raccourci: *Ctrl c, !*
-*Ctrl U Ctrl C .
-exemple : <2022-06-27 lun. 18:51>
-  #+begin_src emacs-lisp
-		(defvar bjk-timestamp-format "<%Y-%m-%d %H:%M>"
-			"Format of date to insert with `bjk-timestamp' function
-				%Y-%m-%d %H:%M will produce something of the form YYYY-MM-DD HH:MM
-				Do C-h f on `format-time-string' for more info")
-
-		(defun bjk-timestamp ()
-			"Insert a timestamp at the current point.
-				Note no attempt to go to beginning of line and no added carriage return.
-				Uses `bjk-timestamp-format' for formatting the date/time."
-			(interactive)
-			(insert (org-format-time-string bjk-timestamp-format (current-time)))
+ #+end_src
+** Ajout de date de création d'une tâche
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:22]
+	 - Refiled on [2023-01-08 dim. 10:10]
+	 :END:
+ #+begin_src emacs-lisp
+	 (defun insert-created-date(&rest ignore)
+		 (org-back-to-heading) ; in org-capture, this folds the entry; when inserting a heading, this moves point back to the heading line
+		 (move-end-of-line()) ; when inserting a heading, this moves point to the end of the line
+		 (insert
+			(format-time-string
+			 (concat " \n :PROPERTIES:\n:CREATED: [%F %T] \n:END:\n")
+			 )
 			)
-		;; insérer timestamp date et heure
-		(global-set-key "\C-c !" 'insert-current-date-time)
- #+end_src
-* Préconfiguration
-#+begin_src emacs-lisp
-  ;; -*- coding: utf-8; lexical-binding: t -*-
-  ;;  - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - toujours s'assurer que les packages sont installés  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-;; fait par tykayn le 7-04-2022
-;; version GNU Emacs 27.1
+		 (org-back-to-heading)
+		 (move-end-of-line())
+		 )
 
-#+end_src
-** Gestion de paquets Straight.el
-  #+begin_src emacs-lisp
-
-     ;; on utilise straight.el pour déclarer les packages à utiliser
- #+end_src
-** Charset UTF-8
-   #+begin_src emacs-lisp
-
-   #+end_src
-* Démarrage
-** Barres d'outil cachées et choix de plein écran au démarrage
- #+begin_src emacs-lisp
-	 (menu-bar-mode 0)
-	 (tool-bar-mode 0)
-	 (scroll-bar-mode 0)
-	 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
- #+end_src
-** Fichier par défaut à l'ouverture
-	 Montrer la liste des tâches par défaut
- #+begin_src emacs-lisp
-	 (setq initial-buffer-choice "~/Nextcloud/textes/orgmode/config.org")
-;;	 (setq initial-buffer-choice "~/Nextcloud/textes/orgmode/tasks.org")
- #+end_src
-** Centrer la fenêtre
- #+begin_src emacs-lisp
-	 (use-package centered-window
-   :custom
-   (cwm-centered-window-width 120))
- #+end_src
-* Dossiers
-#+begin_src emacs-lisp
-	;;	(use-package dirvish
-	;;		:init
-	;;		;; Let Dirvish take over Dired globally
-	;;		(dirvish-override-dired-mode)
-	;;		)
-	;;	(require 'dirvish)
-#+end_src
-* Accès aux fichiers courants
-** Accéder à la config
-	 #+begin_src  emacs-lisp
-				(defun tk/switch-to-config-buffer ()
-			"Switch to the current session's tasks.org buffer."
-			(interactive)
-			(switch-to-buffer "config.org"))
-
-		 (global-set-key (kbd "C-x c o") 'tk/switch-to-config-buffer)
-
-	 #+end_src
-
-** Accéder aux tâches
-	 #+begin_src  emacs-lisp
-				(defun tk/switch-to-tasks-buffer ()
-			"Switch to the current session's tasks.org buffer."
-			(interactive)
-			(switch-to-buffer "tasks.org"))
-
-		 (global-set-key (kbd "C-x C-t") 'tk/switch-to-tasks-buffer)
-
-	 #+end_src
-
-** Fichiers récents
-
- #+begin_src emacs-lisp
-
-	 ;; see recent files
-	 (use-package recentf
-		 :config
-		 (add-to-list 'recentf-exclude "\\elpa")
-		 (add-to-list 'recentf-exclude "private/tmp")
-		 (recentf-mode))
-	 ;; recent files
-	 (setq recentf-max-menu-items 25)
-	 (setq recentf-max-saved-items 25)
+																					 ; add to the org-capture hook
+	 (add-hook
+		'org-capture-before-finalize-hook
+		#'insert-created-date
+		)
+																					 ; hook it to adding headings with M-S-RET
+																					 ; do not add this to org-insert-heading-hook, otherwise this also works in non-TODO items
+	 ;; and Org-mode has no org-insert-todo-heading-hook
+	 ;; désactivé
+	 (advice-add 'org-insert-todo-heading :after #'insert-created-date)
 
  #+end_src
+
 * Raccourcis
 ** Retirer les mauvais raccourcis
  #+begin_src emacs-lisp
@@ -830,31 +780,6 @@ exemple : <2022-06-27 lun. 18:51>
 	  #+begin_src emacs-lisp
 	 (global-set-key (kbd "C-a") 'mark-whole-buffer)
 		#+end_src
-* Common usage CUA
-#+begin_src emacs-lisp
-	;; raccourcis communs pour copier coller de texte
-	(cua-mode t)
-
-	;; couper toute la ligne, façon Nano editor, et façon PhpStorm
-	(global-set-key (kbd "C-K") 'kill-whole-line)
-	(global-set-key (kbd "C-E") 'kill-whole-line)
-
-	;; rechercher et remplacer
-	(global-set-key (kbd "C-S-H") 'query-replace)
-#+end_src
-* Recherche globale
-Deft
-	#+begin_src emacs-lisp
-		(use-package deft)
-		(setq deft-directory "~/Nextcloud/textes/orgmode/")
-		(setq deft-recursive t)
-		(setq deft-use-filename-as-title t)
-		(setq deft-file-naming-rules
-					'((noslash . "-")
-						(nospace . "-")
-						(case-fn . downcase)))
- #+end_src
-
 * Lecture
 ** Thème Doom nord
  #+begin_src emacs-lisp
@@ -881,12 +806,6 @@ Deft
 		 :config (doom-modeline-mode))
 
  #+end_src
-** Voir le dashboard de tâches au démarrage
- #+begin_src emacs-lisp
-	 ;;---- open tasks list at startup
-	 (setq initial-buffer-choice "~/Nextcloud/textes/orgmode/tasks.org")
-
- #+end_src
 ** Random note
 	 Voir une note au hasard
 	 https://github.com/mwfogleman/org-randomnote
@@ -910,102 +829,6 @@ Deft
 	 (global-set-key (kbd "C-c c") 'org-capture)
 
  #+end_src
-** Custom GUI sans barres
-	 Désactivez ceci si vous êtes débutant.
- #+begin_src emacs-lisp
-	 ;; barres de GUI
-	 (setq tool-bar-mode t)
-	 (setq scroll-bar-mode t)
-	 (setq menu-bar-mode t)
-
- #+end_src
-** Voir la liste des sélections copiées
-	 Afficher le kill-ring Ctrl+Shift+V
-
- #+begin_src emacs-lisp
-
-	 (global-set-key (kbd "C-S-v") 'helm-show-kill-ring)
-
- #+end_src
-
-** Macros pour lister et archiver les tâches finies
- #+begin_src emacs-lisp
-
-	 ;; voir la liste des tâches à l'état DONE
-	 (fset 'done-tasks-list
-				 (kmacro-lambda-form [?\C-c ?a ?t kp-4 ?r] 0 "%d"))
-
-	 ;; archiver les tâches à l'état DONE
-	 (fset 'archive-done-tasks-list
-				 (kmacro-lambda-form [?\C-c ?a ?t kp-4 ?r] 0 "%d"))
-
- #+end_src
-** Icones
- #+begin_src emacs-lisp
-
-	 ;; - - - - - - - - - - - - - -  icons - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-	 (use-package all-the-icons)
-	 (require 'all-the-icons)
-
-
-	 (use-package all-the-icons-dired
-		 :after all-the-icons
-		 :hook (dired-mode . all-the-icons-dired-mode))
-
- #+end_src
-** Changer la taille de font
-	 Ctrl + et Ctrl -
- #+begin_src emacs-lisp
-
-	 (global-set-key (kbd "C-+") 'text-scale-increase)
-	 (global-set-key (kbd "C--") 'text-scale-decrease)
- #+end_src
-** Rangement Org
-	 Ranger les headers ou tâches par alphabet, priorité, etc.
- #+begin_src emacs-lisp
-	 ;; rangement des headers et tâches
-	 (global-set-key (kbd "C-c C-ç") 'org-sort)
- #+end_src
-** Fenêtres, buffers
-
-	 Fermer tous les buffers.
- #+begin_src emacs-lisp
-
-	 (defun kill-all-buffers ()
-		 "Close all buffers."
-		 (interactive)
-		 (let ((lsp-restart 'ignore))
-			 ;; (maybe-unset-buffer-modified)
-			 (delete-other-windows)
-			 (save-some-buffers)
-			 (let
-					 ((kill-buffer-query-functions '()))
-				 (mapc 'kill-buffer (buffer-list)))))
-
-	 (bind-key "C-c K" #'kill-all-buffers)
-	 (bind-key "C-x !" #'delete-other-windows) ;; Access to the old keybinding.
-
- #+end_src
-** Mise en forme des parenthèses
- #+begin_src emacs-lisp
-
-	 ;; - - - - - - - - - - - - - -  matching parentheses - - - - - - - - - - - - - - - - - - - - - - - - - -
-	 (use-package paren
-		 :ensure nil
-		 :init
-		 (setq show-paren-delay 0)
-		 :config
-		 (show-paren-mode +1))
-
-	 (show-paren-mode)
-
-	 (use-package rainbow-delimiters
-		 :hook ((prog-mode . rainbow-delimiters-mode)))
-	 ;; dir tree
-
- #+end_src
-
 ** Tout
  #+begin_src emacs-lisp
 
@@ -1074,12 +897,12 @@ Deft
 	 ;; make available "org-bullet-face" such that I can control the font size individually
 	 (setq org-bullets-face-name (quote org-bullet-face))
 	 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-	 (setq org-bullets-bullet-list '("·" "◉"
-																	 "○"
+	 (setq org-bullets-bullet-list '("·" "○"
 																	 "✸"
 																	 "✿"
 																	 "◇"
 																	 "✚"
+																	 "○"
 																	 ))
 
 	 ;; org ellipsis options, other than the default Go to Node...
@@ -1104,7 +927,181 @@ Deft
 
  #+end_src
 
+* Syncronisation
+
+** Auto revert les fichiers modifiés extérieurement
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:20]
+	 - Refiled on [2023-02-03 ven. 23:13]
+	 :END:
+Résout les probl de syncro de [[id:bb81d7f9-cb33-495d-aea7-71ccf3bea2f2][workflow nextcloud]].
+
+ #+begin_src emacs-lisp
+;; Revert Dired and other buffers
+(setq global-auto-revert-non-file-buffers t)
+
+;; Revert buffers when the underlying file has changed
+(global-auto-revert-mode 1)
+ #+end_src
+* Démarrage
+** Barres d'outil cachées et choix de plein écran au démarrage
+ #+begin_src emacs-lisp
+	 (menu-bar-mode 0)
+	 (tool-bar-mode 0)
+	 (scroll-bar-mode 0)
+	 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+ #+end_src
+** Centrer la fenêtre
+ #+begin_src emacs-lisp
+	 (use-package centered-window
+   :custom
+   (cwm-centered-window-width 120))
+ #+end_src
+** Fichier par défaut à l'ouverture
+	 Montrer la liste des tâches par défaut
+ #+begin_src emacs-lisp
+	 (setq initial-buffer-choice "~/Nextcloud/textes/orgmode/config.org")
+;;	 (setq initial-buffer-choice "~/Nextcloud/textes/orgmode/tasks.org")
+ #+end_src
+** Voir le dashboard de tâches au démarrage
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:16]
+	 :END:
+ #+begin_src emacs-lisp
+	 ;;---- open tasks list at startup
+	 (setq initial-buffer-choice "~/Nextcloud/textes/orgmode/tasks.org")
+
+ #+end_src
+* IDE et Code - Environnement de Développement Intégré
+** Recherche globale
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:16]
+	 :END:
+ Deft
+	 #+begin_src emacs-lisp
+		 (use-package deft)
+		 (setq deft-directory "~/Nextcloud/textes/orgmode/")
+		 (setq deft-recursive t)
+		 (setq deft-use-filename-as-title t)
+		 (setq deft-file-naming-rules
+					 '((noslash . "-")
+						 (nospace . "-")
+						 (case-fn . downcase)))
+	#+end_src
+
+** Mise en forme des parenthèses
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:16]
+	 :END:
+ #+begin_src emacs-lisp
+
+	 ;; - - - - - - - - - - - - - -  matching parentheses - - - - - - - - - - - - - - - - - - - - - - - - - -
+	 (use-package paren
+		 :ensure nil
+		 :init
+		 (setq show-paren-delay 0)
+		 :config
+		 (show-paren-mode +1))
+
+	 (show-paren-mode)
+
+	 (use-package rainbow-delimiters
+		 :hook ((prog-mode . rainbow-delimiters-mode)))
+	 ;; dir tree
+
+ #+end_src
+
+** Voir la liste des sélections copiées
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:16]
+	 :END:
+	 Afficher le kill-ring Ctrl+Shift+V
+
+ #+begin_src emacs-lisp
+
+	 (global-set-key (kbd "C-S-v") 'helm-show-kill-ring)
+
+ #+end_src
+
+** Calendar framework
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:18]
+	 :END:
+ #+begin_src emacs-lisp
+	 ; calendar display
+	 (use-package calfw)
+	 (use-package calfw-org)
+
+	 ;; First day of the week
+	 (setq calendar-week-start-day 0
+				 calendar-day-name-array ["Dimanche" "Lundi" "Mardi" "Mercredi" "Jeudi" "Vendredi" "Samedi"]
+				 calendar-month-name-array ["Janvier" "Février" "Mars" "Avril" "Mai"
+																		"Juin" "Juillet" "Août" "Septembre"
+																		"Octobre" "Novembre" "Décembre"]
+				 calendar-date-style 'european
+				 org-icalendar-timezone "Europe/Paris"
+
+				 cfw:fchar-junction ?╋
+				 cfw:fchar-vertical-line ?┃
+				 cfw:fchar-horizontal-line ?━
+				 cfw:fchar-left-junction ?┣
+				 cfw:fchar-right-junction ?┫
+				 cfw:fchar-top-junction ?┯
+				 cfw:fchar-top-left-corner ?┏
+				 cfw:fchar-top-right-corner ?┓
+				 )
+	 ;; jour de début de semaine, 1 = Lundi.
+	 (setq calendar-week-start-day 1)
+	 ;; agenda vue calendrier avec Ctrl super F12
+	 (global-set-key (kbd "C-s-<f12>") 'cfw:open-org-calendar)
+
+ #+end_src
+** Magit version Git
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:32]
+	 :END:
+
+
+	 #+begin_src emacs-lisp
+		 (use-package magit)
+		 ;; see local log
+					 (global-set-key (kbd "C-c m l ") 'magit-log:-L)
+ #+end_src
+* Interface
+** Heure dans la modeline
+
+	 #+begin_src emacs-lisp
+	 (display-time-mode 1)
+ #+end_src
+** Common usage CUA
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:15]
+	 :END:
+ #+begin_src emacs-lisp
+	 ;; raccourcis communs pour copier coller de texte
+	 (cua-mode t)
+
+	 ;; couper toute la ligne, façon Nano editor, et façon PhpStorm
+	 (global-set-key (kbd "C-K") 'kill-whole-line)
+	 (global-set-key (kbd "C-E") 'kill-whole-line)
+
+	 ;; rechercher et remplacer
+	 (global-set-key (kbd "C-S-H") 'query-replace)
+ #+end_src
+** Changer la taille de font
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:16]
+	 :END:
+	 Ctrl + et Ctrl -
+ #+begin_src emacs-lisp
+
+	 (global-set-key (kbd "C-+") 'text-scale-increase)
+	 (global-set-key (kbd "C--") 'text-scale-decrease)
+ #+end_src
 ** Font Custom et mode de ligne
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:16]
+	 :END:
  #+begin_src emacs-lisp
 	 (add-hook 'org-mode-hook 'variable-pitch-mode)
 	 (add-hook 'org-mode-hook 'visual-line-mode)
@@ -1126,12 +1123,60 @@ Deft
 
  #+end_src
 
-* Heure dans la modeline
+** Custom GUI sans barres
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:17]
+	 :END:
+	 Désactivez ceci si vous êtes débutant.
+ #+begin_src emacs-lisp
+	 ;; barres de GUI
+	 (setq tool-bar-mode t)
+	 (setq scroll-bar-mode t)
+	 (setq menu-bar-mode t)
 
-	#+begin_src emacs-lisp
-	(display-time-mode 1)
-#+end_src
-* Locale des dates en Fr
+ #+end_src
+** Icones
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:17]
+	 :END:
+ #+begin_src emacs-lisp
+
+	 ;; - - - - - - - - - - - - - -  icons - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	 (use-package all-the-icons)
+	 (require 'all-the-icons)
+
+
+	 (use-package all-the-icons-dired
+		 :after all-the-icons
+		 :hook (dired-mode . all-the-icons-dired-mode))
+
+ #+end_src
+** Fenêtres, buffers
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:17]
+	 :END:
+
+	 Fermer tous les buffers.
+ #+begin_src emacs-lisp
+
+	 (defun kill-all-buffers ()
+		 "Close all buffers."
+		 (interactive)
+		 (let ((lsp-restart 'ignore))
+			 ;; (maybe-unset-buffer-modified)
+			 (delete-other-windows)
+			 (save-some-buffers)
+			 (let
+					 ((kill-buffer-query-functions '()))
+				 (mapc 'kill-buffer (buffer-list)))))
+
+	 (bind-key "C-c K" #'kill-all-buffers)
+	 (bind-key "C-x !" #'delete-other-windows) ;; Access to the old keybinding.
+
+ #+end_src
+* Traduction - Fr
+	Locale des dates en Fr
 
 #+begin_src emacs-lisp
 	;; localise dates
@@ -1259,7 +1304,7 @@ Deft
 																		)
 																	;; change font size on load of text files
 																	(
-		 add-hook 'text-mode-hook
+		 add-hook 'org-mode-hook
 																						(lambda ()
 																							(interactive)
 																							(message "Olivetti text-mode-hook")
@@ -1335,50 +1380,64 @@ Deft
 
  #+end_src
 
-* Exporter vers HTML avec un style commun
-#+begin_src emacs-lisp
-	;; exporter sans nombres ajoutés dans les titres de section
-	(setq org-export-with-section-numbers nil)
-
-	;; export with default modern css
-	(defun my-org-inline-css-hook (exporter)
-		"Insert custom inline css"
-		(when (eq exporter 'html)
-			(let* ((dir (ignore-errors (file-name-directory (buffer-file-name))))
-						 (path (concat dir "style.css"))
-						 (homestyle (or (null dir) (null (file-exists-p path))))
-						 (final (if homestyle "~/Nextcloud/textes/orgmode/style.css" path))) ;; <- set your own style file path
-				(setq org-html-head-include-default-style nil)
-				(setq org-html-head (concat
-														 "<style type=\"text/css\">\n"
-														 "<!--/*--><![CDATA[/*><!--*/\n"
-														 (with-temp-buffer
-															 (insert-file-contents final)
-															 (buffer-string))
-														 "/*]]>*/-->\n"
-														 "</style>\n"))
-				)))
-
-	(add-hook 'org-export-before-processing-hook 'my-org-inline-css-hook)
-
-#+end_src
-
-** Présentation reveal js
-
-	 Pour faire une présentation en slides html avec Reveal JS
+** Rangement Org
+	 :LOGBOOK:
+	 - Refiled on [2023-01-10 mar. 08:40]
+	 :END:
+	 Ranger les headers ou tâches par alphabet, priorité, etc.
  #+begin_src emacs-lisp
-	 (straight-use-package '(ox-reveal :host github
-																		 :repo "yjwen/org-reveal"
-																		 :branch "master"))
-
-	 (setq org-reveal-root "file:///home/tykayn/Nextcloud/textes/orgmode/reveal.js")
-
-	 (require 'ox-reveal)
+	 ;; rangement des headers et tâches
+	 (global-set-key (kbd "C-c C-ç") 'org-sort)
  #+end_src
+** Tabulations
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:13]
+	 - Refiled on [2023-01-05 jeu. 13:54]
+	 :END:
+	 #+begin_src emacs-lisp
+		 (setq-default tab-width 2)
 
+	 #+end_src
+
+
+** Insérer la date et l'heure
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:15]
+	 :END:
+
+	 raccourci: *Ctrl c, !*
+ *Ctrl U Ctrl C .
+ exemple : <2022-06-27 lun. 18:51>
+   #+begin_src emacs-lisp
+		 (defvar bjk-timestamp-format "<%Y-%m-%d %H:%M>"
+			 "Format of date to insert with `bjk-timestamp' function
+				 %Y-%m-%d %H:%M will produce something of the form YYYY-MM-DD HH:MM
+				 Do C-h f on `format-time-string' for more info")
+
+		 (defun bjk-timestamp ()
+			 "Insert a timestamp at the current point.
+				 Note no attempt to go to beginning of line and no added carriage return.
+				 Uses `bjk-timestamp-format' for formatting the date/time."
+			 (interactive)
+			 (insert (org-format-time-string bjk-timestamp-format (current-time)))
+			 )
+		 ;; insérer timestamp date et heure
+		 (global-set-key "\C-c !" 'insert-current-date-time)
+	#+end_src
+** cliplink
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:23]
+	 :END:
+	 coller un lien formaté avec son titre
+
+	 #+begin_src emacs-lisp
+		 (use-package org-cliplink)
+(require 'org-cliplink)
+					(global-set-key (kbd "C-x C-v") 'org-cliplink)
+	 #+end_src
 * Exports
 
-*** export en JSON
+** Export en JSON
 
 		Pour la création d'une page de rapport d'activités en HTML.
 [[id:ac712d1c-5141-45dc-9647-46e61a835b01][stats orgmode]]
@@ -1388,6 +1447,69 @@ Deft
 	(require 'ox-json)
 
 #+end_src
+
+** Résoudre les liens Roam manquants aux exports org
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:13]
+	 :END:
+
+[[https://github.com/kaushalmodi/ox-hugo/issues/483#issuecomment-1003301339][kaushalmodi/ox-hugo#483 Unable to resolve link when exporting org file with r...]]
+
+ #+begin_src emacs-lisp
+
+(setq org-id-extra-files (find-lisp-find-files org-roam-directory "\.org$"))
+
+ #+end_src
+
+** Exporter vers HTML avec un style commun
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:21]
+	 :END:
+	 Toujours insérer en style inline un fichier css lors des exports en html.
+
+	 #+begin_quote
+	 C-c C-e
+	 #+end_quote
+
+ #+begin_src emacs-lisp
+	 ;; exporter sans nombres ajoutés dans les titres de section
+	 (setq org-export-with-section-numbers nil)
+
+	 ;; export with default modern css
+	 (defun my-org-inline-css-hook (exporter)
+		 "Insert custom inline css"
+		 (when (eq exporter 'html)
+			 (let* ((dir (ignore-errors (file-name-directory (buffer-file-name))))
+							(path (concat dir "style.css"))
+							(homestyle (or (null dir) (null (file-exists-p path))))
+							(final (if homestyle "~/Nextcloud/textes/orgmode/style.css" path))) ;; <- set your own style file path
+				 (setq org-html-head-include-default-style nil)
+				 (setq org-html-head (concat
+															"<style type=\"text/css\">\n"
+															"<!--/*--><![CDATA[/*><!--*/\n"
+															(with-temp-buffer
+																(insert-file-contents final)
+																(buffer-string))
+															"/*]]>*/-->\n"
+															"</style>\n"))
+				 )))
+
+	 (add-hook 'org-export-before-processing-hook 'my-org-inline-css-hook)
+
+ #+end_src
+
+*** Présentation reveal js
+
+		Pour faire une présentation en slides html avec Reveal JS
+	#+begin_src emacs-lisp
+		(straight-use-package '(ox-reveal :host github
+																			:repo "yjwen/org-reveal"
+																			:branch "master"))
+
+		(setq org-reveal-root "file:///home/tykayn/Nextcloud/textes/orgmode/reveal.js")
+
+		(require 'ox-reveal)
+	#+end_src
 
 * À suivre
 		La suite est à inventer.
@@ -1435,46 +1557,24 @@ Pour installer cette configuration d'emacs, lancez le script qui se trouve ici h
 							 ;; (add-hook 'prog-mode-hook #'ws-butler-mode)
 	 #+end_src
 
-** Ajout de date de création d'une tâche [désactivé]
-	 :LOGBOOK:
-	 - Refiled on [2023-01-08 dim. 10:10]
-	 :END:
- #+begin_src emacs-lisp
-	 (defun insert-created-date(&rest ignore)
-		 (org-back-to-heading) ; in org-capture, this folds the entry; when inserting a heading, this moves point back to the heading line
-		 (move-end-of-line()) ; when inserting a heading, this moves point to the end of the line
-		 (insert
-			(format-time-string
-			 (concat "  \n:PROPERTIES:\n:CREATED:  %T \n:END:\n")
-			 )
-			)
-		 (org-back-to-heading)
-		 (move-end-of-line())
-		 )
-
-																					 ; add to the org-capture hook
-	 (add-hook
-		'org-capture-before-finalize-hook
-		#'insert-created-date
-		)
-																					 ; hook it to adding headings with M-S-RET
-																					 ; do not add this to org-insert-heading-hook, otherwise this also works in non-TODO items
-	 ;; and Org-mode has no org-insert-todo-heading-hook
-	 ;; désactivé
-	 ;; (advice-add 'org-insert-todo-heading :after #'insert-created-date)
-
- #+end_src
-
 * WIP -  configuration non testées
 
-** Références bibliographiques
+** Mastodon post
+#+begin_src emacs-lisp
+	 #+end_src
+
+** copier coller d'images
+	 https://www.orgroam.com/manual.html#Full_002dtext-search-with-Deft
 
 	 #+begin_src emacs-lisp
+		 (use-package org-download
+			 :after org
+			 :bind
+			 (:map org-mode-map
+						 (("s-Y" . org-download-screenshot)
+							("s-y" . org-download-yank))))
 
-		 ;; BibLaTeX settings
-
-		 #+end_src
-
+	 #+end_src
 ** Modernité de l'éditeur
 	 basé sur le fichier de conf de Jax Dixit
 	 #+begin_src emacs-lisp
@@ -1520,6 +1620,14 @@ Pour installer cette configuration d'emacs, lancez le script qui se trouve ici h
 
  https://lucidmanager.org/productivity/emacs-bibtex-mode/
 
+*** Références bibliographiques
+
+		#+begin_src emacs-lisp
+
+			;; BibLaTeX settings
+
+			#+end_src
+
 ** Projectile, gestion de projets
 
  #+begin_src emacs-lisp
@@ -1557,6 +1665,8 @@ Pour installer cette configuration d'emacs, lancez le script qui se trouve ici h
 	 :END:
 
 ** Auto refresh d'agenda FIXME
+	 Actuellement réalisé avec un cronjob qui lance un script bash.
+
 	 :LOGBOOK:
 	 - Refiled on [2022-11-04 ven. 00:34]
 	 :END:
@@ -1623,13 +1733,122 @@ Pour installer cette configuration d'emacs, lancez le script qui se trouve ici h
 					 mouse-wheel-flip-direction t)
 		 (setq-default truncate-lines t)
 	 #+end_src
-** Magit version Git
+** Dired - vue des dossiers et fichiers dans Emacs
+ #+begin_src emacs-lisp
+				(global-set-key (kbd "C-x C-d") 'dired)
+				(global-set-key (kbd "C-x C-j") 'dired-jump)
+				;; Open dired folders in same buffer
+			 (put 'dired-find-alternate-file 'disabled nil)
+		;; Sort Dired buffers
+			(setq dired-listing-switches "-agho --group-directories-first")
+			 ;; Move deleted files to trash
+	 (setq delete-by-moving-to-trash t)
 
+
+
+ #+end_src
+*** Filetags [[id:aa8865c0-53d7-444f-9119-4cfce73c27d1][tags sur noms de fichiers]] dans Dired
+
+		Demande l'installation du paquet pip3 filetags
+
+		#+begin_src emacs-lisp
+			(defun my-dired-filetags ()
+				"Run \"filetags\" on current or marked files"
+				(interactive)
+				(let* ((marked-files (f-uniquify (dired-get-marked-files)))) ;; apply to single file or marked files
+
+						;; --disable-server → provides a blocking terminal window (instead of a non-blocking one which swallows the revert-buffer afterward)
+						(dired-do-shell-command "xfce4-terminal --disable-server --geometry=100x20+330+5 --hide-menubar -x ~/.local/bin/filetags --interactive *" nil marked-files)
+
+					)
+				(revert-buffer nil t t) ;; refresh listing of files
+				)
+
+			(define-key dired-mode-map (kbd "M-t") 'my-dired-filetags)
+
+		#+end_src
+** Best default settings
+
+[[https://systemcrafters.net/emacs-from-scratch/the-best-default-settings][The 6 Emacs Settings Every User Should Consider - System Crafters]]
 
 	 #+begin_src emacs-lisp
-		 (use-package magit)
+
+		 ;; Revert buffers when the underlying file has changed
+		 (global-auto-revert-mode 1)
+		 ;; Revert Dired and other buffers
+		 (setq global-auto-revert-non-file-buffers t)
+
+		 ;; remember the files you edited most recently
+		 (recentf-mode 1)
+		 ;; Save what you enter into minibuffer prompts
+		 (setq history-length 25)
+		 (savehist-mode 1)
+
+		 ;; Remember and restore the last cursor location of opened files
+		 (save-place-mode 1)
+		 ;; Don't pop up UI dialogs when prompting
+		 (setq use-dialog-box nil)
+	 #+end_src
+
+** Dossiers dirvish
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:18]
+	 :END:
+ #+begin_src emacs-lisp
+	 ;; (use-package dirvish
+	 ;; 	:init
+	 ;; 	;; Let Dirvish take over Dired globally
+	 ;; 	(dirvish-override-dired-mode)
+	 ;; 	)
+	 ;; (require 'dirvish)
  #+end_src
-** export hugo site
+*** Accès aux fichiers courants
+ 	 :LOGBOOK:
+ 	 - Refiled on [2023-02-03 ven. 23:16]
+ 	 :END:
+
+**** Accéder à la config
+		 #+begin_src  emacs-lisp
+					(defun tk/switch-to-config-buffer ()
+				"Switch to the current session's tasks.org buffer."
+				(interactive)
+				(switch-to-buffer "config.org"))
+
+			 (global-set-key (kbd "C-x c o") 'tk/switch-to-config-buffer)
+
+		 #+end_src
+
+**** Accéder aux tâches
+		 #+begin_src  emacs-lisp
+					(defun tk/switch-to-tasks-buffer ()
+				"Switch to the current session's tasks.org buffer."
+				(interactive)
+				(switch-to-buffer "tasks.org"))
+
+			 (global-set-key (kbd "C-x C-t") 'tk/switch-to-tasks-buffer)
+
+		 #+end_src
+
+**** Fichiers récents
+
+	 #+begin_src emacs-lisp
+
+		 ;; see recent files
+		 (use-package recentf
+			 :config
+			 (add-to-list 'recentf-exclude "\\elpa")
+			 (add-to-list 'recentf-exclude "private/tmp")
+			 (recentf-mode))
+		 ;; recent files
+		 (setq recentf-max-menu-items 25)
+		 (setq recentf-max-saved-items 25)
+
+	 #+end_src
+** Export d'un site web hugo
+	 :LOGBOOK:
+	 - Refiled on [2023-02-03 ven. 23:22]
+	 - Refiled on [2023-02-03 ven. 23:14]
+	 :END:
 [[id:8e60dc99-ae78-4f57-8bed-d054640d6b61][orgroam]]
 http://blog.sidhartharya.com/exporting-org-roam-notes-to-hugo/
 
@@ -1663,30 +1882,12 @@ http://blog.sidhartharya.com/exporting-org-roam-notes-to-hugo/
 
 
  #+end_src
-** template vierge
+** Template vierge
 
 
  #+begin_src emacs-lisp
 
  #+end_src
-** Auto revert les fichiers modifiés extérieurement
-
-
- #+begin_src emacs-lisp
-;; Revert Dired and other buffers
-(setq global-auto-revert-non-file-buffers t)
-
-;; Revert buffers when the underlying file has changed
-(global-auto-revert-mode 1)
- #+end_src
-** tabulations
-	 :LOGBOOK:
-	 - Refiled on [2023-01-05 jeu. 13:54]
-	 :END:
-	 #+begin_src emacs-lisp
-		 (setq-default tab-width 2)
-
-	 #+end_src
 
 
 * Have fun!
