@@ -12,7 +12,7 @@
 #   crontab -e
 #
 # 	m h  dom mon dow   command
-# 	*/30 * * * *    bash ~/Nextcloud/ressources/workflow_nextcloud/sync_spaceship.sh
+# 	*/30 * * * *    bash ~/sync_spaceship.sh
 #
 # ----------------- configs ----------------- 
 # functions_sync.sh définit les constantes utiles
@@ -35,8 +35,8 @@ cp ~/.emacs $ARCHIVE_SYNCABLE/archivage/__scripts_syncro
 
 cp ~/Nextcloud/ressources/workflow_nextcloud/sync_spaceship.sh $ARCHIVE_SYNCABLE/archivage/__scripts_syncro
 
-cp ~/.bash_aliases ~/Nextcloud/ressources/workflow_nextcloud/install
-cp ~/.emacs ~/Nextcloud/ressources/workflow_nextcloud/install
+#cp ~/.bash_aliases ~/Nextcloud/ressources/workflow_nextcloud/install
+#cp ~/.emacs ~/Nextcloud/ressources/workflow_nextcloud/install
 
 echo ' ' >> $LOG_FILE_BACKUP_DATES
 echo "### ${today} start backup script from sync_spaceship script" >> $LOG_FILE_BACKUP_DATES
@@ -51,11 +51,13 @@ dpkg --get-selections>~/list_of_debian_apt_packages.txt
 # back pictures to ARCHIVE_SYNCABLE
 logDate 'copy of Nextcloud InstantUpload photos'
 
+mv /home/tykayn/Nextcloud/inbox/instantUpload "$ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" | tee -a $LOG_FILE_BACKUP 2>&1
+mv ~/Nextcloud/InstantUpload/Camera/* "$ARCHIVE_SYNCABLE/photos/a dispatcher" | tee -a $LOG_FILE_BACKUP  2>&1
 mv ~/Nextcloud/inbox/instantUpload/* "$ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" | tee -a $LOG_FILE_BACKUP  2>&1
 echo ' ' >> $LOG_FILE_BACKUP_DATES
 echo "### ${today} medias in $ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" >> $LOG_FILE_BACKUP_DATES
 ls -l "$ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" | wc -l | tee -a $LOG_FILE_BACKUP  2>&1
- 
+
 logDate ' Screenshots et Download'
 
 mv ~/Nextcloud/inbox/InstantUpload/Screenshots/* "$ARCHIVE_SYNCABLE/photos/screenshots" | tee -a $LOG_FILE_BACKUP  2>&1
@@ -67,7 +69,7 @@ rsync -avhWP --perms --inplace --delete-before ~/Nextcloud/* $ARCHIVE_SYNCABLE/a
 # --------- copier la home dans les archives ------------
 
 logDate 'update home backup';
-rsync -avhWP --inplace --delete-before ~/* /home/poule/encrypted/stockage-syncable/archivage/home "${exclude_opts[@]}" --exclude 'Nextcloud' --exclude 'www' | tee -a $LOG_FILE_BACKUP  2>&1
+rsync -avhWP --inplace --delete-before ~/* /home/poule/encrypted/stockage-syncable/archivage/home "${exclude_opts[@]}" --exclude 'Nextcloud' --exclude 'www' --exclude 'VirtualBox VMs' | tee -a $LOG_FILE_BACKUP  2>&1
 
 
 # --------- sauver les dossiers de développement dans l'archive stockage syncable sans supprimer les projets présents -------- #

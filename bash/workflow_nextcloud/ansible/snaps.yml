@@ -1,0 +1,31 @@
+# Install snaps
+- name: Install "emacs" with option --classic
+  community.general.snap:
+    name: emacs
+    classic: true
+    
+- name: Install "blender" with option --classic
+  community.general.snap:
+    name: blender
+    classic: true
+
+- name: Install "rambox" with option --classic
+  community.general.snap:
+    name: rambox
+    classic: true
+
+- name: Install "thunderbrid" with option --classic
+  community.general.snap:
+    name: thunderbrid
+    classic: true
+
+- name: Install "tor-mkg20001"
+  community.general.snap:
+    name: tor-mkg20001
+    
+    
+# python packages
+- name: Install guessfilename
+  ansible.builtin.pip:
+    name: guessfilename
+    extra_args: --user

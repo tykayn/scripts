@@ -1,0 +1,7 @@
+- name: cronjob pour le workflow nextcloud toutes les 5 minutes
+  hosts: localhost
+  tasks:
+    ansible.builtin.cron:
+      name: "backup nextcloud things"
+        minute: "*/5"
+        job: "/bin/bash ~/Nextcloud/ressources/workflow_nextcloud/cronjob_nextcloud.sh"

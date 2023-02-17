@@ -1,0 +1,53 @@
+- name: installer des programmes utiles avec apt
+  hosts: localhost
+  become: yes
+  become_user: root
+  vars:
+     server_name: localhost
+  tasks:
+    - name: ensure latest version of main tools is installed on a headless computer
+      apt:
+        state: present
+        name:
+          - arp-scan
+          - borgbackup
+          - curl
+          - docker
+          - docker-compose
+          - etckeeper
+          - git
+          - gnupg
+          - jq
+          - meld
+          - nano
+          - ncdu
+          - nginx
+          - npm
+          - pandoc
+          - php
+          - python3
+          - python3-pip
+          - tig
+          - zsh
+          - veracrypt
+          - testdisk
+          - htop
+          - btop
+          - python3-pip
+          - python3-setuptools
+          - autopostgresqlbackup
+          - automysqlbackup
+          - certbot
+          - smartmontools
+          - fail2ban
+          - snapd
+          - unattended-upgrades
+          - php
+          - php-fpm
+          - php-xml
+          - php-mysql
+          - rsync
+          - php-dom
+          - php-curl
+          - vrms
+          - syncthing

@@ -1,0 +1,8 @@
+[webservers]
+localhost
+proxmox.coussinet.org
+peertube.cipherbliss.com
+www.cipherbliss.com
+192.168.1.2
+192.168.1.15
+bbb.liness.org
