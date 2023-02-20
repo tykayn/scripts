@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 # ----------------- documentation ----------------- 
 #
 # @author sync_spaceship by @tykayn - contact at cipherbliss.com

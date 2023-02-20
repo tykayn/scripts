@@ -4,7 +4,9 @@
 # source ~/Nextcloud/ressources/workflow_nextcloud/workflow_variables.sh
 #
 #
+export main_user="tykayn"
 export WORKFLOW_PATH=~/Nextcloud/ressources/workflow_nextcloud
+export WORKFLOW_PATH_ROOT=/home/$main_user/Nextcloud/ressources/workflow_nextcloud
 export ALIASES_PATH=$WORKFLOW_PATH/install/.bash_custom_aliases
 # fichiers orgmode, wiki personnel
 export orgmode_path=~/Nextcloud/textes/orgmode

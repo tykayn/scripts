@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 # @author script by @tykayn - contact at cipherbliss.com
 # rafraîchir les assets du dépot d'example versionné avec ceux couramment utilisés.
 # à installer sur un ordi que l'on utilise en tant que référence d'assets

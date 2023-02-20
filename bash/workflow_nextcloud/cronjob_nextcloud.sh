@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 # 
 # ----------------- documentation ----------------- 
 # tâche à effectuer régulièrement sur les ordis portables
