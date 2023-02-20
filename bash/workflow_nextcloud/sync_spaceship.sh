@@ -18,7 +18,7 @@
 # functions_sync.sh définit les constantes utiles
 LOGIN_NAS="tykayn@192.168.1.15"
 
-source ~/Nextcloud/ressources/workflow_nextcloud/functions_sync.sh
+. ~/Nextcloud/ressources/workflow_nextcloud/install/functions_sync.sh
 
 logDate ' start backup script from sync_spaceship script'
 logDate "${pwd} sync_spaceship.sh"
@@ -51,9 +51,9 @@ dpkg --get-selections>~/list_of_debian_apt_packages.txt
 # back pictures to ARCHIVE_SYNCABLE
 logDate 'copy of Nextcloud InstantUpload photos'
 
-mv /home/tykayn/Nextcloud/inbox/instantUpload "$ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" | tee -a $LOG_FILE_BACKUP 2>&1
 mv ~/Nextcloud/InstantUpload/Camera/* "$ARCHIVE_SYNCABLE/photos/a dispatcher" | tee -a $LOG_FILE_BACKUP  2>&1
 mv ~/Nextcloud/inbox/instantUpload/* "$ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" | tee -a $LOG_FILE_BACKUP  2>&1
+mv ~/Nextcloud/inbox/instantUpload "$ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" | tee -a $LOG_FILE_BACKUP 2>&1
 echo ' ' >> $LOG_FILE_BACKUP_DATES
 echo "### ${today} medias in $ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" >> $LOG_FILE_BACKUP_DATES
 ls -l "$ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" | wc -l | tee -a $LOG_FILE_BACKUP  2>&1

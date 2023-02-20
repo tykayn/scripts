@@ -52,7 +52,7 @@ echo "----------- from framagit"
 
  else
  	echo "##### update project $project_name"
- 	cd $cloning_place$project_name
+ 	cd $cloning_place/$project_name
  	git fetch origin
  	git config pull.ff only
  	git pull
@@ -70,7 +70,7 @@ echo "----------- from forge chapril"
         git clone "${prefix_forgechapril}${project_name}.git"
       else
         echo "##### update project $project_name"
-        cd $cloning_place$project_name
+        cd $cloning_place/$project_name
         git fetch origin
         git config pull.ff only
         git pull
