@@ -9,7 +9,9 @@ idéalement dans:
 ```
 
 # débuter
-Configrer les variables, puis ancer le script d'initialisation
+Configrer les variables, puis lancer le script d'initialisation
 ```bash
 bash ~/Nextcloud/ressources/workflow_nextcloud/init_workflow_tykayn.sh
 ```
+
+# TODO gestion des secrets automatiques pour les rsync

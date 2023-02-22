@@ -5,6 +5,11 @@
 #
 #
 export main_user="tykayn"
+
+export main_archive_source_ssh_lan="tykayn@192.168.1.14"
+export backup_laptop_archive_path="/home/poule/backup/encrypted"
+
+
 export WORKFLOW_PATH=~/Nextcloud/ressources/workflow_nextcloud
 export WORKFLOW_PATH_ROOT=/home/$main_user/Nextcloud/ressources/workflow_nextcloud
 export ALIASES_PATH=$WORKFLOW_PATH/install/.bash_custom_aliases
@@ -30,3 +35,9 @@ export SPACESHIP_BORG_REPO="/home/poule/borg_archives/backup_land4to"
 export LOG_FILE_BACKUP="$ARCHIVE_SYNCABLE/www/backup/log_backup.log"
 # log dates of execution of the script
 export LOG_FILE_BACKUP_DATES="$ARCHIVE_SYNCABLE/www/backup/summary_log_backup.log"
+
+export main_archive_source_sftop_spaceship="/mnt/spaceship_poule"
+export IP_DU_NAS="/mnt/spaceship_poule"
+
+# add custom workflow scripts
+export PATH=$WORKFLOW_PATH:$PATH

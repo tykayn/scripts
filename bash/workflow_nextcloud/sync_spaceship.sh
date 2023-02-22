@@ -52,8 +52,8 @@ dpkg --get-selections>~/list_of_debian_apt_packages.txt
 logDate 'copy of Nextcloud InstantUpload photos'
 
 mv ~/Nextcloud/InstantUpload/Camera/* "$ARCHIVE_SYNCABLE/photos/a dispatcher" | tee -a $LOG_FILE_BACKUP  2>&1
-mv ~/Nextcloud/inbox/instantUpload/* "$ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" | tee -a $LOG_FILE_BACKUP  2>&1
-mv ~/Nextcloud/inbox/instantUpload "$ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" | tee -a $LOG_FILE_BACKUP 2>&1
+mv ~/Nextcloud/inbox/instantUpload/* "$ARCHIVE_SYNCABLE/photos/a dispatcher" | tee -a $LOG_FILE_BACKUP  2>&1
+mv ~/Nextcloud/inbox/instantUpload "$ARCHIVE_SYNCABLE/photos/a dispatcher" | tee -a $LOG_FILE_BACKUP 2>&1
 echo ' ' >> $LOG_FILE_BACKUP_DATES
 echo "### ${today} medias in $ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" >> $LOG_FILE_BACKUP_DATES
 ls -l "$ARCHIVE_SYNCABLE/photos/$CURRENT_YEAR" | wc -l | tee -a $LOG_FILE_BACKUP  2>&1
