@@ -1,7 +1,13 @@
 #!/bin/bash
-# auto commit periodically
-# add this script in crontab
+#
+#
+# ----------------- documentation -----------------
+# auto commit des textes orgmode
+#
+# @author functions_sync by @tykayn - contact at cipherbliss.com
 
-cd ~/Nextcloud/textes/orgmode
+source ~/Nextcloud/ressources/workflow_nextcloud/workflow_variables.sh
+
+cd $orgmode_path
 git add .
 git commit -m "auto commit in $hostname"
