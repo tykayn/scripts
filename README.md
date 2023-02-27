@@ -11,10 +11,18 @@ De quoi initialiser son utilisation d'orgmode
 
 # Bash
 - script de post installation pour des distributions comme Debian, pour mettre les logiciels que j'utilise
+
+Récupérer le script d'initialisation
 ```bash
-# commande à lancer en tant qu'administrateur
-cd && wget wget https://forge.chapril.org/tykayn/scripts/raw/branch/master/bash/postinstall/tykayn_postinstall.sh && bash tykayn_postinstall.sh
+git clone https://forge.chapril.org/tykayn/scripts
+cd scripts/bash/workflow_nextcloud
 ```
+Configrer les variables, puis lancer le script d'initialisation
+```bash
+editor workflow_variables.sh
+sudo bash ~/Nextcloud/ressources/workflow_nextcloud/init_workflow_tykayn.sh
+```
+
 - sauvegardes avec borgbackup
 
 # dossier partagé contenant des installateurs
