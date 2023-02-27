@@ -39,5 +39,7 @@ export LOG_FILE_BACKUP_DATES="$ARCHIVE_SYNCABLE/www/backup/summary_log_backup.lo
 export main_archive_source_sftop_spaceship="/mnt/spaceship_poule"
 export IP_DU_NAS="/mnt/spaceship_poule"
 
+export CURRENT_YEAR=$(date +%Y)
+
 # add custom workflow scripts
 export PATH=$WORKFLOW_PATH:$PATH

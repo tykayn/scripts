@@ -9,9 +9,16 @@ idéalement dans:
 ```
 
 # débuter
+Récupérer le script d'initialisation
+```bash
+git clone https://forge.chapril.org/tykayn/scripts
+cd scripts/bash/workflow_nextcloud
+```
 Configrer les variables, puis lancer le script d'initialisation
 ```bash
-bash ~/Nextcloud/ressources/workflow_nextcloud/init_workflow_tykayn.sh
+editor workflow_variables.sh
+sudo bash ~/Nextcloud/ressources/workflow_nextcloud/init_workflow_tykayn.sh
 ```
 
-# TODO gestion des secrets automatiques pour les rsync
+# TODO 
+* gestion des secrets automatiques pour les rsync
