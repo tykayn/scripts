@@ -1,0 +1,6 @@
+le fichier input.org a ce nombre de
+ SOMEDAY: 1
+ TODO: 3
+ NEXT: undefined
+ CANCELLED: 2
+ DONE: undefined
