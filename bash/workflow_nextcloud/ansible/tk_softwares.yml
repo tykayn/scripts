@@ -26,6 +26,7 @@
           - gpa
           - gnupg
           - grsync
+          - gpsprune
           - jq
           - kdenlive
           - keepassxc
@@ -68,3 +69,5 @@
           - php-curl
           - vrms
           - klavaro
+          - arbtt
+          - darktable

@@ -1,1 +1,3 @@
 # Created by .ignore support plugin (hsz.mobi)
+/php/odt_reader/vendor/
+/php/odt_reader/*.ods
