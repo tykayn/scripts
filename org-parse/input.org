@@ -1,11 +1,13 @@
 * des choses
 ** TODO faire un truc
+CLOSED: [2023-03-01 mer. 10:42]
 une tâche de niveau 2 sans tag, properties ni logbook
 ** TODO faire un autre truc :autre:
+CLOSED: [2023-02-01 mer. 10:42]
  :LOGBOOK:
  - State "CANCELLED"  from "TODO"       [2023-02-28 mar. 11:50]
  :END:
  ya du logbook ici wohoo
 *** SOMEDAY avoir une idée :idea:
-** CANCELLED envoyer un justificatif médical :ARCHIVE:
+**** CANCELLED envoyer un justificatif médical :ARCHIVE:
  héééééé oui le texte de note

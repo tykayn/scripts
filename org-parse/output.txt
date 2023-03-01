@@ -1,6 +1,233 @@
-le fichier input.org a ce nombre de
+header
+ --  <ref *1> {
+  type: 'inlineContainer',
+  children: [
+    {
+      type: 'text',
+      children: [],
+      value: 'des choses',
+      previousSibling: null,
+      parent: [Circular *1]
+    }
+  ],
+  previousSibling: null,
+  parent: {
+    type: 'header',
+    children: [ [Circular *1] ],
+    level: 1,
+    fromLineNumber: 1,
+    previousSibling: null
+  }
+}
+ --  <ref *1> {
+  type: 'text',
+  children: [],
+  value: 'des choses',
+  previousSibling: null,
+  parent: {
+    type: 'inlineContainer',
+    children: [ [Circular *1] ],
+    previousSibling: null,
+    parent: {
+      type: 'header',
+      children: [Array],
+      level: 1,
+      fromLineNumber: 1,
+      previousSibling: null
+    }
+  }
+}
+ --  des choses
+header
+ --  <ref *1> {
+  type: 'inlineContainer',
+  children: [
+    {
+      type: 'text',
+      children: [],
+      value: 'TODO faire un truc',
+      previousSibling: null,
+      parent: [Circular *1]
+    }
+  ],
+  previousSibling: null,
+  parent: {
+    type: 'header',
+    children: [ [Circular *1] ],
+    level: 2,
+    fromLineNumber: 2,
+    previousSibling: {
+      type: 'header',
+      children: [Array],
+      level: 1,
+      fromLineNumber: 1,
+      previousSibling: null
+    }
+  }
+}
+ --  <ref *1> {
+  type: 'text',
+  children: [],
+  value: 'TODO faire un truc',
+  previousSibling: null,
+  parent: {
+    type: 'inlineContainer',
+    children: [ [Circular *1] ],
+    previousSibling: null,
+    parent: {
+      type: 'header',
+      children: [Array],
+      level: 2,
+      fromLineNumber: 2,
+      previousSibling: [Object]
+    }
+  }
+}
+ --  TODO faire un truc
+header
+ --  <ref *1> {
+  type: 'inlineContainer',
+  children: [
+    {
+      type: 'text',
+      children: [],
+      value: 'TODO faire un autre truc :autre:',
+      previousSibling: null,
+      parent: [Circular *1]
+    }
+  ],
+  previousSibling: null,
+  parent: {
+    type: 'header',
+    children: [ [Circular *1] ],
+    level: 2,
+    fromLineNumber: 4,
+    previousSibling: {
+      type: 'inlineContainer',
+      children: [Array],
+      previousSibling: [Object]
+    }
+  }
+}
+ --  <ref *1> {
+  type: 'text',
+  children: [],
+  value: 'TODO faire un autre truc :autre:',
+  previousSibling: null,
+  parent: {
+    type: 'inlineContainer',
+    children: [ [Circular *1] ],
+    previousSibling: null,
+    parent: {
+      type: 'header',
+      children: [Array],
+      level: 2,
+      fromLineNumber: 4,
+      previousSibling: [Object]
+    }
+  }
+}
+ --  TODO faire un autre truc :autre:
+header
+ --  <ref *1> {
+  type: 'inlineContainer',
+  children: [
+    {
+      type: 'text',
+      children: [],
+      value: 'SOMEDAY avoir une idée :idea:',
+      previousSibling: null,
+      parent: [Circular *1]
+    }
+  ],
+  previousSibling: null,
+  parent: {
+    type: 'header',
+    children: [ [Circular *1] ],
+    level: 3,
+    fromLineNumber: 9,
+    previousSibling: {
+      type: 'inlineContainer',
+      children: [Array],
+      previousSibling: [Object]
+    }
+  }
+}
+ --  <ref *1> {
+  type: 'text',
+  children: [],
+  value: 'SOMEDAY avoir une idée :idea:',
+  previousSibling: null,
+  parent: {
+    type: 'inlineContainer',
+    children: [ [Circular *1] ],
+    previousSibling: null,
+    parent: {
+      type: 'header',
+      children: [Array],
+      level: 3,
+      fromLineNumber: 9,
+      previousSibling: [Object]
+    }
+  }
+}
+ --  SOMEDAY avoir une idée :idea:
+header
+ --  <ref *1> {
+  type: 'inlineContainer',
+  children: [
+    {
+      type: 'text',
+      children: [],
+      value: 'CANCELLED envoyer un justificatif médical :ARCHIVE:',
+      previousSibling: null,
+      parent: [Circular *1]
+    }
+  ],
+  previousSibling: null,
+  parent: {
+    type: 'header',
+    children: [ [Circular *1] ],
+    level: 4,
+    fromLineNumber: 10,
+    previousSibling: {
+      type: 'header',
+      children: [Array],
+      level: 3,
+      fromLineNumber: 9,
+      previousSibling: [Object]
+    }
+  }
+}
+ --  <ref *1> {
+  type: 'text',
+  children: [],
+  value: 'CANCELLED envoyer un justificatif médical :ARCHIVE:',
+  previousSibling: null,
+  parent: {
+    type: 'inlineContainer',
+    children: [ [Circular *1] ],
+    previousSibling: null,
+    parent: {
+      type: 'header',
+      children: [Array],
+      level: 4,
+      fromLineNumber: 10,
+      previousSibling: [Object]
+    }
+  }
+}
+ --  CANCELLED envoyer un justificatif médical :ARCHIVE:
+headerTexts [
+  'des choses',
+  'TODO faire un truc',
+  'TODO faire un autre truc :autre:',
+  'SOMEDAY avoir une idée :idea:',
+  'CANCELLED envoyer un justificatif médical :ARCHIVE:'
+]
+le fichier input.org a ce nombre de type de tâches
  SOMEDAY: 1
- TODO: 3
+ TODO: 2
  NEXT: undefined
- CANCELLED: 2
+ CANCELLED: 1
  DONE: undefined
