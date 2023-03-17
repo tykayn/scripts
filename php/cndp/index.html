@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CNDP Analyse</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+
+        #first_chart {
+            width: 100%;
+            height: 550px;
+        }
+    </style>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <script src="https://code.highcharts.com/modules/offline-exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+    <!-- Chart code -->
+    <script>
+
+        let colorAgainst = "#793737"
+        let colorNeutral = "#7a7a7a"
+        let colorFor = "#5cba77"
+        let colorsConfig = [colorAgainst,colorNeutral,colorFor]
+
+        function make1() {
+            Highcharts.chart('first_chart', {
+
+                colors: colorsConfig,
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Temps de parole des associations invitées par la CNDP',
+                    align: 'center',
+                    // verticalAlign: 'middle',
+                    y: 60
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+
+                    pie: {
+                        dataLabels: {
+                            enabled: true,
+                            distance: -50,
+                            style: {
+                                fontWeight: 'bold',
+                                color: 'white'
+                            }
+                        },
+                        startAngle: -90,
+                        endAngle: 90,
+                        center: ['50%', '75%'],
+                        size: '110%'
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Temps de parole',
+                    innerSize: '50%',
+                    data: [
+                        ['Contre', 188],
+                        ['Neutre', 9],
+                        ['En faveur', 28]
+                    ]
+                }]
+            })
+
+
+        }
+
+        function make2() {
+            // Data retrieved from https://netmarketshare.com/
+            Highcharts.chart('second_chart', {
+                colors: colorsConfig,
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Temps de parole de toute organisation présente sur scène',
+                    align: 'center',
+                    // verticalAlign: 'middle',
+                    y: 60
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        dataLabels: {
+                            enabled: true,
+                            distance: -50,
+                            style: {
+                                fontWeight: 'bold',
+                                color: 'white'
+                            }
+                        },
+                        startAngle: -90,
+                        endAngle: 90,
+                        center: ['50%', '75%'],
+                        size: '110%'
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Temps de parole',
+                    innerSize: '50%',
+                    data: [
+                        ['Contre', 160],
+                        ['Neutre', 165],
+                        ['En faveur', 75]
+                    ]
+                }]
+            })
+        }
+        function make3() {
+            // Data retrieved from https://netmarketshare.com/
+            Highcharts.chart('chart_3', {
+                colors: colorsConfig,
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Temps de parole des associations et du public',
+                    align: 'center',
+                    // verticalAlign: 'middle',
+                    y: 60
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        dataLabels: {
+                            enabled: true,
+                            distance: -50,
+                            style: {
+                                fontWeight: 'bold',
+                                color: 'white'
+                            }
+                        },
+                        startAngle: -90,
+                        endAngle: 90,
+                        center: ['50%', '75%'],
+                        size: '110%'
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Temps de parole',
+                    innerSize: '50%',
+                    data: [
+                        ['Contre', 401.13],
+                        ['Neutre', 238.92],
+                        ['En faveur', 216.92]
+                    ]
+                }]
+            })
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("Hello World!");
+            make1()
+            make2()
+            make3()
+
+        });
+
+    </script>
+
+
+</head>
+<body>
+
+<div class="container">
+    <article>
+        <section class="section">
+            <h1 class="title is-1 has-text-centered">
+                Analyse des temps de parole du débat public.
+            </h1>
+            <section class="hero is-link">
+                <div class="hero-body">
+                    <p class="title">
+                        Méthodologie
+                    </p>
+                    <p class="subtitle">
+                        Transcription des vidéos publiées par la CNDP sur Youtube représentant 24 heures de capture.
+                        Catégorisation des intervenants et de leurs organisations représentées ou non
+                        Assignation des organisations en faveur, neutre, ou en défaveur du projet selon la catégorie représentant au mieux leurs interventions enregistrées.
+                        Assemblage des données par tableur collaboratif avec les membres de l'association.
+                        Inclusion des débats par défaut dans les interventions entrant dans le rapport final, exclusion des interventions les plus houleuses, comparaison des rapports produits avec et sans les éléments exclus.
+                        Compte rendu graphique et accompagnement textuel d'interprêtation.
+                        Publication des données et des sources de calcul dans un format ouvert sous licence Creative Commons CC-BY-SA.
+
+                        Exclusion des interventions à Lille et Lyon pour cause de désordres en séance.
+
+                        Qualification des associations: organisations dont les membres sont des personnes physiques.
+
+                    </p>
+                </div>
+            </section>
+
+            <h2 class="title is-2 has-text-centered">
+                Temps de parole des associations invitées sur scène par la cndp,
+                en excluant les évènements de lyon et lille
+            </h2>
+            <div id="first_chart"></div>
+<!--            <pre>-->
+<!--organisations	contre	neutre	en faveur	indéterminé-->
+<!--ACRO	1-->
+<!--ANCCLI	 	1-->
+<!--Cérémé	 	 	1-->
+<!--Collectif STOP EPR	1-->
+<!--FNE	1-->
+<!--Fondation pour la nature et l'homme	1-->
+<!--Global Chance	1-->
+<!--Greenpeace	1-->
+<!--Indéterminé contre les éoliennes	 	 	1-->
+<!--Négawatt	1-->
+<!--SDN	1-->
+<!--SFEN	 	 	1-->
+<!--Voix du Nucléaire	 	 	1-->
+
+
+<!--            </pre>-->
+
+        </section>
+        <section class="section">
+            <div id="second_chart"></div>
+<!--            <pre>-->
+<!--organisation	contre	neutre	en faveur	indéterminé-->
+
+<!--ACRO	1	0	0	0-->
+<!--ADEME	0	1	0	0-->
+<!--ANCCLI	0	1	0	0-->
+<!--Andra	0	1	0	0-->
+<!--ARS	1	0	0	0-->
+<!--CCI	1	0	0	0-->
+<!--CEA	0	1	0	0-->
+<!--Cérémé	0	0	1	0-->
+<!--CESER	1	0	0	0-->
+<!--CFECGC	0	0	1	0-->
+<!--Chambre d'agriculture	0	1	0	0-->
+<!--CLIN	0	1	0	0-->
+<!--CNDP	0	1	0	0-->
+<!--CNRS	0	1	0	0-->
+<!--Commission développement économique	1	0	0	0-->
+<!--Commission environementale normandie	0	0	1	0-->
+<!--Communauté de communes	0	0	1	0-->
+<!--Conseil départemental	0	1	0	0-->
+<!--Conseil régional des jeunes	0	1	0	0-->
+<!--Cour des comptes	0	1	0	0-->
+<!--Délégué à l'action régionale Normandie	0	1	0	0-->
+<!--DNN	0	1	0	0-->
+<!--DREAL	0	0	1	0-->
+<!--DTM	1	0	0	0-->
+<!--EELV	1	0	0	0-->
+<!--Energie et Environement en Débat dans l'Aisne	0	1	0	0-->
+<!--ENS ULM	1	0	0	0-->
+<!--ENSAE	0	1	0	0-->
+<!--EPE	0	1	0	0-->
+<!--FNE	1	0	0	0-->
+<!--Fondation pour la nature et l'homme	1	0	0	0-->
+<!--GIEC	0	1	0	0-->
+<!--GIFEN	0	0	1	0-->
+<!--Global Chance	1	0	0	0-->
+<!--Greenpeace	1	0	0	0-->
+<!--IRSN	0	1	0	0-->
+<!--Maire de CAEN	0	0	1	0-->
+<!--Maire de Dieppe	0	1	0	0-->
+<!--Ministère de la transition écologique	0	1	0	0-->
+<!--NEA	0	0	1	0-->
+<!--Négawatt	1	0	0	0-->
+<!--Normandie Energies	0	0	1	0-->
+<!--ORANO	0	0	1	0-->
+<!--Pôle Emploi	0	1	0	0-->
+<!--Préfecture	1	0	0	0-->
+<!--RTE	0	1	0	0-->
+<!--Science-po	0	1	0	0-->
+<!--SDN	1	0	0	0-->
+<!--Sénat	0	1	0	0-->
+<!--SFEN	0	0	1	0-->
+<!--vidéo	1	0	0	0-->
+<!--Ville de Lyon	1	0	0	0-->
+<!--Voix du Nucléaire	0	0	1	0-->
+
+<!--</pre>-->
+
+        </section>
+
+        <section class="section">
+            <div id="chart_3"></div>
+            <pre>
+            </pre>
+        </section>
+    </article>
+</div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <strong>Analyse du débat public nouveaux réacteurs EPR2 à Penly</strong> par Tykayn et <a
+                href="https://jgthms.com">Les voix du nucléaire</a>. The source code is licensed
+            AGPLv3+.
+            The website content
+            is licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY SA 4.0</a>.
+        </p>
+    </div>
+</footer>
+</body>
+</html>

@@ -32,14 +32,14 @@
 ,,Résumé des interventions,,,,,,,,,,,
 ,,,,,,,,,,,,,RESUME
 ,,,,,,,,,,,,,
-,,sur les ,50,groupes invités par la CNDP,,,,,,,,,
-,,représentant,"16,35449",heures de temps de parole,,,,,,,,,
-,,,"18,5898660109718","% était accordé à des organisations se positionnant contre le projet de nouveaux EPR,",,,,,,,,,
-,,,"71,4502459773025",% étaient neutres,,,,,,,,,
-,,,"9,95988801172576",% étaient en faveur du projet,,,,,,,,,
-,,soit,"1,86647339699864","fois plus de gens contre invités que pour, ",,,,,,,,,
+,,sur les ,16,groupes associatifs invités par la CNDP de notre analyse (excluant les rencontres de Lyon et Lille),,,,,,,,,
+,,représentant,"3,06222222222222",heures de temps de parole,,,,,,,,,
+,,,"66,8632075471698","% du temps de parole était accordé à des organisations se positionnant contre le projet de nouveaux EPR,",,,,,,,,,
+,,,"17,0174165457184",% étaient neutres,,,,,,,,,
+,,,"16,1193759071118",% étaient en faveur du projet,,,,,,,,,
+,,soit,"4,14800225098481","fois plus de gens contre invités que pour, ",,,,,,,,,
 ,,,,alors que selon l’étude de l’ifop de Septembre 2022 pour le JDD,,,,,,,,,
-,,,65,% des Français sont favorables ou « tout à fait favorables » à la construction de nouveaux réacteurs nucléaires en France dans les prochaines années,,,,,,,,,
+,,,65,% des Français sont favorables ou « tout à fait favorables » à la construction de nouveaux réacteurs nucléaires en France dans les prochaines années.,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,ENDRESUME
 ,,,10000%,total de contrôle des pourcentages ci-dessus,,,,,,,,,
@@ -66,35 +66,35 @@
 ,,,,,,,,,,,,,
 ,,Graphique invités interventions,,,,,,,,,,,____
 ,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers
-,,,18,20,12,0,50,,,,,,values
+,,,9,3,4,0,16,,,,,,values
 ,,,,,,,,,,,,,####
 ,,,,,,,,,,,,,
 ,,Graphique invités temps de parole,,,,,,,,,,,____
 ,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers
-,,,"18,5898660109718%","71,4502459773025%","9,95988801172576%",0%,100%,,,,,,values
+,,,"66,8632075471698%","17,0174165457184%","16,1193759071118%",0%,100%,,,,,,values
 ,,,,,,,,,,,,,####
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,Temps de parole tout le monde,,,,,,,,,,,____
 ,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers
-,,,"240,816666666667","897,702733333333","112,166666666667","89,526","1340,21206666667",minutes,,,,,values
-,,,,,,,"22,3368677777778",heures,,,,,####
+,,,"314,083333333333","1062,63606666667","186,166666666667","96,64725","1659,53331666667",minutes,,,,,values
+,,,,,,,"27,6588886111111",heures,,,,,####
 ,,,,,,,,,,,,,
 ,,Temps de parole tout le monde en pourcentage,,,,,,,,,,,____
 ,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers
-,,,"17,7646417704476%","66,2220256378366%","8,27434695239204%","6,60418292950832%","98,8651972901846%",,,,,,values
+,,,"18,726275599959%","63,3564845216973%","11,0996284665186%","5,76230206254648%","98,9446906507213%",,,,,,values
 ,,,,,,,,,,,,,####
 ,,,,,,,,,,,,,
 ,,Invités temps de parole + edf,,,,,,,,,,,____
 ,,,contre,neutre,en faveur,cndp,edf,somme,,,,,headers
-,,,"182,416666666667","701,1194","97,7333333333333","541,2194","2,03333333333333","1524,52213333333",,,,,values
+,,,"122,85","31,2666666666667","29,6166666666667","618,036066666667","2,03333333333333","803,802733333333",,,,,values
 ,,,contre,neutre,en faveur,cndp,edf,somme,,,,,####
-,,,"11,9654980848206%","45,9894536569973%","6,41075201182167%","35,5009211192386%","0,133375127121801%",100%,,,,,
+,,,"15,2836006778114%","3,88984328742019%","3,68456904144226%","76,8890227710099%","0,252964222316238%",100%,,,,,
 ,,,,,,,,,,,,,
 ,,Associations invitées sur scène par la cndp,,,,,,,,,,,____
-,,,contre,neutre,en faveur,cndp,edf,somme,,,,,headers
-,,,,,,,,,,,,,values
-,,,,,,,,,,,,,####
+,,,contre,neutre,en faveur,,,,,,,,headers
+,,,"211,783333333333","31,2666666666667","91,1833333333333",,,minutes,,,,,values
+,,,"63,363917422958%","9,35474219607061%","27,2813403809714%",,,%,,,,,####
 ,,,,,,,,,,,,,
 ,,"Toute organisation présente sur scène, en excluant les évènements de lyon et lille",,,,,,,,,,,____
 ,,,contre,neutre,en faveur,cndp,edf,somme,,,,,headers
@@ -109,14 +109,14 @@
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
+,,liens utiles ,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
+,,url,description,,script /home/tykayn/www/scripts.js/php/conversion timestamp secondes,,,,,,,,
+,,https://discord.com/channels/730554636997754940/1026740618057240607,canal discord du débat public des voix,,php convert.php,,,,,,,,
+,,https://scribe.cemea.org/start/,transcripteur,,,,,,,,,,
+,,https://www.youtube.com/watch?v=HXuJdcb11ws&list=PLPKFFRD-nIA1NmBcInsMP8qAjmkGwQzcX&index=1,playlist des vidéos,,,,,,,,,,
+,, https://1drv.ms/f/s!AhI8wjFCmDFGhBozw8DR7G7Uhc0b ,docuents de Bg,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
