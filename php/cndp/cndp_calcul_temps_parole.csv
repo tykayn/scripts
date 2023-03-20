@@ -1,186 +1,320 @@
-,,,,,,,,,,,,,marqueurs de graphique
-,,,,,,,,,,,,,
-,,À propos de ce fichier,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,"Cette feuille de calcul détaille la méthodologie et les données d’analyse du débat public sur les ERP2 à Penly de 2022 et 2023, par l’association Les Voix du Nucléaire.",,,,,,,,,
-,,,,,,,,,,,,,
-,,,,description,nom de la feuille,,,,,,,,
-,,,,page actuelle décrivant toute l’analyse,accueil,,,,,,,,
-,,,,,stats,,,,,,,,
-,,,,,résumé,,,,,,,,
-,,,,,data graphs,,,,,,,,
-,,,,,graphs,,,,,,,,
-,,,,,invités retapage,,,,,,,,
-,,,,,interventions,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,Choses à faire,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,statut,,description,date réalisé,,,,,,,,
-,,DONE,,qualifier dans le framacalc les parties citoyennes,03/03/2023,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,Résumé des interventions,,,,,,,,,,,
-,,,,,,,,,,,,,RESUME
-,,,,,,,,,,,,,
-,,sur les ,16,groupes associatifs invités par la CNDP de notre analyse (excluant les rencontres de Lyon et Lille),,,,,,,,,
-,,représentant,"3,06222222222222",heures de temps de parole,,,,,,,,,
-,,,"66,8632075471698","% du temps de parole était accordé à des organisations se positionnant contre le projet de nouveaux EPR,",,,,,,,,,
-,,,"17,0174165457184",% étaient neutres,,,,,,,,,
-,,,"16,1193759071118",% étaient en faveur du projet,,,,,,,,,
-,,soit,"4,14800225098481","fois plus de gens contre invités que pour, ",,,,,,,,,
-,,,,alors que selon l’étude de l’ifop de Septembre 2022 pour le JDD,,,,,,,,,
-,,,65,% des Français sont favorables ou « tout à fait favorables » à la construction de nouveaux réacteurs nucléaires en France dans les prochaines années.,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,ENDRESUME
-,,,10000%,total de contrôle des pourcentages ci-dessus,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,Rapport selon l’étude ifop,,,,,,,,,,,____
-,,,,,,,,,,,,,
-,,https://www.ifop.com/wp-content/uploads/2022/09/119425-Rapport.pdf,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,Oct 2021,Sept 2022,,,,,,,,
-,,,,2021,2022,,,,,,,,
-,,tout à fait favorable,,19,25,,,,,,,,
-,,plutôt favorable,,32,40,,,,,,,,
-,,plutôt pas favorable,,29,23,,,,,,,,
-,,pas du tout favorable,,20,12,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,Données pour les graphiques,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,Graphique invités interventions,,,,,,,,,,,____
-,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers
-,,,9,3,4,0,16,,,,,,values
-,,,,,,,,,,,,,####
-,,,,,,,,,,,,,
-,,Graphique invités temps de parole,,,,,,,,,,,____
-,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers
-,,,"66,8632075471698%","17,0174165457184%","16,1193759071118%",0%,100%,,,,,,values
-,,,,,,,,,,,,,####
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,Temps de parole tout le monde,,,,,,,,,,,____
-,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers
-,,,"314,083333333333","1062,63606666667","186,166666666667","96,64725","1659,53331666667",minutes,,,,,values
-,,,,,,,"27,6588886111111",heures,,,,,####
-,,,,,,,,,,,,,
-,,Temps de parole tout le monde en pourcentage,,,,,,,,,,,____
-,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers
-,,,"18,726275599959%","63,3564845216973%","11,0996284665186%","5,76230206254648%","98,9446906507213%",,,,,,values
-,,,,,,,,,,,,,####
-,,,,,,,,,,,,,
-,,Invités temps de parole + edf,,,,,,,,,,,____
-,,,contre,neutre,en faveur,cndp,edf,somme,,,,,headers
-,,,"122,85","31,2666666666667","29,6166666666667","618,036066666667","2,03333333333333","803,802733333333",,,,,values
-,,,contre,neutre,en faveur,cndp,edf,somme,,,,,####
-,,,"15,2836006778114%","3,88984328742019%","3,68456904144226%","76,8890227710099%","0,252964222316238%",100%,,,,,
-,,,,,,,,,,,,,
-,,Associations invitées sur scène par la cndp,,,,,,,,,,,____
-,,,contre,neutre,en faveur,,,,,,,,headers
-,,,"211,783333333333","31,2666666666667","91,1833333333333",,,minutes,,,,,values
-,,,"63,363917422958%","9,35474219607061%","27,2813403809714%",,,%,,,,,####
-,,,,,,,,,,,,,
-,,"Toute organisation présente sur scène, en excluant les évènements de lyon et lille",,,,,,,,,,,____
-,,,contre,neutre,en faveur,cndp,edf,somme,,,,,headers
-,,,,,,,,,,,,,values
-,,,,,,,,,,,,,####
-,,,,,,,,,,,,,
-,,Assos prises de parole au total + public (sans exclure les évènements),,,,,,,,,,,____
-,,,contre,neutre,en faveur,cndp,edf,somme,,,,,headers
-,,,,,,,,,,,,,values
-,,,,,,,,,,,,,####
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,liens utiles ,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,url,description,,script /home/tykayn/www/scripts.js/php/conversion timestamp secondes,,,,,,,,
-,,https://discord.com/channels/730554636997754940/1026740618057240607,canal discord du débat public des voix,,php convert.php,,,,,,,,
-,,https://scribe.cemea.org/start/,transcripteur,,,,,,,,,,
-,,https://www.youtube.com/watch?v=HXuJdcb11ws&list=PLPKFFRD-nIA1NmBcInsMP8qAjmkGwQzcX&index=1,playlist des vidéos,,,,,,,,,,
-,, https://1drv.ms/f/s!AhI8wjFCmDFGhBozw8DR7G7Uhc0b ,docuents de Bg,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,**********************************************************************,,,,,,,,,
-,,autres graphs possibles :,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,1,"associations invitées sur scène par la cndp, n’enlever que cndp, empiler dans un histogramme les parties invité sur scène et dans la salle",,,,,,,,,
-,,,2,toute orga sur scène en excluant les évènements de lyon et lille,,ce sur quoi la CNDP avait la main,,,,,,,
-,,,3,assos prises de parole au total + public (sans exclure les évènements),,,,,,,,,
-,,,,,,,,,,,,,
-,,,,"graph de tous les temps de parole par organisation, CNDP exclue, avec des couleurs de barre correspondant à la posture de l’organisation",,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,invité retapage de tag,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,intervenants,,,,,,,,,,,
-,,200,intervenants,,,,,,,,,,
-,,"884,9",minutes,,,,,,,,,,
-,,"14,7",heures,,,,,,,,,,
-,,,,,,,,,,,,,
-,,particuliers,,,,,,,,,,,
-,,contre,neutre,en faveur,,,,,,,,,
-,,50,49,31,,,,,,,,,
-,,"161,22","146,08","105,42",,,,,,,,,
-,,25%,"24,5%","15,5%",,,,,,,,,
-,,"18,22%","16,51%","11,91%",,,,,,,,,
-,,AP,NP,PP,,,,,,,,,
-,,anti et particulier,neutre et particulier,pour et invité,,,,,,,,,
-,,,,,,,,,,,,,
-,,invités,,,,,,,,,,,
-,,contre,neutre,en faveur,,,,,,,,,
-,,18,44,7,,,,,,,,,
-,,"142,23","285,4","44,52",,,,,,,,,
-,,9%,22%,"3,5%",,,,,,,,,
-,,"16,07%","32,25%","5,03%",,,,,,,,,
-,,AI,NI,PI,,,,,,,,,
-,,anti et invité,neutre et invité,pour et invité,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,,,,,,,,,,,
-,,,invité,public,,,,,,,,,
-,,,70,130,,,,,,,,,
-,,min,"472,15","412,72",,,,,,,,,
-,,interventions %,35%,65%,,,,,,,,,
-,,temps parole %,"53,36%","46,64%",,,,,,,,,
-,,pour contre neutre,i,P,,,,,,,,,
-,,,invité,particulier,,,,,,,,,
+,,,,,,,,,,,,,marqueurs de graphique,
+,,,,,,,,,,,,,,
+,,À propos de ce fichier,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,"Cette feuille de calcul détaille la méthodologie et les données d’analyse du débat public sur les ERP2 à Penly de 2022 et 2023, par l’association Les Voix du Nucléaire.",,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,description,nom de la feuille,,,,,,,,,
+,,,,page actuelle décrivant toute l’analyse,accueil,,,,,,,,,
+,,,,,stats,,,,,,,,,
+,,,,,résumé,,,,,,,,,
+,,,,,data graphs,,,,,,,,,
+,,,,,graphs,,,,,,,,,
+,,,,,invités retapage,,,,,,,,,
+,,,,,interventions,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,Choses à faire,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,statut,,description,date réalisé,,,,,,,,,
+,,DONE,,qualifier dans le framacalc les parties citoyennes,03/03/2023,,,,,,,,,
+,,,,2 autres graphs pour conclure les rencontres ,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,Résumé des interventions,,,,,,,,,,,,
+,,,,,,,,,,,,,RESUME,
+,,,,,,,,,,,,,,
+,,sur les ,12,groupes associatifs invités par la CNDP de notre analyse (excluant les rencontres de Lyon et Lille),,,,,,,,,,
+,,représentant,"2,59472222222222",heures de temps de parole,,,,,,,,,,
+,,,"75,9982871212933","% du temps de parole était accordé à des organisations se positionnant contre le projet de nouveaux EPR,",,,,,,,,,,
+,,,"5,9522535060486",% étaient neutres,,,,,,,,,,
+,,,"18,0494593726582",% étaient en faveur du projet,,,,,,,,,,
+,,soit,"4,21055753262159","fois plus de gens contre invités que pour, ",,,,,,,,,,
+,,,,alors que selon l’étude de l’ifop de Septembre 2022 pour le JDD,,,,,,,,,,
+,,,65,% des Français sont favorables ou « tout à fait favorables » à la construction de nouveaux réacteurs nucléaires en France dans les prochaines années.,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,ENDRESUME,
+,,,100%,total de contrôle des pourcentages ci-dessus,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,Rapport selon l’étude ifop,,,,,,,,,,,____,
+,,,,,,,,,,,,,,
+,,https://www.ifop.com/wp-content/uploads/2022/09/119425-Rapport.pdf,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,Oct 2021,Sept 2022,,,,,,,,,
+,,,,2021,2022,,,,,,,,,
+,,tout à fait favorable,,19,25,,,,,,,,,
+,,plutôt favorable,,32,40,,,,,,,,,
+,,plutôt pas favorable,,29,23,,,,,,,,,
+,,pas du tout favorable,,20,12,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,Données pour les graphiques,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,Graphique invités interventions,,,,,,,,,,,____,
+,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers,
+,,,8,1,3,0,12,,,,,,values,
+,,,,,,,,,,,,,####,
+,,,,,,,,,,,,,,
+,,Graphique invités temps de parole,,,,,,,,,,,____,
+,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers,
+,,,"75,9982871212932%","5,9522535060486%","18,0494593726582%",0%,100%,,,,,,values,
+,,,,,,,,,,,,,####,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,Temps de parole tout le monde,,,,,,,,,,,____,
+,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers,
+,,,"309,55","1073,3194","197,716666666667","96,64725","1677,23331666667",minutes,,,,,values,
+,,,,,,,"27,9538886111111",heures,,,,,####,
+,,,,,,,,,,,,,,
+,,Temps de parole tout le monde en pourcentage,,,,,,,,,,,____,
+,,,contre,neutre,en faveur,indéterminé,somme,,,,,,headers,
+,,,"18,4559892129498%","63,993446191083%","11,7882625334207%","5,76230206254648%",100%,,,,,,values,
+,,,,,,,,,,,,,####,
+,,,,,,,,,,,,,,
+,,Invités temps de parole + edf,,,,,,,,,,,____,
+,,,contre,neutre,en faveur,cndp,edf,somme,,,,,headers,
+,,,"118,316666666667","9,26666666666667","28,1","618,036066666667","2,03333333333333","775,752733333334",,,,,values,
+,,,contre,neutre,en faveur,cndp,edf,somme,,,,,####,
+,,,"15,2518530174263%","1,19453870653458%","3,62228823600235%","79,6692090288907%","0,262111011146077%",100%,,,,,,
+,,,,,,,,,,,,,,
+,,"Associations invitées sur scène par la cndp, en excluant les évènements de lyon et lille",,,,,,,,,,,____,
+,,valeur,contre,neutre,en faveur,cndp,edf,,,,,,headers,
+,,minutes,"118,316666666667","9,26666666666667","28,1","423,586066666667","152,35",,,,,,values,
+,,%,"75,9982871212932%","5,9522535060486%","18,0494593726582%",,,,,,,,####,
+,,,,,,,,,,,,,,
+,,"Toute organisation présente sur scène, en excluant les évènements de lyon et lille",,,,,,,,,,,____,
+,,valeur,contre,neutre,en faveur,cndp,edf,,,,,,headers,
+,,minutes,"159,783333333333","164,8","74,55","423,586066666667","152,35",,,,,,values,
+,,%,"40,0325705695674%","41,2894604977451%","18,6779689326875%",,,,,,,,####,
+,,,,,,,,,,,,,,
+,,"Assos prises de parole au total + public, sans exclure les évènements",,,,,,,,,,,____,
+,,valeur,contre,neutre,en faveur,cndp,edf,,,,,,headers,
+,,minutes assos,"207,25","9,26666666666667","91,1833333333333","618,036066666667","160,733333333333",,,,,,values,
+,,minutes particuliers,"193,883333333333","229,65","125,733333333333",,,,,,,,####,
+,,minutes somme,"401,133333333333","238,916666666667","216,916666666666","618,036066666667","160,733333333333",,,,,,,
+,,minutes somme % parmi asso+public,"46,8085106382979%","27,8793418647167%","25,3121474969855%",,,,,,,,,
+,,minutes somme % parmi asso+public + cndp + edf,"24,5231086791875%","23,476139006256%","25,3121474969855%","72,1190322455172%","18,7560776381812%",,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,liens utiles ,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,url,description,,script /home/tykayn/www/scripts.js/php/conversion timestamp secondes,,,,,,,,,
+,,https://discord.com/channels/730554636997754940/1026740618057240607,canal discord du débat public des voix,,php convert.php,,,,,,,,,
+,,https://scribe.cemea.org/start/,transcripteur,,,,,,,,,,,
+,,https://www.youtube.com/watch?v=HXuJdcb11ws&list=PLPKFFRD-nIA1NmBcInsMP8qAjmkGwQzcX&index=1,playlist des vidéos,,,,,,,,,,,
+,, https://1drv.ms/f/s!AhI8wjFCmDFGhBozw8DR7G7Uhc0b ,docuents de Bg,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,**********************************************************************,,,,,,,,,,
+,,autres graphs possibles :,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,1,"associations invitées sur scène par la cndp, n’enlever que cndp, empiler dans un histogramme les parties invité sur scène et dans la salle",,Comparer ce sur quoi la CNDP avait la main vs le tout,,,,,,,,,
+,,2,toute orga sur scène en excluant les évènements de lyon et lille,,,,,,,,,,,
+,,3,assos prises de parole au total + public (sans exclure les évènements),,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,4,"graph de tous les temps de parole par organisation, CNDP exclue, avec des couleurs de barre correspondant à la posture de l’organisation",,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,Graphique 1,"Associations invitées sur scène par la cndp, en excluant les évènements de lyon et lille",,,
+,,invité retapage de tag,,,,,,,,groupes retenus,position des interventions,,,
+,,,,,,,,,,,contre,neutre,en faveur,indéterminé
+,,intervenants,,,,,,,,ACRO,1, , , 
+,,200,intervenants,,,,,,,ANCCLI, ,1, , 
+,,"884,9",minutes,,,,,,,Cérémé, , ,1, 
+,,"14,7",heures,,,,,,,Collectif STOP EPR,1, , , 
+,,,,,,,,,,FNE,1, , , 
+,,particuliers,,,,,,,,Fondation pour la nature et l'homme,1, , , 
+,,contre,neutre,en faveur,,,,,,Global Chance,1, , ,
+,,50,49,31,,,,,,Greenpeace,1, , , 
+,,"161,22","146,08","105,42",,,,,,Indéterminé contre les éoliennes, , ,1, 
+,,25%,"24,5%","15,5%",,,,,,Négawatt,1, , , 
+,,"18,22%","16,51%","11,91%",,,,,,SDN,1, , , 
+,,AP,NP,PP,,,,,,SFEN, , ,1, 
+,,anti et particulier,neutre et particulier,pour et invité,,,,,,Voix du Nucléaire, , ,1, 
+,,,,,,,,,,,,,,
+,,invités,,,,,,,,,,,, 
+,,contre,neutre,en faveur,,,,,,,,,, 
+,,18,44,7,,,,,,, , ,,
+,,"142,23","285,4","44,52",,,,,,,,,,
+,,9%,22%,"3,5%",,,,,,,contre,neutre,en faveur,indéterminé
+,,"16,07%","32,25%","5,03%",,,,,,organisations,8,1,3,0
+,,AI,NI,PI,,,,,,minutes,"118,316666666667","9,26666666666667","28,1",0
+,,anti et invité,neutre et invité,pour et invité,,,,,,% organisations,"0,326923076923077","0,442307692307692","0,230769230769231",0%
+,,,,,,,,,,% temps parole,"40,0325705695674%","41,2894604977451%","18,6779689326875%",0%
+,,,,,,,,,,représentativité,"7,34026287725972%","-2,94130873302412%","-4,3989541442356%",0%
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,invité,public,,,,,,,,,,
+,,,70,130,,,,,,,,,,
+,,min,"472,15","412,72",,,,,,,,,,
+,,interventions %,35%,65%,,,,,,,,,,
+,,temps parole %,"53,36%","46,64%",,,,,,,,,,
+,,pour contre neutre,i,P,,,,,,,,,,
+,,,invité,particulier,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,"4,21055753262159",fois plus de temps contre qu’en faveur,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,Graphique 2,"Toute organisation présente sur scène, en excluant les évènements de lyon et lille",,,
+,,,,,,,,,,groupes retenus,position des interventions,,,
+,,,,,,,,,,,contre,neutre,en faveur,indéterminé
+,,,,,,,,,,ACRO,1,0,0,0
+,,,,,,,,,,ADEME,0,1,0,0
+,,,,,,,,,,ANCCLI,0,1,0,0
+,,,,,,,,,,Andra,0,1,0,0
+,,,,,,,,,,ARS,1,0,0,0
+,,,,,,,,,,CCI,1,0,0,0
+,,,,,,,,,,CEA,0,1,0,0
+,,,,,,,,,,Cérémé,0,0,1,0
+,,,,,,,,,,CESER,1,0,0,0
+,,,,,,,,,,CFECGC,0,0,1,0
+,,,,,,,,,,Chambre d'agriculture,0,1,0,0
+,,,,,,,,,,CLIN,0,1,0,0
+,,,,,,,,,,CNDP,0,1,0,0
+,,,,,,,,,,CNRS,0,1,0,0
+,,,,,,,,,,Commission développement économique,1,0,0,0
+,,,,,,,,,,Commission environementale normandie,0,0,1,0
+,,,,,,,,,,Communauté de communes,0,0,1,0
+,,,,,,,,,,Conseil départemental,0,1,0,0
+,,,,,,,,,,Conseil régional des jeunes,0,1,0,0
+,,,,,,,,,,Cour des comptes,0,1,0,0
+,,,,,,,,,,Délégué à l'action régionale Normandie,0,1,0,0
+,,,,,,,,,,DNN,0,1,0,0
+,,,,,,,,,,DREAL,0,0,1,0
+,,,,,,,,,,DTM,1,0,0,0
+,,,,,,,,,,EELV,1,0,0,0
+,,,,,,,,,,Energie et Environement en Débat dans l'Aisne,0,1,0,0
+,,,,,,,,,,ENS ULM,1,0,0,0
+,,,,,,,,,,ENSAE,0,1,0,0
+,,,,,,,,,,EPE,0,1,0,0
+,,,,,,,,,,FNE,1,0,0,0
+,,,,,,,,,,Fondation pour la nature et l'homme,1,0,0,0
+,,,,,,,,,,GIEC,0,1,0,0
+,,,,,,,,,,GIFEN,0,0,1,0
+,,,,,,,,,,Global Chance,1,0,0,0
+,,,,,,,,,,Greenpeace,1,0,0,0
+,,,,,,,,,,IRSN,0,1,0,0
+,,,,,,,,,,Maire de CAEN,0,0,1,0
+,,,,,,,,,,Maire de Dieppe,0,1,0,0
+,,,,,,,,,,Ministère de la transition écologique,0,1,0,0
+,,,,,,,,,,NEA,0,0,1,0
+,,,,,,,,,,Négawatt,1,0,0,0
+,,,,,,,,,,Normandie Energies,0,0,1,0
+,,,,,,,,,,ORANO,0,0,1,0
+,,,,,,,,,,Pôle Emploi,0,1,0,0
+,,,,,,,,,,Préfecture,1,0,0,0
+,,,,,,,,,,RTE,0,1,0,0
+,,,,,,,,,,Science-po,0,1,0,0
+,,,,,,,,,,SDN,1,0,0,0
+,,,,,,,,,,Sénat,0,1,0,0
+,,,,,,,,,,SFEN,0,0,1,0
+,,,,,,,,,,vidéo,1,0,0,0
+,,,,,,,,,,Ville de Lyon,1,0,0,0
+,,,,,,,,,,Voix du Nucléaire,0,0,1,0
+,,,,,,,,,,,,,,
+,,,,,,,,,,,contre,neutre,en faveur,indéterminé
+,,,,,,,,,,organisations,17,23,12,0
+,,,,,,,,,,minutes,"159,783333333333","164,8","74,55",0
+,,,,,,,,,,% organisations,"32,6923076923077%","44,2307692307692%","23,0769230769231%",0%
+,,,,,,,,,,% temps parole,"40,0325705695674%","41,2894604977451%","18,6779689326875%",0%
+,,,,,,,,,,représentativité,"7,34026287725972%","-2,94130873302412%","-4,3989541442356%",0%
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,"2,14330427006484",fois plus de temps contre qu’en faveur,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,Graphique 3,"Assos prises de parole au total + public, sans exclure les évènements",,,
+,,,,,,,,,,groupes retenus,position des interventions,,,
+,,,,,,,,,,,contre,neutre,en faveur,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,contre,neutre,en faveur,
+,,,,,,,,,,,,,,
+,,,,,,,,,,minutes,"401,133333333333","238,916666666667","216,916666666666",
+,,,,,,,,,,% organisations,,,,
+,,,,,,,,,,% temps parole,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,"1,84925086438725",fois plus de temps contre qu’en faveur,,

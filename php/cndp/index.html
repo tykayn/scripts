@@ -6,11 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
+          integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">
     <style>
 
         #first_chart {
             width: 100%;
             height: 550px;
+        }
+
+        /*.content a, .hero.is-link a:not(.button):not(.dropdown-item):not(.tag):not(.pagination-link.is-current) a {*/
+        /*    color: rgb(25, 123, 135) !important;*/
+        /*    font-weight: 700 !important;*/
+        /*    text-decoration: underline !important;*/
+        /*}*/
+
+        body {
+            background: #ccc;
+        }
+
+        article {
+            background: #fff;
+            box-shadow: 0 0 1em #ccc;
+        }
+
+        table {
+            border: solid 1px #555;
+        }
+
+        table tbody tr td {
+            text-align: right !important;
+        }
+
+        table tr:nth-of-type(odd) {
+            background: #dedede;
+        }
+
+        table thead th {
+            text-align: center;
+            background: #3c3c3c !important;
+            color: #eee !important;
+            width: 100%;
+            min-width: 10em;
+        }
+
+        .vdn-page-primary-navigation-site-logo {
+
+            float: left;
+            margin-right: 1em;
+            height: 2em;
+            width: auto;
         }
     </style>
 
@@ -27,25 +72,73 @@
         let colorAgainst = "#793737"
         let colorNeutral = "#7a7a7a"
         let colorFor = "#5cba77"
-        let colorsConfig = [colorAgainst,colorNeutral,colorFor]
+        let colorsConfig = [colorAgainst, colorNeutral, colorFor]
+
+        let data_graph1 = [
+            ['Contre', 188],
+            ['Neutre', 9],
+            ['En faveur', 28]
+        ]
+        let data_graph2 = [
+            ['Contre', 160],
+            ['Neutre', 165],
+            ['En faveur', 75]
+        ]
+
+        let data_graph3 = [
+            ['Contre', 401.13],
+            ['Neutre', 238.92],
+            ['En faveur', 216.92]
+        ]
+
+        let mainCaption = '<b>Temps de parole en minutes.</b><br>Les postures des organisations contre, neutres, ou en faveur sont à l\'égard du projet de nouveaux réacteurs nucléaires EP2 à Penly.' +
+            '<br/>On peut ici mesurer un clair biais de mise en avant d\'associations anti nucléaire par la CNDP/CPDP. <em>Analyse réalisée par l\'association Les voix du nucléaire.</em>'
+        let series_graph1 = [
+            {
+                type: 'column',
+                name: 'Temps de parole contre',
+                contre : colorAgainst,
+                data: [data_graph1[0]]
+            }
+            ,
+            {
+                type: 'column',
+                name: 'Temps de parole neutre',
+                contre : colorNeutral,
+                data: [['Neutre', 9]]
+            },
+            {
+                type: 'column',
+                name: 'Temps de parole En faveur',
+                contre : colorFor,
+                data: [['En faveur', 28]]
+            }
+        ];
 
         function make1() {
+
             Highcharts.chart('first_chart', {
 
                 colors: colorsConfig,
+                caption: {
+                    text: mainCaption
+                },
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: 0,
                     plotShadow: false
                 },
                 title: {
-                    text: 'Temps de parole des associations invitées par la CNDP',
+                    text: 'Temps de parole et posture des associations envers le projet EPR2 Penly, invitées par la CNDP',
                     align: 'center',
                     // verticalAlign: 'middle',
-                    y: 60
+                    // y: 60
+                },
+                subtitle: {
+                    text: 'Au cours du débat public sur les nouveaux réacteurs EPR2 de Penly.',
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    pointFormat: '{series.name}: {point.y} minutes , <b>{point.percentage:.1f}%</b>'
                 },
                 accessibility: {
                     point: {
@@ -53,13 +146,17 @@
                     }
                 },
                 plotOptions: {
-
+                    series: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    },
                     pie: {
                         dataLabels: {
                             enabled: true,
-                            distance: -50,
+                            distance: -40,
                             style: {
-                                fontWeight: 'bold',
+                                // fontWeight: 'bold',
                                 color: 'white'
                             }
                         },
@@ -69,20 +166,57 @@
                         size: '110%'
                     }
                 },
-                series: [{
+                series:  [{
                     type: 'pie',
                     name: 'Temps de parole',
-                    innerSize: '50%',
-                    data: [
-                        ['Contre', 188],
-                        ['Neutre', 9],
-                        ['En faveur', 28]
-                    ]
+                    innerSize: '60%',
+                    data: data_graph1,
+                    color: colorsConfig
                 }]
             })
 
 
         }
+
+        function make1_bars() {
+            Highcharts.chart('first_chart_bars', {
+
+                colors: colorsConfig,
+                caption: {
+                    text: mainCaption
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: {point.y} minutes ,<b>{point.percentage:.1f}%</b>'
+                },
+                legend: true,
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Temps de parole et posture des associations envers le projet EPR2 Penly, invitées par la CNDP',
+                    align: 'center',
+                    // verticalAlign: 'middle',
+                    // y: 60
+                },
+                subtitle: {
+                    text: 'Au cours du débat public sur les nouveaux réacteurs EPR2 de Penly.',
+                },
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    },
+                },
+                series: series_graph1
+
+            })
+
+
+        }
+
 
         function make2() {
             // Data retrieved from https://netmarketshare.com/
@@ -126,15 +260,12 @@
                 series: [{
                     type: 'pie',
                     name: 'Temps de parole',
-                    innerSize: '50%',
-                    data: [
-                        ['Contre', 160],
-                        ['Neutre', 165],
-                        ['En faveur', 75]
-                    ]
+                    innerSize: '60%',
+                    data: data_graph2
                 }]
             })
         }
+
         function make3() {
             // Data retrieved from https://netmarketshare.com/
             Highcharts.chart('chart_3', {
@@ -177,12 +308,8 @@
                 series: [{
                     type: 'pie',
                     name: 'Temps de parole',
-                    innerSize: '50%',
-                    data: [
-                        ['Contre', 401.13],
-                        ['Neutre', 238.92],
-                        ['En faveur', 216.92]
-                    ]
+                    innerSize: '60%',
+                    data: data_graph3
                 }]
             })
         }
@@ -190,6 +317,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             console.log("Hello World!");
             make1()
+            make1_bars()
             make2()
             make3()
 
@@ -202,139 +330,3692 @@
 <body>
 
 <div class="container">
-    <article>
+    <article class="content">
         <section class="section">
             <h1 class="title is-1 has-text-centered">
-                Analyse des temps de parole du débat public.
+                Analyse des temps de parole du débat public sur le projet de nouveaux EPR2 à Penly.
             </h1>
-            <section class="hero is-link">
+            <section class="hero is-medium is-success">
                 <div class="hero-body">
                     <p class="title">
-                        Méthodologie
+                        <i class="fa fa-info-circle is-white" aria-hidden="true"></i> Résumé
                     </p>
                     <p class="subtitle">
-                        Transcription des vidéos publiées par la CNDP sur Youtube représentant 24 heures de capture.
-                        Catégorisation des intervenants et de leurs organisations représentées ou non
-                        Assignation des organisations en faveur, neutre, ou en défaveur du projet selon la catégorie représentant au mieux leurs interventions enregistrées.
-                        Assemblage des données par tableur collaboratif avec les membres de l'association.
-                        Inclusion des débats par défaut dans les interventions entrant dans le rapport final, exclusion des interventions les plus houleuses, comparaison des rapports produits avec et sans les éléments exclus.
-                        Compte rendu graphique et accompagnement textuel d'interprêtation.
-                        Publication des données et des sources de calcul dans un format ouvert sous licence Creative Commons CC-BY-SA.
+                        <!--                    <div class="icon-text">-->
+                        <!--                      <span class="icon has-text-info">-->
 
-                        Exclusion des interventions à Lille et Lyon pour cause de désordres en séance.
-
-                        Qualification des associations: organisations dont les membres sont des personnes physiques.
-
+                        <!--                      </span>-->
+                        <!--                        <span>Information</span>-->
+                        <!--                    </div>-->
+                        Sur les 16 groupes associatifs invités par la CNDP de notre analyse (excluant les rencontres de
+                        Lille et Lyon) représentant 3 heures de temps de parole 67 % du temps de parole était accordé à
+                        des organisations se positionnant contre le projet de nouveaux EPR, 17 % étaient
+                        neutres 16 % étaient en faveur du projet.
+                        <br>
+                        <br>
+                        De par sa sélection d'associations invitées, la CNDP a fait en sorte de donner <strong>4 fois
+                        plus de temps de parole contre qu'en faveur du projet</strong>,
+                        alors que selon létude de l'ifop de Septembre 2022 pour le JDD.
+                    <blockquote class="is-success has-text-black">
+                        " 65 %
+                        des Français sont favorables ou « tout à fait favorables » à la construction de nouveaux
+                        réacteurs nucléaires en France dans les prochaines années".
+                    </blockquote>
                     </p>
+
                 </div>
             </section>
-
             <h2 class="title is-2 has-text-centered">
-                Temps de parole des associations invitées sur scène par la cndp,
-                en excluant les évènements de lyon et lille
+                Temps de parole des associations invitées sur scène par la CNDP,
+                en excluant les évènements de Lille et Lyon.
             </h2>
             <div id="first_chart"></div>
-<!--            <pre>-->
-<!--organisations	contre	neutre	en faveur	indéterminé-->
-<!--ACRO	1-->
-<!--ANCCLI	 	1-->
-<!--Cérémé	 	 	1-->
-<!--Collectif STOP EPR	1-->
-<!--FNE	1-->
-<!--Fondation pour la nature et l'homme	1-->
-<!--Global Chance	1-->
-<!--Greenpeace	1-->
-<!--Indéterminé contre les éoliennes	 	 	1-->
-<!--Négawatt	1-->
-<!--SDN	1-->
-<!--SFEN	 	 	1-->
-<!--Voix du Nucléaire	 	 	1-->
-
-
-<!--            </pre>-->
+            <div id="first_chart_bars"></div>
+            <h3>Tableau des organisations</h3>
+            <p>
+                Les chiffres sont arrondis pour faciliter la lecture, le détail de tous les calcul est publié dans <a
+                    href="#ressources">le
+                dossier de sources lié en bas de page.</a>
+            </p>
+            <h4>Synthèse des groupes</h4>
+            <table class="table is-striped is-hoverable">
+                <thead>
+                <tr>
+                    <th>organisation</th>
+                    <th>contre</th>
+                    <th>neutre</th>
+                    <th>en faveur</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>organisations</th>
+                    <td>8</td>
+                    <td>1</td>
+                    <td>3</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>minutes</th>
+                    <td>118</td>
+                    <td>9</td>
+                    <td>28</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>% organisations</th>
+                    <td>0,3</td>
+                    <td>0,4</td>
+                    <td>0,2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>% temps parole</th>
+                    <td>40 %</td>
+                    <td>41 %</td>
+                    <td>19 %</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>représentativité</th>
+                    <td>7 %</td>
+                    <td>-3 %</td>
+                    <td>-4 %</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            <h4>Groupes</h4>
+            <table class="table is-striped">
+                <thead>
+                <tr>
+                    <th>groupes retenus</th>
+                    <th>contre</th>
+                    <th>neutre</th>
+                    <th>en faveur</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>ACRO</th>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>ANCCLI</th>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Cérémé</th>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th>Collectif STOP EPR</th>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>FNE</th>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Fondation pour la nature et l&#39;homme</th>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Global Chance</th>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Greenpeace</th>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Indéterminé contre les éoliennes</th>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th>Négawatt</th>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>SDN</th>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>SFEN</th>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th>Voix du Nucléaire</th>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                </tr>
+                </tbody>
+            </table>
 
         </section>
         <section class="section">
+            <h2 class="title is-2 has-text-centered">
+                2e Graphique
+            </h2>
             <div id="second_chart"></div>
-<!--            <pre>-->
-<!--organisation	contre	neutre	en faveur	indéterminé-->
-
-<!--ACRO	1	0	0	0-->
-<!--ADEME	0	1	0	0-->
-<!--ANCCLI	0	1	0	0-->
-<!--Andra	0	1	0	0-->
-<!--ARS	1	0	0	0-->
-<!--CCI	1	0	0	0-->
-<!--CEA	0	1	0	0-->
-<!--Cérémé	0	0	1	0-->
-<!--CESER	1	0	0	0-->
-<!--CFECGC	0	0	1	0-->
-<!--Chambre d'agriculture	0	1	0	0-->
-<!--CLIN	0	1	0	0-->
-<!--CNDP	0	1	0	0-->
-<!--CNRS	0	1	0	0-->
-<!--Commission développement économique	1	0	0	0-->
-<!--Commission environementale normandie	0	0	1	0-->
-<!--Communauté de communes	0	0	1	0-->
-<!--Conseil départemental	0	1	0	0-->
-<!--Conseil régional des jeunes	0	1	0	0-->
-<!--Cour des comptes	0	1	0	0-->
-<!--Délégué à l'action régionale Normandie	0	1	0	0-->
-<!--DNN	0	1	0	0-->
-<!--DREAL	0	0	1	0-->
-<!--DTM	1	0	0	0-->
-<!--EELV	1	0	0	0-->
-<!--Energie et Environement en Débat dans l'Aisne	0	1	0	0-->
-<!--ENS ULM	1	0	0	0-->
-<!--ENSAE	0	1	0	0-->
-<!--EPE	0	1	0	0-->
-<!--FNE	1	0	0	0-->
-<!--Fondation pour la nature et l'homme	1	0	0	0-->
-<!--GIEC	0	1	0	0-->
-<!--GIFEN	0	0	1	0-->
-<!--Global Chance	1	0	0	0-->
-<!--Greenpeace	1	0	0	0-->
-<!--IRSN	0	1	0	0-->
-<!--Maire de CAEN	0	0	1	0-->
-<!--Maire de Dieppe	0	1	0	0-->
-<!--Ministère de la transition écologique	0	1	0	0-->
-<!--NEA	0	0	1	0-->
-<!--Négawatt	1	0	0	0-->
-<!--Normandie Energies	0	0	1	0-->
-<!--ORANO	0	0	1	0-->
-<!--Pôle Emploi	0	1	0	0-->
-<!--Préfecture	1	0	0	0-->
-<!--RTE	0	1	0	0-->
-<!--Science-po	0	1	0	0-->
-<!--SDN	1	0	0	0-->
-<!--Sénat	0	1	0	0-->
-<!--SFEN	0	0	1	0-->
-<!--vidéo	1	0	0	0-->
-<!--Ville de Lyon	1	0	0	0-->
-<!--Voix du Nucléaire	0	0	1	0-->
-
-<!--</pre>-->
-
         </section>
 
         <section class="section">
+            <h2 class="title is-2 has-text-centered">
+                3e Graphique
+            </h2>
+            <p>
+                Inclusion de tous les évènements et de toutes les organisations présentes.
+            </p>
             <div id="chart_3"></div>
             <pre>
             </pre>
         </section>
+        <section class="hero is-link">
+            <div class="hero-body">
+                <p class="title">
+                    Méthodologie
+                </p>
+                <p class="subtitle">
+                <ul>
+                    <li>Transcription des vidéos publiées par la CNDP sur Youtube représentant 28 heures de capture des
+                        rencontres d'Octobre 2022 à Mars 2023.
+                    </li>
+                    <li>Catégorisation des intervenants et de leurs organisations représentées ou non</li>
+                    <li>Assignation des organisations en faveur, neutre, ou en défaveur du projet selon la catégorie
+                        représentant au mieux leurs interventions enregistrées.
+                        Nous avons catégorisé comme neutre les intervenants dont la consultation n'avait pas pour objet
+                        d'être en faveur ou contre le projet de nouveaux EPR2.
+                    </li>
+                    <li>
+                        Assemblage des données par tableur collaboratif Ethercalc avec les membres de l'association <a
+                            href="https://www.voix-du-nucleaire.org/">
+                        Les voix du nucléaire.
+                        <br>
+
+                    </a>
+                    </li>
+                    <li>
+                        Inclusion des débats par défaut dans les interventions entrant dans le rapport final, exclusion
+                        des interventions les plus houleuses de Lille et de Lyon, comparaison des rapports produits avec
+                        et sans les éléments exclus.
+                        <br>
+                        Compte rendu graphique et rédaction collaborative pour interprêter dans une page web.
+                        <br>
+                        Publication des données et des sources de calcul dans un format ouvert sous licence Creative
+                        Commons CC-BY-SA.
+
+                    </li>
+                </ul>
+                </p>
+            </div>
+        </section>
+        <section class="box mb-6">
+
+            <h1>Détails des données</h1>
+            <h2>Organisations mesurées</h2>
+            <div class="organisations">
+                <table>
+                    <thead>
+
+                    <tr>
+                        <td>groupe</td>
+                        <td>minutes cumulées</td>
+                        <td>minutes cumulées sans les interventions à lyon et lille</td>
+                        <td>contre</td>
+                        <td>neutre</td>
+                        <td>en faveur</td>
+                        <td>statut associatif</td>
+                        <td>invité sur scène</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+                    <tr>
+                        <td>ACRO</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>ADEME</td>
+                        <td>11</td>
+                        <td>11</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>ANCCLI</td>
+                        <td>9</td>
+                        <td>9</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Andra</td>
+                        <td>11</td>
+                        <td>11</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>ARS</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>ASN</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>CCI</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>CEA</td>
+                        <td>18</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Cérémé</td>
+                        <td>22</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>CESER</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>CFDT</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>CFE</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>CFECGC</td>
+                        <td>35</td>
+                        <td>14</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>CGT</td>
+                        <td>18</td>
+                        <td>10</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Chambre d&#39;agriculture</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>CLIN</td>
+                        <td>11</td>
+                        <td>7</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>CNDP</td>
+                        <td>618</td>
+                        <td>424</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>CNRS</td>
+                        <td>35</td>
+                        <td>6</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Collectif STOP EPR</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Commission développement économique</td>
+                        <td>6</td>
+                        <td>6</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Commission environementale normandie</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Commission foncière du plan d&#39;action territorial normand</td>
+                        <td>7</td>
+                        <td>7</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Communauté de communes</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Conseil départemental</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Conseil régional des jeunes</td>
+                        <td>6</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Conseiller régional</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Cour des comptes</td>
+                        <td>30</td>
+                        <td>10</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>CRIIRAD</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Crilan</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Délégué à l&#39;action régionale Normandie</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Député</td>
+                        <td>7</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>DNN</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>DREAL</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>DTM</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Ecologistes pour le nucléaire</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>EDF</td>
+                        <td>161</td>
+                        <td>152</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>EELV</td>
+                        <td>7</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Enercoop</td>
+                        <td>8</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Energie et Environement en Débat dans l&#39;Aisne</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>ENS ULM</td>
+                        <td>11</td>
+                        <td>11</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>ENSAE</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>EPE</td>
+                        <td>16</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>FNE</td>
+                        <td>44</td>
+                        <td>19</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Fondation pour la nature et l&#39;homme</td>
+                        <td>15</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Foutoir</td>
+                        <td>14</td>
+                        <td>14</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>GIEC</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>GIFEN</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>GIPNO</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Global Chance</td>
+                        <td>76</td>
+                        <td>34</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Gouvernement</td>
+                        <td>12</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Greenpeace</td>
+                        <td>9</td>
+                        <td>9</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>IESF</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Indéterminé contre les éoliennes</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Invités CNDP (noms mélangés)</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>IRSN</td>
+                        <td>49</td>
+                        <td>46</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Les Shifters</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>LFI</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Maire de CAEN</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Maire de Dieppe</td>
+                        <td>7</td>
+                        <td>7</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Maire du Tréport</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Mairie</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Ministère de la transition écologique</td>
+                        <td>7</td>
+                        <td>7</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>NEA</td>
+                        <td>13</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Négawatt</td>
+                        <td>26</td>
+                        <td>18</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Normandie Energies</td>
+                        <td>8</td>
+                        <td>8</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Nucléaire en questions</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>ORANO</td>
+                        <td>7</td>
+                        <td>7</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>particulier</td>
+                        <td>97</td>
+                        <td>79</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>PNC France</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Pôle Emploi</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Préfecture</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>RAC</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>RTE</td>
+                        <td>20</td>
+                        <td>20</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Sans offshore à l&#39;horizon</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Science-po</td>
+                        <td>6</td>
+                        <td>6</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>SDN</td>
+                        <td>32</td>
+                        <td>32</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Sénat</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>SFEN</td>
+                        <td>52</td>
+                        <td>12</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>SOS Aloïse</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Stop EPR Penly</td>
+                        <td>1</td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Stop Tricastin</td>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>UIMM</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>vidéo</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Ville de Lyon</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Voix du Nucléaire</td>
+                        <td>18</td>
+                        <td>16</td>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2>Interventions mesurées</h2>
+            <table>
+                <tr>
+                    <td>date</td>
+                    <td>contre</td>
+                    <td>neutre</td>
+                    <td>pour</td>
+                    <td>secondes converties depuis timestamp</td>
+                    <td>Organization</td>
+                    <td>Speaker</td>
+                    <td>Notes</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>504</td>
+                    <td>FNE</td>
+                    <td>Boutin, Dominique</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>556</td>
+                    <td>ANCCLI</td>
+                    <td>Delalonde, Jean-Claude</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>427</td>
+                    <td>PCF</td>
+                    <td>Jumel, Sébastien</td>
+                    <td>PI</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>272</td>
+                    <td>Maire de Dieppe</td>
+                    <td>Langlois, Nicolas</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>185</td>
+                    <td>Science-po</td>
+                    <td>Mazeaud, Alice</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>443</td>
+                    <td>SDN</td>
+                    <td>Mijeon, Charlotte</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>647</td>
+                    <td>ADEME</td>
+                    <td>Marchal, David</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>731</td>
+                    <td>Négawatt</td>
+                    <td>Marignac, Yves</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>396</td>
+                    <td>Ministère de la transition écologique</td>
+                    <td>Mourlon, Sophie</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>973</td>
+                    <td>RTE</td>
+                    <td>Veyrenc, Thomas</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>645</td>
+                    <td>SFEN</td>
+                    <td>Faudon, Valérie</td>
+                    <td>PI</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>43</td>
+                    <td>ENSAE</td>
+                    <td>Gaudy, Catherine</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>1218</td>
+                    <td>IRSN</td>
+                    <td>Israël, Sébastien</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>1122</td>
+                    <td>Global Chance</td>
+                    <td>Laponche, Bernard</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>618</td>
+                    <td>Cour des comptes</td>
+                    <td>Albertini, Jean-Paul</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>92</td>
+                    <td>Maire de CAEN</td>
+                    <td>Escach, Nicolas</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>934</td>
+                    <td>IRSN</td>
+                    <td>Herviou, Karine</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>242</td>
+                    <td>RTE</td>
+                    <td>Audouard, Arthur</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>112</td>
+                    <td>Sciences Po</td>
+                    <td>Bauza, Laura</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>71</td>
+                    <td>Sciences Po</td>
+                    <td>Berton, Enora</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>91</td>
+                    <td>Sciences Po</td>
+                    <td>Boudier, Claire</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>243</td>
+                    <td>Greenpeace</td>
+                    <td>Boyer, Pauline</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>267</td>
+                    <td>Commission environementale normandie</td>
+                    <td>Canto, Frédéric</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>332</td>
+                    <td>CLIN</td>
+                    <td>Chauvensy, Jean-Louis</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>51</td>
+                    <td>GIEC</td>
+                    <td>Costa, Stéphane</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>241</td>
+                    <td>Conseil départemental</td>
+                    <td>Gautier, André</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>160</td>
+                    <td></td>
+                    <td>Gillet, Thomas</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>195</td>
+                    <td></td>
+                    <td>Gros, Mathilde</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>69</td>
+                    <td></td>
+                    <td>Gérard, Inès</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>261</td>
+                    <td>FNE</td>
+                    <td>Kobylarz, Françoise</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>91</td>
+                    <td>DTM</td>
+                    <td>Kugler, Jean</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>145</td>
+                    <td>Maire de Dieppe</td>
+                    <td>Langlois, Nicolas</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>407</td>
+                    <td></td>
+                    <td>Leconte, Guy</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>265</td>
+                    <td>Chambre d&#39;agriculture</td>
+                    <td>Metel, Jérôme</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>276</td>
+                    <td>DREAL</td>
+                    <td>Morzel, Olivier</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>76</td>
+                    <td></td>
+                    <td>Muraine, Raphaël</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>434</td>
+                    <td></td>
+                    <td>Philippe, Patrice</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>248</td>
+                    <td></td>
+                    <td>Plouard, Roland</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>183</td>
+                    <td>ARS</td>
+                    <td>Romac, Philippe</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>135</td>
+                    <td>Préfecture</td>
+                    <td>Vion, Pascal</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>290</td>
+                    <td>Communauté de communes</td>
+                    <td>Facque, Eddie</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>148</td>
+                    <td>Maire du Tréport</td>
+                    <td>Jacques, Laurent</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>238</td>
+                    <td>CESER</td>
+                    <td>Léger, Jean-Luc</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>471</td>
+                    <td>Normandie Energies</td>
+                    <td>Pézier, Didier</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>389</td>
+                    <td>Négawatt</td>
+                    <td>Quirion, Philippe</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>602</td>
+                    <td>IRSN</td>
+                    <td>Le Bars, Igor</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>226</td>
+                    <td>Andra</td>
+                    <td>Plas, F</td>
+                    <td>PI</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>689</td>
+                    <td>ENS ULM</td>
+                    <td>Pottin, Ange</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>447</td>
+                    <td>Andra</td>
+                    <td>Wasselin, Virginie</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>1563</td>
+                    <td>CNDP</td>
+                    <td>Aliamet, Sofia</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>549</td>
+                    <td>CNDP</td>
+                    <td>Badré, Michel</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>1063</td>
+                    <td>CEA</td>
+                    <td>Charmaison, Bertrand</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>908</td>
+                    <td>Global Chance</td>
+                    <td>Château, Bertrand</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>741</td>
+                    <td>SFEN</td>
+                    <td>Devezeaux de Lavergne, Jean-Guy</td>
+                    <td>PI</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>929</td>
+                    <td>Fondation pour la nature et l&#39;homme</td>
+                    <td>Grandjean, Alain</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>168</td>
+                    <td>Global Chance</td>
+                    <td>Labrousse, Michel</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>132</td>
+                    <td>CNDP</td>
+                    <td>Lazaro, Lola</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>912</td>
+                    <td>Cérémé</td>
+                    <td>Moreno, Xavier</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>1159</td>
+                    <td>Cour des comptes</td>
+                    <td>Vincent, Isabelle</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>391</td>
+                    <td>SDN</td>
+                    <td>Anonyme 1 &amp; 2</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>141</td>
+                    <td>CRIIRAD</td>
+                    <td>Chareyron, Bruno</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>73</td>
+                    <td>FNE</td>
+                    <td>Dubromel, Michel</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>81</td>
+                    <td>Ville de Lyon</td>
+                    <td>Gourgel, Nadine</td>
+                    <td>NI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>279</td>
+                    <td>SDN</td>
+                    <td>Guerry, Joël</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>76</td>
+                    <td>Voix du Nucléaire</td>
+                    <td>Hugo</td>
+                    <td>PI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>219</td>
+                    <td>Global Chance</td>
+                    <td>Labrousse, Michel</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>238</td>
+                    <td>Négawatt</td>
+                    <td>Marignac, Yves</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>49</td>
+                    <td>EDF - Perso</td>
+                    <td>Naït Ali, Kako</td>
+                    <td>PI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>507</td>
+                    <td>Voix du Nucléaire</td>
+                    <td>Tripathi, Myrto</td>
+                    <td>PI</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>250</td>
+                    <td>Stop Tricastin</td>
+                    <td>Volle, Alain</td>
+                    <td>AI</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>168</td>
+                    <td>SOS Aloïse</td>
+                    <td>Boutin, Catherine</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>130</td>
+                    <td>Greenpeace</td>
+                    <td>Boyer, Pauline</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>128</td>
+                    <td>EELV</td>
+                    <td>Bérégovoy, Véronique</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>31</td>
+                    <td></td>
+                    <td>Dame, Anonyme</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>125</td>
+                    <td>CGT</td>
+                    <td>Dupuis, Mathias</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>55</td>
+                    <td>ACRO</td>
+                    <td>Enisone, Christine</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>131</td>
+                    <td>FNE</td>
+                    <td>FNE, Anonyme</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>136</td>
+                    <td>CFE</td>
+                    <td>Fromont, Hervé</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>139</td>
+                    <td>LFI</td>
+                    <td>Laisney, Maxime</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>122</td>
+                    <td>Ecologistes pour le nucléaire</td>
+                    <td>Létalon, Jean-Jacques</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>139</td>
+                    <td>Négawatt</td>
+                    <td>Marignac, Yves</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>177</td>
+                    <td></td>
+                    <td>Micro-trottoir</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>158</td>
+                    <td>Enercoop</td>
+                    <td>Patino, Thierry</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>165</td>
+                    <td></td>
+                    <td>Ploy, Roland</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>85</td>
+                    <td>RAC</td>
+                    <td>RAC, Pas compris</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>131</td>
+                    <td>Mairie</td>
+                    <td>Vandevorst, Henri</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>116</td>
+                    <td>Délégué à l&#39;action régionale Normandie</td>
+                    <td>Verbecke, Alban</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/10/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>176</td>
+                    <td></td>
+                    <td>Vidéo</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>121</td>
+                    <td></td>
+                    <td>Broc, Marie-Cécile</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>118</td>
+                    <td></td>
+                    <td>Cardoza, Johnny</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>93</td>
+                    <td></td>
+                    <td>Hirondelle, Julien</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>53</td>
+                    <td></td>
+                    <td>Ladonne, NIcolas</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>93</td>
+                    <td>Global Chance</td>
+                    <td>Laponche, Bernard</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>82</td>
+                    <td></td>
+                    <td>Monin, Lauriane</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>56</td>
+                    <td></td>
+                    <td>Urago, Céline</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>08/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>107</td>
+                    <td>CFECGC Énergie</td>
+                    <td>Élisabeth</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>117</td>
+                    <td>GIFEN</td>
+                    <td>Barche, Olivier</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>69</td>
+                    <td>EDF</td>
+                    <td>Benoit, Géraldine</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>67</td>
+                    <td>FNE</td>
+                    <td>Blavette, Guillaume</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>9</td>
+                    <td>PNC France</td>
+                    <td>Brette, Jean-philippe</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>390</td>
+                    <td></td>
+                    <td>Brouhaha</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>138</td>
+                    <td>SDN</td>
+                    <td>Combaz, Pierre</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>98</td>
+                    <td>Collectif STOP EPR</td>
+                    <td>Coréa, Alain</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>112</td>
+                    <td>CFECGC</td>
+                    <td>Dedons, Anne</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>96</td>
+                    <td>FNE</td>
+                    <td>Dubromas, Michel</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>31</td>
+                    <td></td>
+                    <td>Etudiant en stage</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>49</td>
+                    <td></td>
+                    <td>Kunganana, Thierry</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>45</td>
+                    <td></td>
+                    <td>Loyer, Emy</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>23</td>
+                    <td></td>
+                    <td>Maurice, Anne-Sophie</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>109</td>
+                    <td></td>
+                    <td>Micro-trottoir</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>125</td>
+                    <td>CFECGC</td>
+                    <td>Palud, André</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>156</td>
+                    <td></td>
+                    <td>Schneider, Lily</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>22/11/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>60</td>
+                    <td></td>
+                    <td>Thirion, Nicole</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>204</td>
+                    <td>EDF</td>
+                    <td>Aublin, Gabriel</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>75</td>
+                    <td>FNE</td>
+                    <td>Blavette, Guillaume</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>56</td>
+                    <td>Crilan</td>
+                    <td>Broch, Marie-Cécile</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>118</td>
+                    <td>Nucléaire en questions</td>
+                    <td>Hovnanian, Béatrice</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>144</td>
+                    <td>Crilan</td>
+                    <td>Jacques, André</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>90</td>
+                    <td>Global Chance</td>
+                    <td>Labrousse, Michel</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>84</td>
+                    <td>ASN</td>
+                    <td>Leforgue-Marmet, Gaëtan</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>61</td>
+                    <td></td>
+                    <td>Leterrier, Guillaume</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>126</td>
+                    <td>CGT</td>
+                    <td>Lorogeron, Lionel</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>57</td>
+                    <td></td>
+                    <td>Micro-trottoir</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>125</td>
+                    <td>CFECGC</td>
+                    <td>Palud, André</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>41</td>
+                    <td>Crilan</td>
+                    <td>Rossello, Fernand</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>123</td>
+                    <td></td>
+                    <td>Rousselet, Yannick</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>01/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>5</td>
+                    <td></td>
+                    <td>Un mec au fond qui hurle</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>213</td>
+                    <td>ACRO</td>
+                    <td>Boilley, David</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>65</td>
+                    <td></td>
+                    <td>Declerc, Marie-Pierre</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>154</td>
+                    <td>EELV</td>
+                    <td>Deriovoix, Jean-Michel</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>128</td>
+                    <td>Conseiller régional</td>
+                    <td>Edouin, Guillaume</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>43</td>
+                    <td>ACRO</td>
+                    <td>Enisone, Christine</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>83</td>
+                    <td>SFEN</td>
+                    <td>Fenoglio, Joël</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>140</td>
+                    <td>CFE</td>
+                    <td>Fromont, Hervé</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>129</td>
+                    <td>Global Chance</td>
+                    <td>Labrousse, Michel</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>14</td>
+                    <td></td>
+                    <td>Lefrançois, Daniel</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>158</td>
+                    <td></td>
+                    <td>Meyer, Christian</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>15</td>
+                    <td></td>
+                    <td>Michel, Joëlle</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>167</td>
+                    <td></td>
+                    <td>Pichavant, Aline</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>162</td>
+                    <td>Voix du Nucléaire</td>
+                    <td>Tripathi, Myrto</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>217</td>
+                    <td>GIEC</td>
+                    <td>Vidéo</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/12/22</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>127</td>
+                    <td></td>
+                    <td>Weis, Frédéric</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>86</td>
+                    <td>Elu</td>
+                    <td>Anonyme, Anonyme 2</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>24</td>
+                    <td></td>
+                    <td>Arzi, Stéphane</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>275</td>
+                    <td>GIFEN</td>
+                    <td>Barre, Monsieur</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>57</td>
+                    <td>Sans offshore à l&#39;horizon</td>
+                    <td>Billon, Madame</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>91</td>
+                    <td>SOS Aloïse</td>
+                    <td>Boutin, Catherine</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>201</td>
+                    <td>CFDT</td>
+                    <td>Chouland, Jean-Paul</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>97</td>
+                    <td>CLIN Paluel-Penly</td>
+                    <td>Comilens, Richard</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>31</td>
+                    <td>Pôle emploi</td>
+                    <td>D&#39;hornoy, Line</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>152</td>
+                    <td>CGT</td>
+                    <td>Dupuis, Mathias</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>152</td>
+                    <td>CFE UNSA Energie</td>
+                    <td>Fraumont, Hervé</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>336</td>
+                    <td>Commission développement économique</td>
+                    <td>Gaux, Monsieur</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>235</td>
+                    <td>CCI</td>
+                    <td>Laudat, Vincent</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>93</td>
+                    <td>CFE CGC</td>
+                    <td>Palu, André</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>94</td>
+                    <td>CGT</td>
+                    <td>Pancou, Eric</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>143</td>
+                    <td>Pôle Emploi</td>
+                    <td>Sarry, Christophe</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>126</td>
+                    <td>GIPNO</td>
+                    <td>Saussaye, Pascal</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>123</td>
+                    <td>Voix du Nucléaire</td>
+                    <td>Tripathi, Myrto</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>161</td>
+                    <td>Délégué à l&#39;action régionale Normandie</td>
+                    <td>Verbecke, Alban</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>130</td>
+                    <td>UIMM</td>
+                    <td>Verna, Alain</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>124</td>
+                    <td>CGT</td>
+                    <td>Vincent, Nicolas</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>12/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>82</td>
+                    <td>Préfecture</td>
+                    <td>Vion, Pascal</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>788</td>
+                    <td>NEA</td>
+                    <td>Berthélemy, Michel</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>1328</td>
+                    <td>FNE</td>
+                    <td>Blavette, Guillaume</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>59</td>
+                    <td>Energie et Environement en Débat dans l&#39;Aisne</td>
+                    <td>Bourdon, Michel</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>902</td>
+                    <td>Global Chance</td>
+                    <td>Chateau, Bertrand</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>815</td>
+                    <td>CNRS</td>
+                    <td>Criqui, Patrick</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>800</td>
+                    <td>Greenpeace</td>
+                    <td>De Bonnafos, Florence</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>1054</td>
+                    <td>SFEN</td>
+                    <td>Faudon, Valérie</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>814</td>
+                    <td>CFECGC</td>
+                    <td>Grillat, Alexandre</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>113</td>
+                    <td>Global Chance</td>
+                    <td>Labrousse, Michel</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>117</td>
+                    <td>Cérémé</td>
+                    <td>Ladsous, Bruno</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>977</td>
+                    <td>DNN</td>
+                    <td>Le Biez, Vincent</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>128</td>
+                    <td>AEPN</td>
+                    <td>Letalon, Jean-jacques</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>288</td>
+                    <td>CFECGC</td>
+                    <td>Quentin, Alexis</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-17-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>960</td>
+                    <td>EPE</td>
+                    <td>Tutenuit, Claire</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>14</td>
+                    <td></td>
+                    <td>Anonyme, Pierrick</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>51</td>
+                    <td>FNE</td>
+                    <td>Blavette, Guillaume</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>126</td>
+                    <td></td>
+                    <td>Doucot, Benoit</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>79</td>
+                    <td>EDF</td>
+                    <td>Garelle, Julien</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>216</td>
+                    <td>EDF</td>
+                    <td>Giraud, Olivier</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>90</td>
+                    <td>Voix du Nucléaire</td>
+                    <td>Kamin, Tristan</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>360</td>
+                    <td>Global Chance</td>
+                    <td>Laponche, Bernard</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>113</td>
+                    <td>?</td>
+                    <td>Pineau, Coralie</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>420</td>
+                    <td>ORANO</td>
+                    <td>Romary, Jean-Michel</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>125</td>
+                    <td>EELV</td>
+                    <td>Santhune, Myriam</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>161</td>
+                    <td>Greenpeace</td>
+                    <td>Spautz, Roger</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>51</td>
+                    <td></td>
+                    <td>Weissrock, Régis</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>19/01/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>213</td>
+                    <td></td>
+                    <td>Zerbib, Jean-Claude</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>48</td>
+                    <td>Stop EPR Penly</td>
+                    <td>Correa, M.</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>113</td>
+                    <td></td>
+                    <td>Dolisy, Dominique</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>111</td>
+                    <td></td>
+                    <td>Finati, Daniel</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>131</td>
+                    <td>Cérémé</td>
+                    <td>Ladsous, Bruno</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>75</td>
+                    <td></td>
+                    <td>Lassauzay, D</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>533</td>
+                    <td>CGT</td>
+                    <td>Neumayer, Virginie</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>895</td>
+                    <td>Négawatt</td>
+                    <td>Quirion, Philippe</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>128</td>
+                    <td></td>
+                    <td>Robert, Véronique</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>2023-01-24-Webinaire.mp4</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>80</td>
+                    <td>IESF</td>
+                    <td>Taupy, Jean-Alain</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>02/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>821</td>
+                    <td>Foutoir</td>
+                    <td>Foutoir</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>8</td>
+                    <td></td>
+                    <td>Accrochage Ménager/Aliamet</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>2001</td>
+                    <td>CNDP</td>
+                    <td>Aliamet, Sofia</td>
+                    <td>YI</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>238</td>
+                    <td>CFECGC</td>
+                    <td>Anonyme</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>234</td>
+                    <td></td>
+                    <td>Anonyme, Benjamen</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>140</td>
+                    <td></td>
+                    <td>Anonyme, Christian</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>111</td>
+                    <td></td>
+                    <td>Anonyme, Claire</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>250</td>
+                    <td></td>
+                    <td>Anonyme, Dame</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>75</td>
+                    <td></td>
+                    <td>Anonyme, Demoiselle</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>282</td>
+                    <td></td>
+                    <td>Anonyme, Etienne</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>97</td>
+                    <td></td>
+                    <td>Anonyme, Fairouz</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>266</td>
+                    <td></td>
+                    <td>Anonyme, Jean-Sébastien</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>110</td>
+                    <td></td>
+                    <td>Anonyme, Lucas</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>271</td>
+                    <td>Conseil régional des jeunes</td>
+                    <td>Anonyme, Ludivine</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>80</td>
+                    <td></td>
+                    <td>Anonyme, Tanguy</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>98</td>
+                    <td>CRJ</td>
+                    <td>Anonyme, Tom</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>739</td>
+                    <td></td>
+                    <td>Anonyme, Walid</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>848</td>
+                    <td>CNDP</td>
+                    <td>Badré, Michel</td>
+                    <td>YI</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>95</td>
+                    <td>Gouvernement</td>
+                    <td>Barre, Joël</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>300</td>
+                    <td>CNDP</td>
+                    <td>Barthe, Isabelle</td>
+                    <td>YI</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>338</td>
+                    <td>CGT</td>
+                    <td>Bordenave, Claire</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>914</td>
+                    <td>CNDP</td>
+                    <td>Bouley de Santiago, Carmen</td>
+                    <td>YI</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>166</td>
+                    <td>FNE</td>
+                    <td>Boutin, Dominique</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>112</td>
+                    <td>Gouvernement</td>
+                    <td>Bouyt, Guilleaume</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>206</td>
+                    <td>CNDP</td>
+                    <td>Carreton, Jean-Pierre</td>
+                    <td>YI</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>203</td>
+                    <td>CLIN</td>
+                    <td>Chauvensy, Jean-Louis</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>190</td>
+                    <td>Enercoop</td>
+                    <td>Delaplace, Gabriel</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>271</td>
+                    <td>FNE</td>
+                    <td>Dubromel, Michel</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>128</td>
+                    <td>SFEN</td>
+                    <td>Faudon, Valérie</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>306</td>
+                    <td>CNDP</td>
+                    <td>Girard, Sabine</td>
+                    <td>YI</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>208</td>
+                    <td>CNDP</td>
+                    <td>Goumri, Maël</td>
+                    <td>YI</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>1167</td>
+                    <td>CNDP</td>
+                    <td>Jouanno, Chantal</td>
+                    <td>YI</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>247</td>
+                    <td>Cérémé</td>
+                    <td>July, Eric</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>235</td>
+                    <td>Global Chance</td>
+                    <td>Labrousse, Michel</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>276</td>
+                    <td>Global Chance</td>
+                    <td>Laponche, Bernard</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>315</td>
+                    <td>IRSN</td>
+                    <td>Le Beau Livé, Audrey</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td>572</td>
+                    <td>Négawatt</td>
+                    <td>Marignac, Yves</td>
+                    <td>AP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>190</td>
+                    <td>Voix du nucléaire</td>
+                    <td>Martinez, Alban</td>
+                    <td>PP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>316</td>
+                    <td>EDF</td>
+                    <td>Ménager, Antoine</td>
+                    <td>XP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>121</td>
+                    <td>CGT</td>
+                    <td>Neumayer, Virginie</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>305</td>
+                    <td></td>
+                    <td>Noiville, Christine</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>206</td>
+                    <td>CFECGC</td>
+                    <td>Palu, André</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>688</td>
+                    <td>CNDP</td>
+                    <td>Protay, David</td>
+                    <td>YI</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>144</td>
+                    <td>IRSN</td>
+                    <td>Reaud, Cynthia</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>283</td>
+                    <td></td>
+                    <td>Rigal, Stanislas</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>108</td>
+                    <td></td>
+                    <td>Rocher, Zoé</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>412</td>
+                    <td>CNDP</td>
+                    <td>Rohde, Juliette</td>
+                    <td>YI</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td>1</td>
+                    <td></td>
+                    <td>242</td>
+                    <td>ASN</td>
+                    <td>Tourjansky, Laure</td>
+                    <td>NP</td>
+                </tr>
+                <tr>
+                    <td>27/02/23</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                    <td>447</td>
+                    <td>Voix du nucléaire</td>
+                    <td>Tripathi, Myrto</td>
+                    <td>PP</td>
+                </tr>
+            </table>
+        </section>
+        <section class="box mb-6">
+
+            <h1 id="ressources">Ressources</h1>
+            <ul>
+                <li>
+
+                    <a href="https://cloud.tykayn.fr/index.php/s/cndp-penly-2023">
+                        Ce dossier partagé Nextcloud
+                    </a> contient les détails des calculs et des catégorisations.
+                </li>
+                <li>
+                    <a href="https://discord.com/channels/730554636997754940/1026740618057240607">
+                        canal discord du débat public des voix
+                    </a>
+                </li>
+                <li>
+                    <a href="https://scribe.cemea.org/start/">
+                        transcripteur Vosk
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.youtube.com/watch?v=HXuJdcb11ws&list=PLPKFFRD-nIA1NmBcInsMP8qAjmkGwQzcX&index=1">
+                        playlist des vidéos
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.debatpublic.fr/nouveaux-reacteurs-nucleaires-et-projet-penly">Site web du débat
+                        public nouveaux réacteurs de Penly</a>
+
+                </li>
+                <li>
+                    <a href="https://1drv.ms/f/s!AhI8wjFCmDFGhBozw8DR7G7Uhc0b">
+                        documents de Bg
+                    </a>
+
+                </li>
+            </ul>
+        </section>
+
     </article>
 </div>
 
 
 <footer class="footer">
-    <div class="content has-text-centered">
-        <p>
-            <strong>Analyse du débat public nouveaux réacteurs EPR2 à Penly</strong> par Tykayn et <a
-                href="https://jgthms.com">Les voix du nucléaire</a>. The source code is licensed
-            AGPLv3+.
-            The website content
-            is licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY SA 4.0</a>.
-        </p>
+    <div class="container">
+
+        <div class="content has-text-centered">
+            <p>
+                <a href="https://www.voix-du-nucleaire.org/">
+                    <img class="image is-small vdn-page-primary-navigation-site-logo"
+                         src="https://d1sv16tvvbglsd.cloudfront.net/app/uploads/2021/09/logo-vdn.png"
+                         alt="Logo Les Voix du Nucléaire" loading="lazy">
+
+                </a>
+                <a href="https://www.cipherbliss.com">
+                    <img src="https://www.cipherbliss.com/wp-content/uploads/2016/12/rond.png"
+                         class="vdn-page-primary-navigation-site-logo custom-logo"
+                         alt="Cipher Bliss" width="150" height="162"> CipherBliss
+                </a>
+
+                <br>
+
+                <strong>Analyse du débat public nouveaux réacteurs EPR2 à Penly</strong> par Tykayn et <a
+                    href="https://jgthms.com">Les voix du nucléaire</a>. The source code is licensed
+                AGPLv3+.
+                <br>
+                The website content is licensed <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY SA
+                4.0</a>.
+
+
+            </p>
+        </div>
     </div>
 </footer>
 </body>
